@@ -421,6 +421,21 @@ FodyWeavers.xsd
 # Built Visual Studio Code Extensions
 *.vsix
 
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.metro-health-check*
+
+# pnpm / Node
+pnpm-debug.log*
+.pnpm-store/
+
+# generated native folders
+/ios
+/android
+
 # Windows Installer files from build outputs
 *.cab
 *.msi
