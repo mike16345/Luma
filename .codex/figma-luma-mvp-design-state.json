@@ -1,0 +1,33 @@
+{
+  "runId": "luma-mvp-figma-2026-07-15",
+  "fileKey": "iqQWE2mdApbK11sYuW1r7g",
+  "fileUrl": "https://www.figma.com/design/iqQWE2mdApbK11sYuW1r7g",
+  "phase": "phase2",
+  "completedSteps": [
+    "P0.a",
+    "P0.b",
+    "P0.c",
+    "P0.d",
+    "P0.e",
+    "P0.f",
+    "P1.a",
+    "P1.b",
+    "P1.c",
+    "P1.d",
+    "P1.e",
+    "P1.f",
+    "P1.g",
+    "P1.h",
+    "P2.a",
+    "P2.b",
+    "P2.c"
+  ],
+  "entities": {
+    "pages": {},
+    "collections": {},
+    "variables": {},
+    "styles": {},
+    "components": {},
+    "screens": {}
+  }
+}

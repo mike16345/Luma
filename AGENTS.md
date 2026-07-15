@@ -123,6 +123,10 @@ Unless the plan is intentionally revised, organize source like this:
 - Keep Home focused on the three primary metrics first.
 - Weekly summary belongs on Home, not in a separate screen.
 - Insights are descriptive, not interpretive. Do not add coaching or causal claims.
+- Use `@expo/ui` where native controls provide a clear product or platform benefit, especially for input controls, platform-native affordances, and future form-heavy flows.
+- Prefer shared React Native components when behavior and presentation are meaningfully identical across iOS, Android, and web.
+- Split platform-specific components when native behavior, accessibility, layout conventions, or `@expo/ui` APIs diverge enough that a shared abstraction would hide important platform differences.
+- Keep platform-specific files focused and explicit, for example `component.ios.tsx`, `component.android.tsx`, or a named specialized component when the distinction is product-level rather than operating-system-level.
 
 ## 8. Coding conventions
 
@@ -186,8 +190,17 @@ Unless the plan is intentionally revised, organize source like this:
 
 - Treat this file as a living repository contract.
 - When a rule becomes real through repeated implementation, add it here.
+- When a reusable implementation pattern emerges during development, update this file in the same change so future agents and developers inherit the decision.
 - When a rule stops being true because of an intentional architecture change, update this file in the same change.
 - Prefer targeted patches over broad rewrites.
 - If the nearest code and the plan disagree, follow the plan and update the code incrementally.
 - If the code, plan, and spec disagree, stop and resolve the conflict explicitly instead of guessing.
 
+## 14. Temporary local-machine workflow constraints
+
+Unless told otherwise:
+
+- Do not write a test for every feature while this temporary constraint is active.
+- Do not run broad post-implementation validation suites after each small change or phase.
+- Prefer lightweight, targeted checks only when they are needed to unblock the next step.
+- Keep phase work small because this project is currently being developed on an 8 GB memory machine.
