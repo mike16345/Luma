@@ -2,6 +2,14 @@
   "name": "luma",
   "main": "expo-router/entry",
   "version": "1.0.0",
+    "scripts": {
+    "start": "expo start",
+    "reset-project": "node ./scripts/reset-project.js",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "lint": "expo lint"
+  },
   "dependencies": {
     "@expo/ui": "~57.0.6",
     "expo": "~57.0.6",
@@ -31,14 +39,5 @@
     "@types/react": "~19.2.2",
     "typescript": "~6.0.3"
   },
-  "scripts": {
-    "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "lint": "expo lint"
-  },
-  "packageManager": "pnpm@10.24.0",
   "private": true
 }
