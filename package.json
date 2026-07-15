@@ -5,8 +5,11 @@
   "scripts": {
     "start": "expo start -c",
     "reset-project": "node ./scripts/reset-project.js",
+    "build:dev:android": "eas build --platform android --profile development",
+    "build:dev:ios": "eas build --platform ios --profile development",
     "android": "expo start --android",
     "ios": "expo start --ios",
+
     "web": "expo start --web",
     "lint": "expo lint",
     "test": "jest --runInBand"
