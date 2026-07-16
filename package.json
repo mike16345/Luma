@@ -5,11 +5,10 @@
   "scripts": {
     "start": "expo start -c",
     "reset-project": "node ./scripts/reset-project.js",
-    "build:dev:android": "eas build --platform android --profile development",
-    "build:dev:ios": "eas build --platform ios --profile development",
+    "build:android:dev": "eas build --platform android --profile development",
+    "build:ios:dev": "eas build --platform ios --profile development",
     "android": "expo start --android",
     "ios": "expo start --ios",
-
     "web": "expo start --web",
     "lint": "expo lint",
     "test": "jest --runInBand"
@@ -19,6 +18,7 @@
     "expo": "~57.0.6",
     "expo-constants": "~57.0.5",
     "expo-crypto": "~57.0.1",
+    "expo-dev-client": "~57.0.6",
     "expo-device": "~57.0.1",
     "expo-font": "~57.0.1",
     "expo-glass-effect": "~57.0.1",
