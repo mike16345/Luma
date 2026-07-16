@@ -124,6 +124,9 @@ Unless the plan is intentionally revised, organize source like this:
 - Weekly summary belongs on Home, not in a separate screen.
 - Insights are descriptive, not interpretive. Do not add coaching or causal claims.
 - Use `@expo/ui` where native controls provide a clear product or platform benefit, especially for input controls, platform-native affordances, and future form-heavy flows.
+- When using `@expo/ui` Jetpack Compose-backed components on Android, each Compose component such as `Button` or `OutlinedButton` must render as a direct child of a `Host`. Do not put a React Native `View` or other non-Compose wrapper between `Host` and the Expo UI component; for grouped controls, wrap each Expo UI control in its own `Host` or use Expo UI layout components.
+- Use Expo UI modifiers for native Expo UI layout and presentation. Do not size or decorate Expo UI controls with React Native `style` props when a platform modifier exists. Prefer Jetpack Compose modifiers such as `fillMaxWidth()`/`width(...)` on Android and SwiftUI modifiers such as `frame(...)`/`buttonStyle(...)`/`controlSize(...)` on iOS.
+- Do not pass percentage strings such as `width: "100%"` to `@expo/ui` native component styles. Jetpack Compose-backed props may expect numeric records and can crash when given strings. Use Expo UI modifiers or React Native wrappers outside the `Host` boundary.
 - Prefer shared React Native components when behavior and presentation are meaningfully identical across iOS, Android, and web.
 - Split platform-specific components when native behavior, accessibility, layout conventions, or `@expo/ui` APIs diverge enough that a shared abstraction would hide important platform differences.
 - Keep platform-specific files focused and explicit, for example `component.ios.tsx`, `component.android.tsx`, or a named specialized component when the distinction is product-level rather than operating-system-level.

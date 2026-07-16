@@ -1,11 +1,41 @@
 import { PropsWithChildren } from "react";
-import { ScrollView } from "react-native";
+import {
+  ScrollView,
+  type ScrollViewProps,
+  type StyleProp,
+  type ViewStyle,
+} from "react-native";
 
-export function Screen({ children }: PropsWithChildren) {
+import { colors } from "@/theme/colors";
+import { spacing } from "@/theme/spacing";
+
+type ScreenProps = PropsWithChildren<
+  Pick<ScrollViewProps, "refreshControl"> & {
+    contentContainerStyle?: StyleProp<ViewStyle>;
+    style?: StyleProp<ViewStyle>;
+  }
+>;
+
+export function Screen({
+  children,
+  contentContainerStyle,
+  refreshControl,
+  style,
+}: ScreenProps) {
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{ flexGrow: 1, padding: 20, gap: 16 }}
+      refreshControl={refreshControl}
+      style={[{ backgroundColor: colors.background }, style]}
+      contentContainerStyle={[
+        {
+          flexGrow: 1,
+          padding: spacing.screen,
+          paddingBottom: spacing.xxl,
+          gap: spacing.lg,
+        },
+        contentContainerStyle,
+      ]}
     >
       {children}
     </ScrollView>

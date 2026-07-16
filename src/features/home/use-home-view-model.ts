@@ -28,8 +28,11 @@ export function useHomeViewModel(): HomeViewModelState {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const refresh = useCallback(async () => {
-    setIsLoading(true);
+  const load = useCallback(async (showLoading: boolean) => {
+    if (showLoading) {
+      setIsLoading(true);
+    }
+
     setError(null);
 
     try {
@@ -42,13 +45,23 @@ export function useHomeViewModel(): HomeViewModelState {
           : new Error("Unable to load Home")
       );
     } finally {
-      setIsLoading(false);
+      if (showLoading) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
+  const refresh = useCallback(() => load(true), [load]);
+
   useEffect(() => {
-    void refresh();
-  }, [refresh]);
+    void load(true);
+
+    const intervalId = setInterval(() => {
+      void load(false);
+    }, 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, [load]);
 
   if (isLoading) {
     return {

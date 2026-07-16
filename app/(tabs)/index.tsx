@@ -1,11 +1,5 @@
-import { Text } from "react-native";
-
-import { Screen } from "@/components/ui/screen";
+import { HomeScreen } from "@/features/home/home-screen";
 
 export default function HomeRoute() {
-  return (
-    <Screen>
-      <Text>Home</Text>
-    </Screen>
-  );
+  return <HomeScreen />;
 }
