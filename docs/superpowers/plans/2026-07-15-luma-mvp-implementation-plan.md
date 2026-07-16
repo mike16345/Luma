@@ -1143,6 +1143,7 @@ git commit -m "feat: add onboarding and bootstrap gating"
 - Create: `src/components/ui/metric-card.tsx`
 - Create: `src/components/ui/section-card.tsx`
 - Create: `src/features/home/home-selectors.ts`
+- Create: `src/features/home/use-home-view-model.ts`
 - Create: `src/features/home/home-screen.tsx`
 - Create: `src/features/goal/goal-screen.tsx`
 - Create: `src/features/goal/goal-service.ts`
