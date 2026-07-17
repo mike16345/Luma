@@ -1,5 +1,6 @@
-import { RefreshControl, Text, useWindowDimensions, View } from "react-native";
+import { useWindowDimensions } from "react-native";
 
+import { PageHeader } from "@/components/ui/page-header";
 import { Screen } from "@/components/ui/screen";
 import { HomeContextMetrics } from "@/features/home/home-context-metrics";
 import { HomeGoalCard } from "@/features/home/home-goal-card";
@@ -10,54 +11,14 @@ import { HomeErrorState, HomeLoadingState } from "@/features/home/home-states";
 import { HomeWeeklySummary } from "@/features/home/home-weekly-summary";
 import type { HomeViewModel } from "@/features/home/home-selectors";
 import { useHomeViewModel } from "@/features/home/use-home-view-model";
-import { colors } from "@/theme/colors";
-import { spacing } from "@/theme/spacing";
-import { typography } from "@/theme/typography";
 
-function HomeContent({
-  data,
-  refresh,
-}: {
-  data: HomeViewModel;
-  refresh: () => Promise<void>;
-}) {
+function HomeContent({ data }: { data: HomeViewModel }) {
   const { width } = useWindowDimensions();
   const isWide = width >= 720;
 
   return (
-    <Screen
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={() => {
-            void refresh();
-          }}
-          tintColor={colors.action}
-        />
-      }
-    >
-      <View style={{ gap: spacing.xs }}>
-        <Text
-          selectable
-          style={{
-            ...typography.caption,
-            color: colors.textMuted,
-            textTransform: "uppercase",
-          }}
-        >
-          Luma
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.title,
-            color: colors.textPrimary,
-          }}
-        >
-          Your progress, kept private.
-        </Text>
-      </View>
-
+    <Screen>
+      <PageHeader eyebrow="Luma" title="Your progress, kept private." />
       <HomeHero data={data} />
       <HomePrimaryMetrics metrics={data.primaryMetrics} isWide={isWide} />
       <HomeWeeklySummary data={data} />
@@ -84,5 +45,5 @@ export function HomeScreen() {
     );
   }
 
-  return <HomeContent data={state.data} refresh={state.refresh} />;
+  return <HomeContent data={state.data} />;
 }

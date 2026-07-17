@@ -1,8 +1,9 @@
 import { Host, TextInput } from "@expo/ui";
 import { Text, View, type KeyboardTypeOptions } from "react-native";
 
-import { colors } from "@/theme/colors";
+import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
+import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export type NativeTextFieldProps = {
@@ -24,6 +25,9 @@ export function NativeTextField({
   placeholder,
   value,
 }: NativeTextFieldProps) {
+  const colors = useThemeColors();
+  const { textAlign } = useLanguage();
+
   return (
     <View style={{ gap: spacing.xs }}>
       <Text
@@ -31,6 +35,7 @@ export function NativeTextField({
         style={{
           ...typography.label,
           color: colors.textPrimary,
+          textAlign,
         }}
       >
         {label}
@@ -53,9 +58,17 @@ export function NativeTextField({
             defaultValue={value}
             onChangeText={onChangeText}
             placeholder={placeholder}
+            placeholderTextColor={colors.textMuted}
             keyboardType={keyboardType}
             autoCapitalize={autoCapitalize}
             autoCorrect={false}
+            cursorColor={colors.action}
+            selectionColor={colors.actionSoft}
+            textStyle={{
+              ...typography.body,
+              color: colors.textPrimary,
+              textAlign,
+            }}
           />
         </Host>
       </View>
@@ -65,6 +78,7 @@ export function NativeTextField({
           style={{
             ...typography.caption,
             color: colors.slip,
+            textAlign,
           }}
         >
           {error}

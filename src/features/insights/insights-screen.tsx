@@ -1,5 +1,4 @@
-import { RefreshControl, Text, View } from "react-native";
-
+import { PageHeader } from "@/components/ui/page-header";
 import { Screen } from "@/components/ui/screen";
 import { InsightsEmptyState } from "@/features/insights/insights-empty-state";
 import { InsightsListSection } from "@/features/insights/insights-list-section";
@@ -11,61 +10,15 @@ import {
 } from "@/features/insights/insights-states";
 import { InsightsSummary } from "@/features/insights/insights-summary";
 import { useInsightsViewModel } from "@/features/insights/use-insights-view-model";
-import { colors } from "@/theme/colors";
-import { spacing } from "@/theme/spacing";
-import { typography } from "@/theme/typography";
 
-function InsightsContent({
-  data,
-  refresh,
-}: {
-  data: InsightsViewModel;
-  refresh: () => Promise<void>;
-}) {
+function InsightsContent({ data }: { data: InsightsViewModel }) {
   return (
-    <Screen
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={() => {
-            void refresh();
-          }}
-          tintColor={colors.action}
-        />
-      }
-    >
-      <View style={{ gap: spacing.xs }}>
-        <Text
-          selectable
-          style={{
-            ...typography.caption,
-            color: colors.textMuted,
-            textTransform: "uppercase",
-          }}
-        >
-          Insights
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.title,
-            color: colors.textPrimary,
-          }}
-        >
-          Patterns from what you logged.
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.body,
-            color: colors.textSecondary,
-          }}
-        >
-          Luma summarizes slip-up records without turning them into advice or
-          diagnosis.
-        </Text>
-      </View>
-
+    <Screen>
+      <PageHeader
+        eyebrow="Insights"
+        title="Patterns from what you logged."
+        subtitle="Luma summarizes slip-up records without turning them into advice or diagnosis."
+      />
       {data.hasSlipUps ? (
         <>
           <InsightsSummary summary={data.summary} />
@@ -98,5 +51,5 @@ export function InsightsScreen() {
     );
   }
 
-  return <InsightsContent data={state.data} refresh={state.refresh} />;
+  return <InsightsContent data={state.data} />;
 }

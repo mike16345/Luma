@@ -149,6 +149,8 @@ Unless the plan is intentionally revised, organize source like this:
 - Prefer Expo and React Native primitives over web assumptions.
 - Do not use DOM APIs, CSS files, `className`, or browser-only layout assumptions in native code.
 - Use the theme provider for app colors. New UI should read colors through `useThemeColors`/`useTheme` when it needs reactive theme values, and shared theme tokens should support both light and dark palettes.
+- Use the i18n/language provider for language, text direction, and RTL-aware alignment. Keep reusable translation metadata under `src/i18n`; do not scatter raw language preference storage, `I18nManager` calls, or direction-switch reload logic through feature screens.
+- React Native RTL direction changes require an app reload to fully apply on native platforms. Language changes may update text immediately, but LTR/RTL switching should persist the preference, update `I18nManager`, and let the centralized provider handle reload behavior.
 
 ## 9. Navigation rules
 

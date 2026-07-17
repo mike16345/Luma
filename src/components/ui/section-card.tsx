@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react";
 import { Text, View } from "react-native";
 
+import { getFlexDirection } from "@/i18n/languages";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -13,11 +15,13 @@ export function SectionCard({
   eyebrow?: string;
   title?: string;
 }>) {
+  const { direction, textAlign } = useLanguage();
+
   return (
     <View
       style={{
         gap: spacing.md,
-        padding: spacing.md,
+        padding: spacing.lg,
         borderRadius: 8,
         borderCurve: "continuous",
         borderWidth: 1,
@@ -26,18 +30,35 @@ export function SectionCard({
       }}
     >
       {eyebrow || title ? (
-        <View style={{ gap: spacing.xxs }}>
+        <View style={{ gap: spacing.xs }}>
           {eyebrow ? (
-            <Text
-              selectable
+            <View
               style={{
-                ...typography.caption,
-                color: colors.textMuted,
-                textTransform: "uppercase",
+                flexDirection: getFlexDirection(direction),
+                alignItems: "center",
+                gap: spacing.xs,
               }}
             >
-              {eyebrow}
-            </Text>
+              <View
+                style={{
+                  width: 18,
+                  height: 2,
+                  borderRadius: 999,
+                  backgroundColor: colors.action,
+                }}
+              />
+              <Text
+                selectable
+                style={{
+                  ...typography.label,
+                  color: colors.action,
+                  textTransform: "uppercase",
+                  textAlign,
+                }}
+              >
+                {eyebrow}
+              </Text>
+            </View>
           ) : null}
           {title ? (
             <Text
@@ -45,6 +66,7 @@ export function SectionCard({
               style={{
                 ...typography.section,
                 color: colors.textPrimary,
+                textAlign,
               }}
             >
               {title}

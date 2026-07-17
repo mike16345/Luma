@@ -1,4 +1,5 @@
 import { formatLocalDateTimeInput } from "@/features/onboarding/start-chapter-form-model";
+import { isSupportedCurrencyCode } from "@/lib/currency/currencies";
 import type {
   ChapterRecord,
   SmokingType,
@@ -121,7 +122,12 @@ function normalizeCurrencyCode(
   const currencyCode = value.trim().toUpperCase();
 
   if (!/^[A-Z]{3}$/.test(currencyCode)) {
-    errors.currencyCode = "Use a three-letter currency code, such as USD.";
+    errors.currencyCode = "Choose a currency from the list.";
+    return null;
+  }
+
+  if (!isSupportedCurrencyCode(currencyCode)) {
+    errors.currencyCode = "Choose a supported currency from the list.";
     return null;
   }
 

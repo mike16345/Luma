@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 
+import { CurrencySelector } from "@/components/ui/currency-selector";
 import { NativeActionButton } from "@/components/ui/native-action-button";
 import { NativeTextField } from "@/components/ui/native-text-field";
 import { SectionCard } from "@/components/ui/section-card";
@@ -53,12 +54,10 @@ export function ChapterSettingsForm({
 
       <SectionCard eyebrow="Estimate inputs" title="Smoking profile">
         <View style={{ gap: spacing.md }}>
-          <NativeTextField
+          <CurrencySelector
             label="Currency"
             value={form.currencyCode}
-            onChangeText={(value) => updateField("currencyCode", value)}
-            placeholder="USD"
-            autoCapitalize="characters"
+            onChange={(value) => updateField("currencyCode", value)}
             error={errors.currencyCode}
           />
           <NativeTextField

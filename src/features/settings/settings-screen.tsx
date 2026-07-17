@@ -1,10 +1,12 @@
 import { useRouter } from "expo-router";
-import { RefreshControl, Text, View } from "react-native";
+import { Text } from "react-native";
 
 import { NativeActionButton } from "@/components/ui/native-action-button";
+import { PageHeader } from "@/components/ui/page-header";
 import { Screen } from "@/components/ui/screen";
 import { SectionCard } from "@/components/ui/section-card";
 import { ChapterSettingsForm } from "@/features/settings/chapter-settings-form";
+import { LanguagePreferenceSection } from "@/features/settings/language-preference-section";
 import {
   SettingsErrorState,
   SettingsLoadingState,
@@ -12,7 +14,6 @@ import {
 import { ThemePreferenceSection } from "@/features/settings/theme-preference-section";
 import { useChapterSettingsForm } from "@/features/settings/use-chapter-settings-form";
 import { colors } from "@/theme/colors";
-import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 
 function NoActiveChapterState() {
@@ -55,49 +56,14 @@ export function SettingsScreen() {
   }
 
   return (
-    <Screen
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={() => {
-            void state.refresh();
-          }}
-          tintColor={colors.action}
-        />
-      }
-    >
-      <View style={{ gap: spacing.xs }}>
-        <Text
-          selectable
-          style={{
-            ...typography.caption,
-            color: colors.textMuted,
-            textTransform: "uppercase",
-          }}
-        >
-          Settings
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.title,
-            color: colors.textPrimary,
-          }}
-        >
-          Keep the current chapter accurate.
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.body,
-            color: colors.textSecondary,
-          }}
-        >
-          These edits only affect the active chapter. Past chapters stay intact.
-        </Text>
-      </View>
-
+    <Screen>
+      <PageHeader
+        eyebrow="Settings"
+        title="Keep the current chapter accurate."
+        subtitle="These edits only affect the active chapter. Past chapters stay intact."
+      />
       <ThemePreferenceSection />
+      <LanguagePreferenceSection />
 
       {state.form ? (
         <ChapterSettingsForm

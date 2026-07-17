@@ -1,5 +1,4 @@
-import { RefreshControl, Text, View } from "react-native";
-
+import { PageHeader } from "@/components/ui/page-header";
 import { Screen } from "@/components/ui/screen";
 import { HistoryChapterRow } from "@/features/history/history-chapter-row";
 import { HistoryEmptyState } from "@/features/history/history-empty-state";
@@ -10,51 +9,11 @@ import {
 } from "@/features/history/history-states";
 import { HistorySummary } from "@/features/history/history-summary";
 import { useHistoryViewModel } from "@/features/history/use-history-view-model";
-import { colors } from "@/theme/colors";
-import { spacing } from "@/theme/spacing";
-import { typography } from "@/theme/typography";
 
-function HistoryContent({
-  data,
-  refresh,
-}: {
-  data: HistoryViewModel;
-  refresh: () => Promise<void>;
-}) {
+function HistoryContent({ data }: { data: HistoryViewModel }) {
   return (
-    <Screen
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={() => {
-            void refresh();
-          }}
-          tintColor={colors.action}
-        />
-      }
-    >
-      <View style={{ gap: spacing.xs }}>
-        <Text
-          selectable
-          style={{
-            ...typography.caption,
-            color: colors.textMuted,
-            textTransform: "uppercase",
-          }}
-        >
-          History
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.title,
-            color: colors.textPrimary,
-          }}
-        >
-          Chapters stay intact.
-        </Text>
-      </View>
-
+    <Screen>
+      <PageHeader eyebrow="History" title="Chapters stay intact." />
       <HistorySummary summary={data.summary} />
       {data.hasChapters ? (
         data.rows.map((row) => <HistoryChapterRow key={row.id} row={row} />)
@@ -81,5 +40,5 @@ export function HistoryScreen() {
     );
   }
 
-  return <HistoryContent data={state.data} refresh={state.refresh} />;
+  return <HistoryContent data={state.data} />;
 }

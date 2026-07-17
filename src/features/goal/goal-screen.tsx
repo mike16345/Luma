@@ -1,5 +1,4 @@
-import { RefreshControl, Text, View } from "react-native";
-
+import { PageHeader } from "@/components/ui/page-header";
 import { Screen } from "@/components/ui/screen";
 import { GoalForm } from "@/features/goal/goal-form";
 import { GoalProgressCard } from "@/features/goal/goal-progress-card";
@@ -9,9 +8,6 @@ import {
   GoalNoActiveChapterState,
 } from "@/features/goal/goal-states";
 import { useGoalViewModel } from "@/features/goal/use-goal-view-model";
-import { colors } from "@/theme/colors";
-import { spacing } from "@/theme/spacing";
-import { typography } from "@/theme/typography";
 
 export function GoalScreen() {
   const state = useGoalViewModel();
@@ -30,48 +26,12 @@ export function GoalScreen() {
   }
 
   return (
-    <Screen
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={() => {
-            void state.refresh();
-          }}
-          tintColor={colors.action}
-        />
-      }
-    >
-      <View style={{ gap: spacing.xs }}>
-        <Text
-          selectable
-          style={{
-            ...typography.caption,
-            color: colors.textMuted,
-            textTransform: "uppercase",
-          }}
-        >
-          Goal
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.title,
-            color: colors.textPrimary,
-          }}
-        >
-          Save toward one thing.
-        </Text>
-        <Text
-          selectable
-          style={{
-            ...typography.body,
-            color: colors.textSecondary,
-          }}
-        >
-          Goal progress uses estimated money saved in the current chapter.
-        </Text>
-      </View>
-
+    <Screen>
+      <PageHeader
+        eyebrow="Goal"
+        title="Save toward one thing."
+        subtitle="Goal progress uses estimated money saved in the current chapter."
+      />
       {state.data.hasActiveChapter ? (
         <>
           <GoalProgressCard goal={state.data} />

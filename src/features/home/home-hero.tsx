@@ -14,15 +14,25 @@ export function HomeHero({ data }: { data: HomeViewModel }) {
         padding: spacing.lg,
         borderRadius: 8,
         borderCurve: "continuous",
-        backgroundColor: colors.textPrimary,
+        borderWidth: 1,
+        borderColor: colors.border,
+        backgroundColor: colors.heroSurface,
       }}
     >
       <View style={{ gap: spacing.xs }}>
+        <View
+          style={{
+            width: 42,
+            height: 4,
+            borderRadius: 999,
+            backgroundColor: colors.action,
+          }}
+        />
         <Text
           selectable
           style={{
-            ...typography.caption,
-            color: colors.actionSoft,
+            ...typography.label,
+            color: colors.heroTextMuted,
             textTransform: "uppercase",
           }}
         >
@@ -34,7 +44,7 @@ export function HomeHero({ data }: { data: HomeViewModel }) {
           numberOfLines={2}
           style={{
             ...typography.display,
-            color: colors.surface,
+            color: colors.heroText,
             fontVariant: ["tabular-nums"],
           }}
         >
@@ -44,7 +54,7 @@ export function HomeHero({ data }: { data: HomeViewModel }) {
           selectable
           style={{
             ...typography.body,
-            color: colors.actionSoft,
+            color: colors.heroTextMuted,
           }}
         >
           {data.hasActiveChapter

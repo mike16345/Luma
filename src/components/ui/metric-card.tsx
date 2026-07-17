@@ -26,7 +26,7 @@ export function MetricCard({
           minWidth: 150,
           justifyContent: "space-between",
           gap: spacing.md,
-          padding: spacing.md,
+          padding: spacing.lg,
           borderRadius: 8,
           borderCurve: "continuous",
           borderWidth: 1,
@@ -38,8 +38,8 @@ export function MetricCard({
     >
       <View
         style={{
-          width: 28,
-          height: 3,
+          width: 34,
+          height: 4,
           borderRadius: 999,
           backgroundColor: accentColor,
         }}
@@ -48,8 +48,8 @@ export function MetricCard({
         <Text
           selectable
           style={{
-            ...typography.caption,
-            color: colors.textMuted,
+            ...typography.label,
+            color: colors.textSecondary,
             textTransform: "uppercase",
           }}
         >
