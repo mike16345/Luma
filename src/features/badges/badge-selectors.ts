@@ -96,11 +96,11 @@ function buildRemainingLabel(
   });
 }
 
-function buildBadge(
+export function buildBadgeForCurrentValue(
   definition: BadgeDefinition,
+  current: number,
   input: BadgeMetricInput
 ): BadgeViewModel {
-  const current = getCurrentValue(definition, input);
   const progress = clampProgress(current, definition.target);
 
   return {
@@ -119,6 +119,17 @@ function buildBadge(
     }),
     tone: definition.tone,
   };
+}
+
+function buildBadge(
+  definition: BadgeDefinition,
+  input: BadgeMetricInput
+): BadgeViewModel {
+  return buildBadgeForCurrentValue(
+    definition,
+    getCurrentValue(definition, input),
+    input
+  );
 }
 
 export function buildBadgeViewModel(

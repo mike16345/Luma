@@ -181,6 +181,18 @@ export const he: TranslationTree = {
     chapterNumber: "פרק {number}",
     estimatedSaved: "חיסכון משוער",
     estimatedAvoided: "נמנעו בהערכה",
+    detail: "פרטי הפרק",
+    detailSubtitle:
+      "רישום לקריאה בלבד של מה שהפרק הזה הגיע אליו בזמן שהיה פעיל.",
+    started: "התחיל",
+    ended: "הסתיים",
+    slipUpContext: "הקשר המעידה",
+    slipUpLoggedAt: "תועד ב-",
+    unlockedDuringChapter: "נפתחו במהלך הפרק הזה",
+    viewChapter: "צפה ב-{chapter}",
+    chapterNotFound: "הפרק לא נמצא",
+    chapterNotFoundMessage:
+      "הפרק הזה לא זמין בהיסטוריה המקומית כרגע.",
     noChaptersYet: "אין פרקים עדיין",
     emptyMessage:
       "ברגע שיהיה פרק, העמוד הזה ישמור תיעוד לקריאה בלבד של הזמן ללא עישון, הסיגריות שנמנעו בהערכה, והחיסכון המשוער.",

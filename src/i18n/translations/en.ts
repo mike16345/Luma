@@ -179,6 +179,18 @@ export const en = {
     chapterNumber: "Chapter {number}",
     estimatedSaved: "Estimated saved",
     estimatedAvoided: "Estimated avoided",
+    detail: "Chapter detail",
+    detailSubtitle:
+      "A read-only record of what this chapter reached while it was running.",
+    started: "Started",
+    ended: "Ended",
+    slipUpContext: "Slip-up context",
+    slipUpLoggedAt: "Logged at",
+    unlockedDuringChapter: "Unlocked during this chapter",
+    viewChapter: "View {chapter}",
+    chapterNotFound: "Chapter not found",
+    chapterNotFoundMessage:
+      "This chapter is not available in the local history right now.",
     noChaptersYet: "No chapters yet",
     emptyMessage:
       "Once a chapter exists, this page will keep a read-only record of its smoke-free time, estimated cigarettes avoided, and estimated savings.",
