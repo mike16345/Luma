@@ -9,7 +9,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { I18nManager, Platform, View } from "react-native";
+import { DevSettings, I18nManager, Platform, View } from "react-native";
 
 import {
   findLanguageOption,
@@ -63,12 +63,23 @@ async function reloadForDirectionChange() {
 
   await new Promise((resolve) => setTimeout(resolve, 300));
 
+  if (__DEV__) {
+    DevSettings.reload();
+    return;
+  }
+
   try {
     await Updates.reloadAsync();
   } catch {
-    // In Expo Go or unsupported runtimes, the stored preference still applies
-    // on the next manual app start.
+    // If expo-updates is unavailable, the stored preference still applies on
+    // the next manual app start.
   }
+}
+
+function applyNativeDirection(shouldBeRTL: boolean) {
+  I18nManager.allowRTL(shouldBeRTL);
+  I18nManager.forceRTL(shouldBeRTL);
+  I18nManager.swapLeftAndRightInRTL(shouldBeRTL);
 }
 
 export function LanguageProvider({ children }: PropsWithChildren) {
@@ -93,8 +104,7 @@ export function LanguageProvider({ children }: PropsWithChildren) {
 
       if (needsDirectionChange) {
         setIsApplyingDirectionChange(true);
-        I18nManager.allowRTL(true);
-        I18nManager.forceRTL(shouldBeRTL);
+        applyNativeDirection(shouldBeRTL);
         await reloadForDirectionChange();
         setIsApplyingDirectionChange(false);
       }
@@ -112,8 +122,7 @@ export function LanguageProvider({ children }: PropsWithChildren) {
     }
 
     setIsApplyingDirectionChange(true);
-    I18nManager.allowRTL(true);
-    I18nManager.forceRTL(shouldBeRTL);
+    applyNativeDirection(shouldBeRTL);
     void reloadForDirectionChange().finally(() => {
       setIsApplyingDirectionChange(false);
     });
