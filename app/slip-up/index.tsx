@@ -1,11 +1,5 @@
-import { Text } from "react-native";
-
-import { Screen } from "@/components/ui/screen";
+import { SlipUpScreen } from "@/features/slip-up/slip-up-screen";
 
 export default function SlipUpRoute() {
-  return (
-    <Screen>
-      <Text>Log slip-up</Text>
-    </Screen>
-  );
+  return <SlipUpScreen />;
 }

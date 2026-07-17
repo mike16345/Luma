@@ -1,11 +1,5 @@
-import { Text } from "react-native";
-
-import { Screen } from "@/components/ui/screen";
+import { RestartChapterScreen } from "@/features/slip-up/restart-chapter-screen";
 
 export default function RestartRoute() {
-  return (
-    <Screen>
-      <Text>Start a new chapter</Text>
-    </Screen>
-  );
+  return <RestartChapterScreen />;
 }

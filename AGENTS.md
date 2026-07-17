@@ -114,6 +114,7 @@ Unless the plan is intentionally revised, organize source like this:
 - Do not add Zustand, Redux, TanStack Query, or another global abstraction unless the app has a demonstrated need for it and the plan is updated first.
 - This app has no server-state requirement in the MVP. Do not add a server-state stack preemptively.
 - Repository-backed feature screens should follow the established page pattern: a feature service loads repository data, a selector builds a UI-safe view model, a `use-<feature>-view-model` hook owns loading/error/refresh state, and the route file only renders the feature screen.
+- For a single screen flow, instantiate the feature hook once at the screen boundary and pass state/actions into child forms. Do not create a second copy of the same flow hook inside the form component.
 
 ## 7. UI and UX rules
 
