@@ -3,6 +3,7 @@ import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import { Text, type ColorValue } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useLanguage } from "@/i18n/language-context";
 import { useTheme } from "@/theme/theme-context";
 
 const tabIcons = {
@@ -55,6 +56,7 @@ function TabIcon({
 }
 
 export default function TabLayout() {
+  const { t } = useLanguage();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
 
@@ -77,28 +79,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: t("tabs.home"),
           tabBarIcon: ({ color }) => <TabIcon color={color} name="index" />,
         }}
       />
       <Tabs.Screen
         name="history"
         options={{
-          title: "History",
+          title: t("tabs.history"),
           tabBarIcon: ({ color }) => <TabIcon color={color} name="history" />,
         }}
       />
       <Tabs.Screen
         name="insights"
         options={{
-          title: "Insights",
+          title: t("tabs.insights"),
           tabBarIcon: ({ color }) => <TabIcon color={color} name="insights" />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: t("tabs.settings"),
           tabBarIcon: ({ color }) => <TabIcon color={color} name="settings" />,
         }}
       />

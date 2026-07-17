@@ -15,7 +15,7 @@ export function PageHeader({
   title: string;
 }) {
   const colors = useThemeColors();
-  const { textAlign } = useLanguage();
+  const { direction, textAlign } = useLanguage();
 
   return (
     <View
@@ -27,7 +27,7 @@ export function PageHeader({
       {eyebrow ? (
         <View
           style={{
-            alignSelf: "flex-start",
+            alignSelf: direction === "rtl" ? "flex-end" : "flex-start",
             paddingHorizontal: spacing.sm,
             paddingVertical: spacing.xxs,
             borderRadius: 999,

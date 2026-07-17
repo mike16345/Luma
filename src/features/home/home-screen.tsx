@@ -11,14 +11,16 @@ import { HomeErrorState, HomeLoadingState } from "@/features/home/home-states";
 import { HomeWeeklySummary } from "@/features/home/home-weekly-summary";
 import type { HomeViewModel } from "@/features/home/home-selectors";
 import { useHomeViewModel } from "@/features/home/use-home-view-model";
+import { useLanguage } from "@/i18n/language-context";
 
 function HomeContent({ data }: { data: HomeViewModel }) {
+  const { t } = useLanguage();
   const { width } = useWindowDimensions();
   const isWide = width >= 720;
 
   return (
     <Screen>
-      <PageHeader eyebrow="Luma" title="Your progress, kept private." />
+      <PageHeader eyebrow={t("common.appName")} title={t("home.title")} />
       <HomeHero data={data} />
       <HomePrimaryMetrics metrics={data.primaryMetrics} isWide={isWide} />
       <HomeWeeklySummary data={data} />

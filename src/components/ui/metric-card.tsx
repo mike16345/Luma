@@ -1,5 +1,6 @@
 import { Text, View, type ViewStyle } from "react-native";
 
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -17,6 +18,8 @@ export function MetricCard({
   accentColor?: string;
   style?: ViewStyle;
 }) {
+  const { textAlign } = useLanguage();
+
   return (
     <View
       style={[
@@ -51,6 +54,7 @@ export function MetricCard({
             ...typography.label,
             color: colors.textSecondary,
             textTransform: "uppercase",
+            textAlign,
           }}
         >
           {label}
@@ -65,6 +69,7 @@ export function MetricCard({
             fontWeight: "700",
             color: colors.textPrimary,
             fontVariant: ["tabular-nums"],
+            textAlign,
           }}
         >
           {value}
@@ -75,6 +80,7 @@ export function MetricCard({
             style={{
               ...typography.caption,
               color: colors.textSecondary,
+              textAlign,
             }}
           >
             {supportingText}

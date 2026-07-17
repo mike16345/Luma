@@ -2,13 +2,19 @@ import { Text, View } from "react-native";
 
 import { SectionCard } from "@/components/ui/section-card";
 import type { HomeViewModel } from "@/features/home/home-selectors";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 
 export function HomeWeeklySummary({ data }: { data: HomeViewModel }) {
+  const { t, textAlign } = useLanguage();
+
   return (
-    <SectionCard eyebrow="This week" title="Weekly summary">
+    <SectionCard
+      eyebrow={t("home.thisWeekEyebrow")}
+      title={t("home.weeklySummary")}
+    >
       <View style={{ flexDirection: "row", gap: spacing.sm }}>
         {data.weeklySummary.map((metric) => (
           <View
@@ -29,6 +35,7 @@ export function HomeWeeklySummary({ data }: { data: HomeViewModel }) {
               style={{
                 ...typography.caption,
                 color: colors.textMuted,
+                textAlign,
               }}
             >
               {metric.label}
@@ -41,6 +48,7 @@ export function HomeWeeklySummary({ data }: { data: HomeViewModel }) {
                 ...typography.section,
                 color: colors.textPrimary,
                 fontVariant: ["tabular-nums"],
+                textAlign,
               }}
             >
               {metric.value}

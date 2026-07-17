@@ -13,12 +13,14 @@ import {
   loadUserProfile,
   savePrivacyLockEnabled,
 } from "@/lib/profile/profile-preferences";
+import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function PrivacyLockSection() {
   const colors = useThemeColors();
+  const { t, textAlign } = useLanguage();
   const [availability, setAvailability] =
     useState<PrivacyLockAvailability | null>(null);
   const [isEnabled, setIsEnabled] = useState(
@@ -27,11 +29,11 @@ export function PrivacyLockSection() {
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    void getPrivacyLockAvailability().then(setAvailability);
-  }, []);
+    void getPrivacyLockAvailability(t).then(setAvailability);
+  }, [t]);
 
   async function enableLock() {
-    const nextAvailability = await getPrivacyLockAvailability();
+    const nextAvailability = await getPrivacyLockAvailability(t);
     setAvailability(nextAvailability);
 
     if (!nextAvailability.canAuthenticate) {
@@ -39,36 +41,41 @@ export function PrivacyLockSection() {
       return;
     }
 
-    const didAuthenticate = await authenticateForPrivacyLock();
+    const didAuthenticate = await authenticateForPrivacyLock(t);
 
     if (!didAuthenticate) {
-      setMessage("Authentication was cancelled. Privacy lock stayed off.");
+      setMessage(t("settings.privacyCancelled"));
       return;
     }
 
     savePrivacyLockEnabled(true);
     setIsEnabled(true);
-    setMessage("Privacy lock is on.");
+    setMessage(t("settings.privacyLockOn"));
   }
 
   async function disableLock() {
     savePrivacyLockEnabled(false);
     setIsEnabled(false);
-    setMessage("Privacy lock is off.");
+    setMessage(t("settings.privacyLockOff"));
     await Haptics.selectionAsync();
   }
 
   return (
-    <SectionCard eyebrow="Privacy" title="App lock">
+    <SectionCard
+      eyebrow={t("settings.privacyEyebrow")}
+      title={t("settings.appLockTitle")}
+    >
       <View style={{ gap: spacing.md }}>
         <Text
           style={{
             ...typography.body,
             color: colors.textSecondary,
+            textAlign,
           }}
         >
-          Require {availability?.label ?? "device authentication"} before Luma
-          shows private progress on this device.
+          {t("settings.privacyDescription", {
+            method: availability?.label ?? t("privacy.deviceAuthentication"),
+          })}
         </Text>
 
         {availability?.reason ? (
@@ -76,6 +83,7 @@ export function PrivacyLockSection() {
             style={{
               ...typography.caption,
               color: colors.textMuted,
+              textAlign,
             }}
           >
             {availability.reason}
@@ -83,7 +91,11 @@ export function PrivacyLockSection() {
         ) : null}
 
         <NativeActionButton
-          label={isEnabled ? "Turn privacy lock off" : "Turn privacy lock on"}
+          label={
+            isEnabled
+              ? t("settings.turnPrivacyLockOff")
+              : t("settings.turnPrivacyLockOn")
+          }
           onPress={() => {
             void (isEnabled ? disableLock() : enableLock());
           }}
@@ -95,6 +107,7 @@ export function PrivacyLockSection() {
             style={{
               ...typography.caption,
               color: colors.textMuted,
+              textAlign,
             }}
           >
             {message}

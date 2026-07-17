@@ -32,7 +32,7 @@ export function CurrencySelector({
   value: string;
 }) {
   const colors = useThemeColors();
-  const { direction, textAlign } = useLanguage();
+  const { direction, t, textAlign } = useLanguage();
   const insets = useSafeAreaInsets();
   const [isOpen, setIsOpen] = useState(false);
   const selectedCurrency = useMemo(() => findCurrencyOption(value), [value]);
@@ -134,7 +134,7 @@ export function CurrencySelector({
           >
             {selectedCurrency
               ? `${selectedCurrency.code} - ${selectedCurrency.name}`
-              : "Select currency"}
+              : t("common.selectCurrency")}
           </Text>
           <Text
             accessibilityElementsHidden
@@ -192,7 +192,7 @@ export function CurrencySelector({
                 textAlign,
               }}
             >
-              Currency
+              {t("common.currency")}
             </Text>
             <Pressable
               accessibilityRole="button"
@@ -208,7 +208,7 @@ export function CurrencySelector({
                   color: colors.action,
                 }}
               >
-                Close
+                {t("common.close")}
               </Text>
             </Pressable>
           </View>

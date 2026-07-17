@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { View } from "react-native";
 
 import { NativeActionButton } from "@/components/ui/native-action-button";
+import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
 
 export function HomeActionButtons({
@@ -10,22 +11,23 @@ export function HomeActionButtons({
   hasActiveChapter: boolean;
 }) {
   const router = useRouter();
+  const { t } = useLanguage();
 
   return (
     <View style={{ gap: spacing.sm }}>
       {hasActiveChapter ? (
         <>
           <NativeActionButton
-            label="Log slip-up"
+            label={t("home.logSlipUp")}
             onPress={() => router.push("/slip-up")}
           />
           <NativeActionButton
-            label="View goal"
+            label={t("home.viewGoal")}
             variant="outlined"
             onPress={() => router.push("/goal")}
           />
           <NativeActionButton
-            label="Edit chapter"
+            label={t("home.editChapter")}
             variant="text"
             onPress={() => router.push("/settings")}
           />
@@ -33,11 +35,11 @@ export function HomeActionButtons({
       ) : (
         <>
           <NativeActionButton
-            label="Start a chapter"
+            label={t("common.startAChapter")}
             onPress={() => router.push("/onboarding")}
           />
           <NativeActionButton
-            label="View history"
+            label={t("home.viewHistory")}
             variant="outlined"
             onPress={() => router.push("/history")}
           />

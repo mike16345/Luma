@@ -1,4 +1,5 @@
 import { formatLocalDateTimeInput } from "@/features/onboarding/start-chapter-form-model";
+import { translate, type Translator } from "@/i18n/translations";
 
 export type SlipUpFormState = {
   occurredAt: string;
@@ -48,18 +49,19 @@ function optionalText(value: string) {
 export function parseSlipUpForm(
   form: SlipUpFormState,
   activeChapterStartedAt: string,
-  now = new Date()
+  now = new Date(),
+  t: Translator = (key, options) => translate("en", key, options)
 ): ParsedSlipUpForm {
   const errors: SlipUpFormErrors = {};
   const occurredAt = new Date(form.occurredAt.trim());
   const chapterStartedAt = new Date(activeChapterStartedAt);
 
   if (!form.occurredAt.trim() || Number.isNaN(occurredAt.getTime())) {
-    errors.occurredAt = "Enter a valid date and time.";
+    errors.occurredAt = t("validation.invalidDateTime");
   } else if (occurredAt.getTime() > now.getTime() + 60 * 1000) {
-    errors.occurredAt = "Slip-up time cannot be in the future.";
+    errors.occurredAt = t("validation.futureSlipUpTime");
   } else if (occurredAt.getTime() < chapterStartedAt.getTime()) {
-    errors.occurredAt = "Slip-up time cannot be before this chapter started.";
+    errors.occurredAt = t("validation.slipUpBeforeChapter");
   }
 
   if (errors.occurredAt) {

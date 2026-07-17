@@ -4,11 +4,13 @@ import {
   isDevBuild,
   isDevProfilePassphrase,
 } from "@/lib/dev/dev-data-profile";
+import { useLanguage } from "@/i18n/language-context";
 
 const REQUIRED_TAPS = 10;
 const TAP_WINDOW_MS = 6000;
 
 export function useDevOptionsUnlock() {
+  const { t } = useLanguage();
   const tapTimesRef = useRef<number[]>([]);
   const [isPromptVisible, setIsPromptVisible] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -50,8 +52,8 @@ export function useDevOptionsUnlock() {
       return;
     }
 
-    setError("That passphrase did not unlock development options.");
-  }, []);
+    setError(t("dev.wrongPassphrase"));
+  }, [t]);
 
   return useMemo(
     () => ({

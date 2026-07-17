@@ -19,7 +19,7 @@ export function DevOptionsPrompt({
   onSubmit: (passphrase: string) => void;
 }) {
   const colors = useThemeColors();
-  const { textAlign } = useLanguage();
+  const { t, textAlign } = useLanguage();
   const [passphrase, setPassphrase] = useState("");
 
   return (
@@ -57,7 +57,7 @@ export function DevOptionsPrompt({
                 textAlign,
               }}
             >
-              Development options
+              {t("dev.promptTitle")}
             </Text>
             <Text
               selectable
@@ -67,7 +67,7 @@ export function DevOptionsPrompt({
                 textAlign,
               }}
             >
-              Enter the local development passphrase.
+              {t("dev.promptMessage")}
             </Text>
           </View>
 
@@ -75,7 +75,7 @@ export function DevOptionsPrompt({
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={setPassphrase}
-            placeholder="Passphrase"
+            placeholder={t("dev.passphrasePlaceholder")}
             placeholderTextColor={colors.textMuted}
             secureTextEntry
             style={{
@@ -108,11 +108,11 @@ export function DevOptionsPrompt({
 
           <View style={{ gap: spacing.sm }}>
             <NativeActionButton
-              label="Unlock"
+              label={t("dev.unlock")}
               onPress={() => onSubmit(passphrase)}
             />
             <NativeActionButton
-              label="Cancel"
+              label={t("dev.cancel")}
               onPress={onCancel}
               variant="text"
             />

@@ -10,22 +10,25 @@ import {
 } from "@/features/insights/insights-states";
 import { InsightsSummary } from "@/features/insights/insights-summary";
 import { useInsightsViewModel } from "@/features/insights/use-insights-view-model";
+import { useLanguage } from "@/i18n/language-context";
 
 function InsightsContent({ data }: { data: InsightsViewModel }) {
+  const { t } = useLanguage();
+
   return (
     <Screen>
       <PageHeader
-        eyebrow="Insights"
-        title="Patterns from what you logged."
-        subtitle="Luma summarizes slip-up records without turning them into advice or diagnosis."
+        eyebrow={t("insights.eyebrow")}
+        title={t("insights.title")}
+        subtitle={t("insights.subtitle")}
       />
       {data.hasSlipUps ? (
         <>
           <InsightsSummary summary={data.summary} />
-          <InsightsListSection title="Triggers" rows={data.triggerRows} />
-          <InsightsListSection title="Moods" rows={data.moodRows} />
-          <InsightsListSection title="Time of day" rows={data.timeRows} />
-          <InsightsListSection title="Day of week" rows={data.dayRows} />
+          <InsightsListSection title={t("insights.triggers")} rows={data.triggerRows} />
+          <InsightsListSection title={t("insights.moods")} rows={data.moodRows} />
+          <InsightsListSection title={t("insights.timeOfDay")} rows={data.timeRows} />
+          <InsightsListSection title={t("insights.dayOfWeek")} rows={data.dayRows} />
           <InsightsRecentNotes notes={data.recentNotes} />
         </>
       ) : (

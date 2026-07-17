@@ -2,11 +2,14 @@ import { Text, View } from "react-native";
 
 import type { HomeViewModel } from "@/features/home/home-selectors";
 import { HomeActionButtons } from "@/features/home/home-action-buttons";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 
 export function HomeHero({ data }: { data: HomeViewModel }) {
+  const { t, textAlign } = useLanguage();
+
   return (
     <View
       style={{
@@ -34,6 +37,7 @@ export function HomeHero({ data }: { data: HomeViewModel }) {
             ...typography.label,
             color: colors.heroTextMuted,
             textTransform: "uppercase",
+            textAlign,
           }}
         >
           {data.headline.supportingText}
@@ -46,6 +50,7 @@ export function HomeHero({ data }: { data: HomeViewModel }) {
             ...typography.display,
             color: colors.heroText,
             fontVariant: ["tabular-nums"],
+            textAlign,
           }}
         >
           {data.headline.value}
@@ -55,11 +60,12 @@ export function HomeHero({ data }: { data: HomeViewModel }) {
           style={{
             ...typography.body,
             color: colors.heroTextMuted,
+            textAlign,
           }}
         >
           {data.hasActiveChapter
-            ? "Your current chapter is being measured honestly from its start time."
-            : "No active chapter is running. Your history still stays intact."}
+            ? t("home.activeHeroDescription")
+            : t("home.inactiveHeroDescription")}
         </Text>
       </View>
       <HomeActionButtons hasActiveChapter={data.hasActiveChapter} />

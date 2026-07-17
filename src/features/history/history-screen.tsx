@@ -9,11 +9,14 @@ import {
 } from "@/features/history/history-states";
 import { HistorySummary } from "@/features/history/history-summary";
 import { useHistoryViewModel } from "@/features/history/use-history-view-model";
+import { useLanguage } from "@/i18n/language-context";
 
 function HistoryContent({ data }: { data: HistoryViewModel }) {
+  const { t } = useLanguage();
+
   return (
     <Screen>
-      <PageHeader eyebrow="History" title="Chapters stay intact." />
+      <PageHeader eyebrow={t("history.eyebrow")} title={t("history.title")} />
       <HistorySummary summary={data.summary} />
       {data.hasChapters ? (
         data.rows.map((row) => <HistoryChapterRow key={row.id} row={row} />)

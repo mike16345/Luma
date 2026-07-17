@@ -1,5 +1,6 @@
 import type { CreateChapterInput, SmokingType } from "@/types/domain";
 import { isSupportedCurrencyCode } from "@/lib/currency/currencies";
+import { translate, type Translator } from "@/i18n/translations";
 
 export type StartChapterFormState = {
   startedAt: string;
@@ -53,17 +54,22 @@ export function createInitialStartChapterFormState(): StartChapterFormState {
   };
 }
 
-function parseDateTime(value: string, now: Date, errors: StartChapterFormErrors) {
+function parseDateTime(
+  value: string,
+  now: Date,
+  errors: StartChapterFormErrors,
+  t: Translator
+) {
   const trimmed = value.trim();
   const parsed = new Date(trimmed);
 
   if (!trimmed || Number.isNaN(parsed.getTime())) {
-    errors.startedAt = "Enter a valid quit date and time.";
+    errors.startedAt = t("validation.invalidQuitDateTime");
     return null;
   }
 
   if (parsed.getTime() > now.getTime() + 60 * 1000) {
-    errors.startedAt = "Quit date and time cannot be in the future.";
+    errors.startedAt = t("validation.futureQuitDateTime");
     return null;
   }
 
@@ -89,7 +95,8 @@ function parsePositiveNumber(
 
 function parseOptionalMoneyMinor(
   value: string,
-  errors: StartChapterFormErrors
+  errors: StartChapterFormErrors,
+  t: Translator
 ) {
   if (!value.trim()) {
     return null;
@@ -98,7 +105,7 @@ function parseOptionalMoneyMinor(
   const parsed = parsePositiveNumber(
     value,
     "goalAmountMajor",
-    "Enter a goal amount greater than zero, or leave it blank.",
+    t("validation.invalidGoalOrBlank"),
     errors
   );
 
@@ -107,17 +114,18 @@ function parseOptionalMoneyMinor(
 
 function normalizeCurrencyCode(
   value: string,
-  errors: StartChapterFormErrors
+  errors: StartChapterFormErrors,
+  t: Translator
 ) {
   const currencyCode = value.trim().toUpperCase();
 
   if (!/^[A-Z]{3}$/.test(currencyCode)) {
-    errors.currencyCode = "Choose a currency from the list.";
+    errors.currencyCode = t("validation.chooseCurrency");
     return null;
   }
 
   if (!isSupportedCurrencyCode(currencyCode)) {
-    errors.currencyCode = "Choose a supported currency from the list.";
+    errors.currencyCode = t("validation.chooseSupportedCurrency");
     return null;
   }
 
@@ -126,30 +134,31 @@ function normalizeCurrencyCode(
 
 export function parseStartChapterForm(
   form: StartChapterFormState,
-  now = new Date()
+  now = new Date(),
+  t: Translator = (key, options) => translate("en", key, options)
 ): ParsedStartChapterForm {
   const errors: StartChapterFormErrors = {};
-  const startedAt = parseDateTime(form.startedAt, now, errors);
-  const currencyCode = normalizeCurrencyCode(form.currencyCode, errors);
+  const startedAt = parseDateTime(form.startedAt, now, errors, t);
+  const currencyCode = normalizeCurrencyCode(form.currencyCode, errors, t);
   const purchasePriceMajor = parsePositiveNumber(
     form.purchasePriceMajor,
     "purchasePriceMajor",
-    "Enter a purchase price greater than zero.",
+    t("validation.purchasePricePositive"),
     errors
   );
   const estimatedCigarettesPerPurchase = parsePositiveNumber(
     form.estimatedCigarettesPerPurchase,
     "estimatedCigarettesPerPurchase",
-    "Enter an estimate greater than zero.",
+    t("validation.estimatePositive"),
     errors
   );
   const averageCigarettesPerDay = parsePositiveNumber(
     form.averageCigarettesPerDay,
     "averageCigarettesPerDay",
-    "Enter an average greater than zero.",
+    t("validation.averagePositive"),
     errors
   );
-  const goalAmountMinor = parseOptionalMoneyMinor(form.goalAmountMajor, errors);
+  const goalAmountMinor = parseOptionalMoneyMinor(form.goalAmountMajor, errors, t);
 
   if (
     !startedAt ||

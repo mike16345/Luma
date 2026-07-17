@@ -16,7 +16,7 @@ import { typography } from "@/theme/typography";
 export function OnboardingSuccessScreen() {
   const colors = useThemeColors();
   const router = useRouter();
-  const { direction, textAlign } = useLanguage();
+  const { direction, t, textAlign } = useLanguage();
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.96)).current;
   const translateY = useRef(new Animated.Value(14)).current;
@@ -123,7 +123,7 @@ export function OnboardingSuccessScreen() {
                   textTransform: "uppercase",
                 }}
               >
-                Chapter started
+                {t("onboarding.successEyebrow")}
               </Text>
               <Text
                 style={{
@@ -132,7 +132,7 @@ export function OnboardingSuccessScreen() {
                   textAlign,
                 }}
               >
-                Your progress is ready.
+                {t("onboarding.successSubtitle")}
               </Text>
             </View>
           </View>
@@ -145,7 +145,7 @@ export function OnboardingSuccessScreen() {
                 textAlign,
               }}
             >
-              Your new chapter has started.
+              {t("onboarding.successTitle")}
             </Text>
             <Text
               style={{
@@ -154,13 +154,14 @@ export function OnboardingSuccessScreen() {
                 textAlign,
               }}
             >
-              One quiet choice at a time. Luma will keep the progress clear from
-              here.
+              {t("onboarding.successMessage")}
             </Text>
           </View>
 
           <OnboardingProgressButton
-            label={`Continue (${secondsRemaining})`}
+            label={t("onboarding.continueWithSeconds", {
+              seconds: secondsRemaining,
+            })}
             onPress={continueToHome}
           />
         </View>

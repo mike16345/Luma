@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 
 import { NativeActionButton } from "@/components/ui/native-action-button";
+import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
@@ -13,6 +14,7 @@ export function PrivacyLockScreen({
   onUnlock: () => void;
 }) {
   const colors = useThemeColors();
+  const { t, textAlign } = useLanguage();
 
   return (
     <View
@@ -40,17 +42,19 @@ export function PrivacyLockScreen({
             style={{
               ...typography.title,
               color: colors.textPrimary,
+              textAlign,
             }}
           >
-            Luma is locked.
+            {t("privacy.lockedTitle")}
           </Text>
           <Text
             style={{
               ...typography.body,
               color: colors.textSecondary,
+              textAlign,
             }}
           >
-            Unlock to view your private progress on this device.
+            {t("privacy.lockedMessage")}
           </Text>
         </View>
         {message ? (
@@ -58,12 +62,13 @@ export function PrivacyLockScreen({
             style={{
               ...typography.caption,
               color: colors.textMuted,
+              textAlign,
             }}
           >
             {message}
           </Text>
         ) : null}
-        <NativeActionButton label="Unlock Luma" onPress={onUnlock} />
+        <NativeActionButton label={t("privacy.unlockLuma")} onPress={onUnlock} />
       </View>
     </View>
   );

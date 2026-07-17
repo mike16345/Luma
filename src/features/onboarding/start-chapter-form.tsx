@@ -8,6 +8,7 @@ import { SectionCard } from "@/components/ui/section-card";
 import { useBootstrap } from "@/features/app-shell/bootstrap-context";
 import { SmokingTypeSelector } from "@/features/onboarding/smoking-type-selector";
 import { useStartChapterForm } from "@/features/onboarding/use-start-chapter-form";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -15,6 +16,7 @@ import { typography } from "@/theme/typography";
 export function StartChapterForm() {
   const router = useRouter();
   const { markReady } = useBootstrap();
+  const { t, textAlign } = useLanguage();
   const {
     errors,
     form,
@@ -36,10 +38,13 @@ export function StartChapterForm() {
 
   return (
     <View style={{ gap: spacing.lg }}>
-      <SectionCard eyebrow="Chapter" title="Start details">
+      <SectionCard
+        eyebrow={t("onboarding.chapterEyebrow")}
+        title={t("onboarding.startDetailsTitle")}
+      >
         <View style={{ gap: spacing.md }}>
           <NativeTextField
-            label="Quit date and time"
+            label={t("onboarding.quitDateTime")}
             value={form.startedAt}
             onChangeText={(value) => updateField("startedAt", value)}
             placeholder="YYYY-MM-DDTHH:mm"
@@ -52,16 +57,19 @@ export function StartChapterForm() {
         </View>
       </SectionCard>
 
-      <SectionCard eyebrow="Estimate inputs" title="Smoking profile">
+      <SectionCard
+        eyebrow={t("onboarding.estimateInputsEyebrow")}
+        title={t("onboarding.smokingProfileTitle")}
+      >
         <View style={{ gap: spacing.md }}>
           <CurrencySelector
-            label="Currency"
+            label={t("common.currency")}
             value={form.currencyCode}
             onChange={(value) => updateField("currencyCode", value)}
             error={errors.currencyCode}
           />
           <NativeTextField
-            label="Purchase price"
+            label={t("onboarding.purchasePrice")}
             value={form.purchasePriceMajor}
             onChangeText={(value) => updateField("purchasePriceMajor", value)}
             placeholder="12.50"
@@ -69,7 +77,7 @@ export function StartChapterForm() {
             error={errors.purchasePriceMajor}
           />
           <NativeTextField
-            label="Estimated cigarettes per purchase"
+            label={t("onboarding.estimatedCigarettesPerPurchase")}
             value={form.estimatedCigarettesPerPurchase}
             onChangeText={(value) =>
               updateField("estimatedCigarettesPerPurchase", value)
@@ -79,7 +87,7 @@ export function StartChapterForm() {
             error={errors.estimatedCigarettesPerPurchase}
           />
           <NativeTextField
-            label="Average cigarettes per day"
+            label={t("onboarding.averageCigarettesPerDay")}
             value={form.averageCigarettesPerDay}
             onChangeText={(value) =>
               updateField("averageCigarettesPerDay", value)
@@ -91,10 +99,13 @@ export function StartChapterForm() {
         </View>
       </SectionCard>
 
-      <SectionCard eyebrow="Optional" title="Savings goal">
+      <SectionCard
+        eyebrow={t("common.optional")}
+        title={t("onboarding.savingsGoalTitle")}
+      >
         <View style={{ gap: spacing.md }}>
           <NativeTextField
-            label="Goal amount"
+            label={t("onboarding.goalAmount")}
             value={form.goalAmountMajor}
             onChangeText={(value) => updateField("goalAmountMajor", value)}
             placeholder="250"
@@ -106,9 +117,10 @@ export function StartChapterForm() {
             style={{
               ...typography.body,
               color: colors.textSecondary,
+              textAlign,
             }}
           >
-            Goal progress is based on estimated money saved in this chapter.
+            {t("onboarding.goalHelp")}
           </Text>
         </View>
       </SectionCard>
@@ -119,6 +131,7 @@ export function StartChapterForm() {
           style={{
             ...typography.body,
             color: colors.slip,
+            textAlign,
           }}
         >
           {submitError}
@@ -126,7 +139,11 @@ export function StartChapterForm() {
       ) : null}
 
       <NativeActionButton
-        label={isSubmitting ? "Starting chapter..." : "Save and continue"}
+        label={
+          isSubmitting
+            ? t("onboarding.startingChapter")
+            : t("common.saveAndContinue")
+        }
         disabled={isSubmitting}
         onPress={() => {
           void handleSubmit();

@@ -27,11 +27,16 @@ ended with a logged slip-up. Past chapters remain read-only.
 
 ### Full Hebrew Translation Pass
 
-Status: planned
+Status: in progress
 
 The app has language and RTL infrastructure, but much of the UI copy is still
 English. Translate the main flows into Hebrew and verify layout, text alignment,
 and button sizing in RTL.
+
+Implementation note: app copy should live in separate readable translation files
+under `src/i18n/translations`, with Hebrew stored as actual Hebrew text rather
+than unicode escape sequences. Selectors that generate labels should receive the
+translator from their feature hooks instead of embedding English strings.
 
 ### Better Native Date And Time Inputs
 

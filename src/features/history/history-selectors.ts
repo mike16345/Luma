@@ -13,6 +13,7 @@ import {
   buildEstimateLabel,
   formatEstimatedCount,
 } from "@/lib/formatting/estimates";
+import type { Translator } from "@/i18n/translations";
 import type { ChapterRecord, SlipUpRecord } from "@/types/domain";
 
 export interface HistorySummaryMetric {
@@ -50,7 +51,8 @@ function countSlipUpsByChapter(slipUps: SlipUpRecord[]) {
 export function buildHistoryViewModel(
   chapters: ChapterRecord[],
   slipUps: SlipUpRecord[],
-  nowIso: string
+  nowIso: string,
+  t: Translator
 ): HistoryViewModel {
   const currencyCode = resolveCurrency(chapters);
   const completedCount = chapters.filter((chapter) => chapter.endedAt).length;
@@ -62,19 +64,22 @@ export function buildHistoryViewModel(
     hasChapters: chapters.length > 0,
     summary: [
       {
-        label: "Chapters",
+        label: t("history.chapters"),
         value: String(chapters.length),
       },
       {
-        label: "Completed",
+        label: t("history.completed"),
         value: String(completedCount),
       },
       {
-        label: "Longest smoke-free time",
+        label: t("common.longestSmokeFreeTime"),
         value: formatDurationCompact(longestStreakMs),
       },
       {
-        label: buildEstimateLabel("Cumulative savings"),
+        label: buildEstimateLabel(
+          t("common.cumulativeSavings"),
+          t("common.estimatedSuffix")
+        ),
         value: formatCurrencyFromMinorUnits(cumulativeSavingsMinor, currencyCode),
       },
     ],
@@ -83,17 +88,19 @@ export function buildHistoryViewModel(
       const isActive = chapter.endedAt === null;
       const slipUpCount = slipUpsByChapter[chapter.id] ?? 0;
       const statusLabel = isActive
-        ? "Active chapter"
+        ? t("history.activeChapter")
         : slipUpCount > 0
-          ? "Ended with slip-up"
-          : "Completed chapter";
+          ? t("history.endedWithSlipUp")
+          : t("history.completedChapter");
       const endedLabel = chapter.endedAt
-        ? `Ended ${formatDateTimeShort(chapter.endedAt)}`
-        : "Still in progress";
+        ? t("history.endedDate", { date: formatDateTimeShort(chapter.endedAt) })
+        : t("history.stillInProgress");
 
       return {
         id: chapter.id,
-        title: isActive ? "Current chapter" : `Chapter ${chapters.length - index}`,
+        title: isActive
+          ? t("common.currentChapter")
+          : t("history.chapterNumber", { number: chapters.length - index }),
         statusLabel,
         dateLabel: `${formatDateShort(chapter.startedAt)} - ${endedLabel}`,
         durationLabel: formatDurationCompact(metrics.elapsedMs),
@@ -101,9 +108,9 @@ export function buildHistoryViewModel(
           metrics.moneySavedMinor,
           chapter.currencyCode
         ),
-        cigarettesLabel: `${formatEstimatedCount(
-          metrics.cigarettesAvoided
-        )} avoided`,
+        cigarettesLabel: `${formatEstimatedCount(metrics.cigarettesAvoided)} ${t(
+          "common.avoidedSuffix"
+        )}`,
       };
     }),
   };

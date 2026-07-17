@@ -6,6 +6,7 @@ import { NativeTextField } from "@/components/ui/native-text-field";
 import { SectionCard } from "@/components/ui/section-card";
 import { AlcoholInvolvedSelector } from "@/features/slip-up/alcohol-involved-selector";
 import type { SlipUpFormStateModel } from "@/features/slip-up/use-slip-up-form";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -16,6 +17,7 @@ export function SlipUpForm({
   state: Extract<SlipUpFormStateModel, { status: "ready" }>;
 }) {
   const router = useRouter();
+  const { t, textAlign } = useLanguage();
 
   async function handleSubmit() {
     const slipUp = await state.submit();
@@ -27,9 +29,9 @@ export function SlipUpForm({
 
   return (
     <View style={{ gap: spacing.lg }}>
-      <SectionCard eyebrow="Required" title="Slip-up time">
+      <SectionCard eyebrow={t("common.required")} title={t("slipUp.timeTitle")}>
         <NativeTextField
-          label="Date and time"
+          label={t("slipUp.dateAndTime")}
           value={state.form.occurredAt}
           onChangeText={(value) => state.updateField("occurredAt", value)}
           placeholder="YYYY-MM-DDTHH:mm"
@@ -37,29 +39,29 @@ export function SlipUpForm({
         />
       </SectionCard>
 
-      <SectionCard eyebrow="Optional" title="Context">
+      <SectionCard eyebrow={t("common.optional")} title={t("slipUp.contextTitle")}>
         <View style={{ gap: spacing.md }}>
           <NativeTextField
-            label="Mood"
+            label={t("slipUp.mood")}
             value={state.form.mood}
             onChangeText={(value) => state.updateField("mood", value)}
-            placeholder="Stressed, tired, social"
+            placeholder={t("slipUp.moodPlaceholder")}
           />
           <NativeTextField
-            label="Trigger"
+            label={t("slipUp.trigger")}
             value={state.form.trigger}
             onChangeText={(value) => state.updateField("trigger", value)}
-            placeholder="After dinner, outside work"
+            placeholder={t("slipUp.triggerPlaceholder")}
           />
           <AlcoholInvolvedSelector
             value={state.form.alcoholInvolved}
             onChange={(value) => state.updateField("alcoholInvolved", value)}
           />
           <NativeTextField
-            label="Note"
+            label={t("slipUp.note")}
             value={state.form.note}
             onChangeText={(value) => state.updateField("note", value)}
-            placeholder="Anything useful to remember"
+            placeholder={t("slipUp.notePlaceholder")}
           />
         </View>
       </SectionCard>
@@ -69,10 +71,10 @@ export function SlipUpForm({
         style={{
           ...typography.body,
           color: colors.textSecondary,
+          textAlign,
         }}
       >
-        Logging this slip-up will end the current chapter and keep its history
-        intact.
+        {t("slipUp.endWarning")}
       </Text>
 
       {typeof state.submitError === "string" ? (
@@ -81,6 +83,7 @@ export function SlipUpForm({
           style={{
             ...typography.body,
             color: colors.slip,
+            textAlign,
           }}
         >
           {state.submitError}
@@ -88,7 +91,7 @@ export function SlipUpForm({
       ) : null}
 
       <NativeActionButton
-        label={state.isSubmitting ? "Logging..." : "Log slip-up"}
+        label={state.isSubmitting ? t("common.logging") : t("slipUp.logSlipUp")}
         disabled={state.isSubmitting}
         onPress={() => {
           void handleSubmit();

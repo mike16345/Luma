@@ -11,18 +11,14 @@ import {
   type DevDataProfile,
 } from "@/lib/dev/dev-data-profile";
 import { reloadAppForDevProfile } from "@/lib/dev/reload-app";
+import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
-const profileDescriptions: Record<DevDataProfile, string> = {
-  default: "Uses the normal local development database.",
-  clean: "Creates a fresh empty database each time you choose it.",
-  history: "Uses seeded chapter and slip-up history for screen checks.",
-};
-
 export function DevOptionsSection({ onHide }: { onHide: () => void }) {
   const colors = useThemeColors();
+  const { t, textAlign } = useLanguage();
   const [activeProfile, setActiveProfile] = useState(getStoredDevDataProfile);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
@@ -33,22 +29,22 @@ export function DevOptionsSection({ onHide }: { onHide: () => void }) {
   async function switchProfile(profile: DevDataProfile) {
     setStoredDevDataProfile(profile);
     setActiveProfile(profile);
-    setStatusMessage("Reloading to apply the selected local data profile.");
+    setStatusMessage(t("dev.reloadApplying"));
     await reloadAppForDevProfile();
-    setStatusMessage("Reload the app to apply the selected local data profile.");
+    setStatusMessage(t("dev.reloadManual"));
   }
 
   return (
-    <SectionCard eyebrow="Development only" title="Local data profile">
+    <SectionCard eyebrow={t("dev.sectionEyebrow")} title={t("dev.sectionTitle")}>
       <Text
         selectable
         style={{
           ...typography.body,
           color: colors.textSecondary,
+          textAlign,
         }}
       >
-        Switch the SQLite database used for local debugging. The selection is a
-        small local preference and applies on reload or the next database open.
+        {t("dev.description")}
       </Text>
 
       <View style={{ gap: spacing.sm }}>
@@ -57,10 +53,16 @@ export function DevOptionsSection({ onHide }: { onHide: () => void }) {
           const canSelect = !isSelected || profile === "clean";
           const actionLabel =
             profile === "clean" && isSelected
-              ? "Reset clean profile"
+              ? t("dev.resetCleanProfile")
               : isSelected
-                ? "Current profile"
-                : `Use ${profile}`;
+                ? t("dev.currentProfile")
+                : t("dev.useProfile", { profile });
+          const profileDescription =
+            profile === "default"
+              ? t("dev.defaultDescription")
+              : profile === "clean"
+                ? t("dev.cleanDescription")
+                : t("dev.historyDescription");
 
           return (
             <View
@@ -81,6 +83,7 @@ export function DevOptionsSection({ onHide }: { onHide: () => void }) {
                 style={{
                   ...typography.bodyMedium,
                   color: colors.textPrimary,
+                  textAlign,
                 }}
               >
                 {profile}
@@ -90,9 +93,10 @@ export function DevOptionsSection({ onHide }: { onHide: () => void }) {
                 style={{
                   ...typography.caption,
                   color: colors.textSecondary,
+                  textAlign,
                 }}
               >
-                {profileDescriptions[profile]}
+                {profileDescription}
               </Text>
               <NativeActionButton
                 disabled={!canSelect}
@@ -113,6 +117,7 @@ export function DevOptionsSection({ onHide }: { onHide: () => void }) {
           style={{
             ...typography.caption,
             color: colors.textMuted,
+            textAlign,
           }}
         >
           {statusMessage}
@@ -120,7 +125,7 @@ export function DevOptionsSection({ onHide }: { onHide: () => void }) {
       ) : null}
 
       <NativeActionButton
-        label="Hide development options"
+        label={t("dev.hide")}
         onPress={onHide}
         variant="text"
       />

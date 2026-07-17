@@ -13,6 +13,7 @@ import {
   formatDurationCompact,
   formatDurationLong,
 } from "@/lib/formatting/duration";
+import type { Translator } from "@/i18n/translations";
 import type { ChapterRecord } from "@/types/domain";
 
 export interface HomeMetricViewModel {
@@ -58,7 +59,8 @@ function resolveDisplayCurrency(
 export function buildHomeViewModel(
   chapters: ChapterRecord[],
   activeChapter: ChapterRecord | null,
-  nowIso: string
+  nowIso: string,
+  t: Translator
 ): HomeViewModel {
   const currencyCode = resolveDisplayCurrency(activeChapter, chapters);
   const activeMetrics = activeChapter
@@ -80,23 +82,31 @@ export function buildHomeViewModel(
     activeChapterId: activeChapter?.id ?? null,
     currencyCode,
     headline: {
-      label: "Smoke-free time",
+      label: t("common.smokeFreeTime"),
       value: formatDurationLong(activeMetrics?.elapsedMs ?? 0),
-      supportingText: activeChapter ? "Current chapter" : "No active chapter",
+      supportingText: activeChapter
+        ? t("home.currentChapterLabel")
+        : t("home.noActiveChapterLabel"),
     },
     primaryMetrics: [
       {
-        label: buildEstimateLabel("Cigarettes avoided"),
+        label: buildEstimateLabel(
+          t("common.cigarettesAvoided"),
+          t("common.estimatedSuffix")
+        ),
         value: formatEstimatedCount(activeMetrics?.cigarettesAvoided ?? 0),
       },
       {
-        label: buildEstimateLabel("Money saved"),
+        label: buildEstimateLabel(
+          t("common.moneySaved"),
+          t("common.estimatedSuffix")
+        ),
         value: formatCurrencyFromMinorUnits(activeMoneySavedMinor, currencyCode),
       },
     ],
     periods: periodMetrics.map((period) => ({
       key: period.key,
-      label: period.label,
+      label: t(`periods.${period.key}`),
       cigarettesAvoided: formatEstimatedCount(period.cigarettesAvoided),
       moneySaved: formatCurrencyFromMinorUnits(
         period.moneySavedMinor,
@@ -105,11 +115,17 @@ export function buildHomeViewModel(
     })),
     weeklySummary: [
       {
-        label: buildEstimateLabel("This week avoided"),
+        label: buildEstimateLabel(
+          t("home.thisWeekAvoided"),
+          t("common.estimatedSuffix")
+        ),
         value: formatEstimatedCount(weeklyMetrics?.cigarettesAvoided ?? 0),
       },
       {
-        label: buildEstimateLabel("This week saved"),
+        label: buildEstimateLabel(
+          t("home.thisWeekSaved"),
+          t("common.estimatedSuffix")
+        ),
         value: formatCurrencyFromMinorUnits(
           weeklyMetrics?.moneySavedMinor ?? 0,
           currencyCode
@@ -117,11 +133,14 @@ export function buildHomeViewModel(
       },
     ],
     longestStreak: {
-      label: "Longest smoke-free time",
+      label: t("common.longestSmokeFreeTime"),
       value: formatDurationCompact(longestStreakMs),
     },
     cumulativeSavings: {
-      label: buildEstimateLabel("Cumulative savings"),
+      label: buildEstimateLabel(
+        t("common.cumulativeSavings"),
+        t("common.estimatedSuffix")
+      ),
       value: formatCurrencyFromMinorUnits(cumulativeSavingsMinor, currencyCode),
     },
     goal: {

@@ -8,8 +8,10 @@ import {
   GoalNoActiveChapterState,
 } from "@/features/goal/goal-states";
 import { useGoalViewModel } from "@/features/goal/use-goal-view-model";
+import { useLanguage } from "@/i18n/language-context";
 
 export function GoalScreen() {
+  const { t } = useLanguage();
   const state = useGoalViewModel();
 
   if (state.status === "loading") {
@@ -28,9 +30,9 @@ export function GoalScreen() {
   return (
     <Screen>
       <PageHeader
-        eyebrow="Goal"
-        title="Save toward one thing."
-        subtitle="Goal progress uses estimated money saved in the current chapter."
+        eyebrow={t("goal.eyebrow")}
+        title={t("goal.title")}
+        subtitle={t("goal.subtitle")}
       />
       {state.data.hasActiveChapter ? (
         <>

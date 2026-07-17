@@ -1,4 +1,5 @@
 import { preferencesStorage } from "@/lib/storage/local-preferences";
+import { translate, type Translator } from "@/i18n/translations";
 
 const REMINDER_ENABLED_KEY = "reminders.enabled";
 const REMINDER_HOUR_KEY = "reminders.hour";
@@ -49,14 +50,17 @@ export function formatReminderTime(hour: number, minute: number) {
   )}`;
 }
 
-export function parseReminderTime(value: string): ParsedReminderTime {
+export function parseReminderTime(
+  value: string,
+  t: Translator = (key, options) => translate("en", key, options)
+): ParsedReminderTime {
   const trimmed = value.trim();
   const match = /^(\d{1,2}):(\d{2})$/.exec(trimmed);
 
   if (!match) {
     return {
       ok: false,
-      error: "Use a 24-hour time, for example 20:00.",
+      error: t("reminders.invalidTimeFormat"),
     };
   }
 
@@ -66,7 +70,7 @@ export function parseReminderTime(value: string): ParsedReminderTime {
   if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
     return {
       ok: false,
-      error: "Choose a time between 00:00 and 23:59.",
+      error: t("reminders.invalidTimeRange"),
     };
   }
 
@@ -111,4 +115,3 @@ export function saveReminderPreferences(preferences: ReminderPreferences) {
     preferences.notificationId ?? ""
   );
 }
-

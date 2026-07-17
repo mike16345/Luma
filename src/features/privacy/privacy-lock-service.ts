@@ -2,30 +2,37 @@ import * as Haptics from "expo-haptics";
 import * as LocalAuthentication from "expo-local-authentication";
 import { Platform } from "react-native";
 
+import { translate, type Translator } from "@/i18n/translations";
+
 export type PrivacyLockAvailability = {
   canAuthenticate: boolean;
   label: string;
   reason: string | null;
 };
 
-function authenticationLabel(types: LocalAuthentication.AuthenticationType[]) {
+function authenticationLabel(
+  types: LocalAuthentication.AuthenticationType[],
+  t: Translator
+) {
   if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
     return "Face ID";
   }
 
   if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
-    return "fingerprint";
+    return t("privacy.fingerprint");
   }
 
-  return "device authentication";
+  return t("privacy.deviceAuthentication");
 }
 
-export async function getPrivacyLockAvailability(): Promise<PrivacyLockAvailability> {
+export async function getPrivacyLockAvailability(
+  t: Translator = (key, options) => translate("en", key, options)
+): Promise<PrivacyLockAvailability> {
   if (Platform.OS === "web") {
     return {
       canAuthenticate: false,
-      label: "device authentication",
-      reason: "Privacy lock is available in native builds.",
+      label: t("privacy.deviceAuthentication"),
+      reason: t("privacy.nativeOnly"),
     };
   }
 
@@ -34,13 +41,13 @@ export async function getPrivacyLockAvailability(): Promise<PrivacyLockAvailabil
     LocalAuthentication.isEnrolledAsync(),
     LocalAuthentication.supportedAuthenticationTypesAsync(),
   ]);
-  const label = authenticationLabel(authenticationTypes);
+  const label = authenticationLabel(authenticationTypes, t);
 
   if (!hasHardware) {
     return {
       canAuthenticate: false,
       label,
-      reason: "This device does not report biometric authentication hardware.",
+      reason: t("privacy.noHardware"),
     };
   }
 
@@ -48,7 +55,7 @@ export async function getPrivacyLockAvailability(): Promise<PrivacyLockAvailabil
     return {
       canAuthenticate: false,
       label,
-      reason: "Set up Face ID, fingerprint, or device authentication first.",
+      reason: t("privacy.notEnrolled"),
     };
   }
 
@@ -59,16 +66,18 @@ export async function getPrivacyLockAvailability(): Promise<PrivacyLockAvailabil
   };
 }
 
-export async function authenticateForPrivacyLock() {
+export async function authenticateForPrivacyLock(
+  t: Translator = (key, options) => translate("en", key, options)
+) {
   if (Platform.OS === "web") {
     return false;
   }
 
   const result = await LocalAuthentication.authenticateAsync({
     biometricsSecurityLevel: "strong",
-    cancelLabel: "Not now",
-    fallbackLabel: "Use device passcode",
-    promptMessage: "Unlock Luma",
+    cancelLabel: t("privacy.cancelLabel"),
+    fallbackLabel: t("privacy.fallbackLabel"),
+    promptMessage: t("privacy.promptMessage"),
   });
 
   if (result.success) {

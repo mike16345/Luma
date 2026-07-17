@@ -24,7 +24,7 @@ export const supportedLanguages: LanguageOption[] = [
     direction: "rtl",
     flag: "\u{1F1EE}\u{1F1F1}",
     label: "Hebrew",
-    nativeLabel: "\u05E2\u05D1\u05E8\u05D9\u05EA",
+    nativeLabel: "עברית",
   },
 ];
 

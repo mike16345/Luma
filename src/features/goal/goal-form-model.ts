@@ -1,3 +1,5 @@
+import { translate, type Translator } from "@/i18n/translations";
+
 export type GoalFormState = {
   goalAmountMajor: string;
 };
@@ -25,7 +27,10 @@ export function formatGoalAmountMajor(goalAmountMinor: number | null) {
   return Number.isInteger(value) ? String(value) : value.toFixed(2);
 }
 
-export function parseGoalForm(form: GoalFormState): ParsedGoalForm {
+export function parseGoalForm(
+  form: GoalFormState,
+  t: Translator = (key, options) => translate("en", key, options)
+): ParsedGoalForm {
   const errors: GoalFormErrors = {};
   const normalized = form.goalAmountMajor.trim().replace(/,/g, "");
 
@@ -40,8 +45,7 @@ export function parseGoalForm(form: GoalFormState): ParsedGoalForm {
   const parsed = Number(normalized);
 
   if (!Number.isFinite(parsed) || parsed <= 0) {
-    errors.goalAmountMajor =
-      "Enter a goal amount greater than zero, or leave it blank.";
+    errors.goalAmountMajor = t("validation.invalidGoalOrBlank");
 
     return {
       ok: false,

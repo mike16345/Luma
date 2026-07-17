@@ -10,6 +10,7 @@ import type {
   ChapterSettingsFormErrors,
   ChapterSettingsFormState,
 } from "@/features/settings/chapter-settings-form-model";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -34,12 +35,17 @@ export function ChapterSettingsForm({
   setSmokingType: (value: SmokingType) => void;
   updateField: (field: ChapterSettingsField, value: string) => void;
 }) {
+  const { t, textAlign } = useLanguage();
+
   return (
     <View style={{ gap: spacing.lg }}>
-      <SectionCard eyebrow="Current chapter" title="Start details">
+      <SectionCard
+        eyebrow={t("settings.currentChapterEyebrow")}
+        title={t("settings.startDetailsTitle")}
+      >
         <View style={{ gap: spacing.md }}>
           <NativeTextField
-            label="Quit date and time"
+            label={t("onboarding.quitDateTime")}
             value={form.startedAt}
             onChangeText={(value) => updateField("startedAt", value)}
             placeholder="YYYY-MM-DDTHH:mm"
@@ -52,16 +58,19 @@ export function ChapterSettingsForm({
         </View>
       </SectionCard>
 
-      <SectionCard eyebrow="Estimate inputs" title="Smoking profile">
+      <SectionCard
+        eyebrow={t("settings.estimateInputsEyebrow")}
+        title={t("settings.smokingProfileTitle")}
+      >
         <View style={{ gap: spacing.md }}>
           <CurrencySelector
-            label="Currency"
+            label={t("common.currency")}
             value={form.currencyCode}
             onChange={(value) => updateField("currencyCode", value)}
             error={errors.currencyCode}
           />
           <NativeTextField
-            label="Purchase price"
+            label={t("onboarding.purchasePrice")}
             value={form.purchasePriceMajor}
             onChangeText={(value) => updateField("purchasePriceMajor", value)}
             placeholder="12.50"
@@ -69,7 +78,7 @@ export function ChapterSettingsForm({
             error={errors.purchasePriceMajor}
           />
           <NativeTextField
-            label="Estimated cigarettes per purchase"
+            label={t("onboarding.estimatedCigarettesPerPurchase")}
             value={form.estimatedCigarettesPerPurchase}
             onChangeText={(value) =>
               updateField("estimatedCigarettesPerPurchase", value)
@@ -79,7 +88,7 @@ export function ChapterSettingsForm({
             error={errors.estimatedCigarettesPerPurchase}
           />
           <NativeTextField
-            label="Average cigarettes per day"
+            label={t("onboarding.averageCigarettesPerDay")}
             value={form.averageCigarettesPerDay}
             onChangeText={(value) =>
               updateField("averageCigarettesPerDay", value)
@@ -91,10 +100,13 @@ export function ChapterSettingsForm({
         </View>
       </SectionCard>
 
-      <SectionCard eyebrow="Optional" title="Savings goal">
+      <SectionCard
+        eyebrow={t("common.optional")}
+        title={t("settings.savingsGoalTitle")}
+      >
         <View style={{ gap: spacing.md }}>
           <NativeTextField
-            label="Goal amount"
+            label={t("onboarding.goalAmount")}
             value={form.goalAmountMajor}
             onChangeText={(value) => updateField("goalAmountMajor", value)}
             placeholder="250"
@@ -106,9 +118,10 @@ export function ChapterSettingsForm({
             style={{
               ...typography.body,
               color: colors.textSecondary,
+              textAlign,
             }}
           >
-            Leave this blank to remove the current chapter goal.
+            {t("settings.removeGoalHelp")}
           </Text>
         </View>
       </SectionCard>
@@ -119,6 +132,7 @@ export function ChapterSettingsForm({
           style={{
             ...typography.body,
             color: colors.slip,
+            textAlign,
           }}
         >
           {saveError}
@@ -131,6 +145,7 @@ export function ChapterSettingsForm({
           style={{
             ...typography.bodyMedium,
             color: colors.action,
+            textAlign,
           }}
         >
           {saveMessage}
@@ -138,7 +153,7 @@ export function ChapterSettingsForm({
       ) : null}
 
       <NativeActionButton
-        label={isSaving ? "Saving..." : "Save current chapter"}
+        label={isSaving ? t("common.saving") : t("settings.saveCurrentChapter")}
         disabled={isSaving}
         onPress={() => {
           void onSave();

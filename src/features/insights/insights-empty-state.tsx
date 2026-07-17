@@ -1,21 +1,24 @@
 import { Text } from "react-native";
 
 import { SectionCard } from "@/components/ui/section-card";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { typography } from "@/theme/typography";
 
 export function InsightsEmptyState() {
+  const { t, textAlign } = useLanguage();
+
   return (
-    <SectionCard title="No insight data yet">
+    <SectionCard title={t("insights.noInsightDataYet")}>
       <Text
         selectable
         style={{
           ...typography.body,
           color: colors.textSecondary,
+          textAlign,
         }}
       >
-        Once slip-ups are logged, Luma will summarize the recorded triggers,
-        moods, timing, and notes here. These summaries stay descriptive.
+        {t("insights.emptyMessage")}
       </Text>
     </SectionCard>
   );

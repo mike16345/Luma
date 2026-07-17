@@ -19,7 +19,11 @@ import {
   type SupportedLanguage,
   type TextDirection,
 } from "@/i18n/languages";
-import { translate, type TranslationKey } from "@/i18n/translations";
+import {
+  translate,
+  type TranslationKey,
+  type TranslateOptions,
+} from "@/i18n/translations";
 import { preferencesStorage } from "@/lib/storage/local-preferences";
 
 const LANGUAGE_PREFERENCE_KEY = "language.preference";
@@ -31,7 +35,7 @@ interface LanguageContextValue {
   isApplyingDirectionChange: boolean;
   setLanguage: (language: SupportedLanguage) => Promise<void>;
   textAlign: ReturnType<typeof getTextAlign>;
-  t: (key: TranslationKey) => string;
+  t: (key: TranslationKey, options?: TranslateOptions) => string;
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -123,7 +127,8 @@ export function LanguageProvider({ children }: PropsWithChildren) {
       languageOption,
       setLanguage,
       textAlign,
-      t: (key: TranslationKey) => translate(language, key),
+      t: (key: TranslationKey, options?: TranslateOptions) =>
+        translate(language, key, options),
     }),
     [
       direction,

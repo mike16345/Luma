@@ -6,15 +6,14 @@ import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
-const PREVIEW_ITEMS = [
-  "Smoke-free time",
-  "Cigarettes avoided",
-  "Money saved",
-];
-
 export function OnboardingIdentity() {
   const colors = useThemeColors();
-  const { direction, textAlign } = useLanguage();
+  const { direction, t, textAlign } = useLanguage();
+  const previewItems = [
+    t("onboarding.previewSmokeFreeTime"),
+    t("onboarding.previewCigarettesAvoided"),
+    t("onboarding.previewMoneySaved"),
+  ];
 
   return (
     <View
@@ -63,7 +62,7 @@ export function OnboardingIdentity() {
               textTransform: "uppercase",
             }}
           >
-            Luma
+            {t("common.appName")}
           </Text>
           <Text
             style={{
@@ -72,7 +71,7 @@ export function OnboardingIdentity() {
               textAlign,
             }}
           >
-            Calm, private progress.
+            {t("onboarding.brandSubtitle")}
           </Text>
         </View>
       </View>
@@ -85,7 +84,7 @@ export function OnboardingIdentity() {
             textAlign,
           }}
         >
-          Start the chapter you want to protect.
+          {t("onboarding.title")}
         </Text>
         <Text
           style={{
@@ -94,8 +93,7 @@ export function OnboardingIdentity() {
             textAlign,
           }}
         >
-          Enter a few practical details so Luma can turn smoke-free time into
-          clear, honest estimates.
+          {t("onboarding.description")}
         </Text>
       </View>
 
@@ -106,7 +104,7 @@ export function OnboardingIdentity() {
           gap: spacing.xs,
         }}
       >
-        {PREVIEW_ITEMS.map((item) => (
+        {previewItems.map((item) => (
           <View
             key={item}
             style={{

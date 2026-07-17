@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { loadHomeViewModel } from "@/features/home/home-service";
 import type { HomeViewModel } from "@/features/home/home-selectors";
+import { useLanguage } from "@/i18n/language-context";
 
 export type HomeViewModelState =
   | {
@@ -24,6 +25,7 @@ export type HomeViewModelState =
     };
 
 export function useHomeViewModel(): HomeViewModelState {
+  const { t } = useLanguage();
   const [data, setData] = useState<HomeViewModel | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,20 +38,20 @@ export function useHomeViewModel(): HomeViewModelState {
     setError(null);
 
     try {
-      setData(await loadHomeViewModel());
+      setData(await loadHomeViewModel(t));
     } catch (caughtError) {
       setData(null);
       setError(
         caughtError instanceof Error
           ? caughtError
-          : new Error("Unable to load Home")
+          : new Error(t("validation.unableToLoadHome"))
       );
     } finally {
       if (showLoading) {
         setIsLoading(false);
       }
     }
-  }, []);
+  }, [t]);
 
   const refresh = useCallback(() => load(true), [load]);
 

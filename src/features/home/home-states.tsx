@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { NativeActionButton } from "@/components/ui/native-action-button";
 import { Screen } from "@/components/ui/screen";
 import { SectionCard } from "@/components/ui/section-card";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -57,19 +58,22 @@ export function HomeErrorState({
   message: string;
   refresh: () => Promise<void>;
 }) {
+  const { t, textAlign } = useLanguage();
+
   return (
     <Screen>
-      <SectionCard title="Home is unavailable">
+      <SectionCard title={t("home.unavailable")}>
         <Text
           selectable
           style={{
             ...typography.body,
             color: colors.textSecondary,
+            textAlign,
           }}
         >
           {message}
         </Text>
-        <NativeActionButton label="Try again" onPress={refresh} />
+        <NativeActionButton label={t("common.tryAgain")} onPress={refresh} />
       </SectionCard>
     </Screen>
   );

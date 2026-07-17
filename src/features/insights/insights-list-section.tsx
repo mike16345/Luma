@@ -2,6 +2,8 @@ import { Text, View } from "react-native";
 
 import { SectionCard } from "@/components/ui/section-card";
 import type { InsightsRow } from "@/features/insights/insights-selectors";
+import { getFlexDirection } from "@/i18n/languages";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -13,14 +15,16 @@ export function InsightsListSection({
   rows: InsightsRow[];
   title: string;
 }) {
+  const { direction, t, textAlign } = useLanguage();
+
   return (
-    <SectionCard eyebrow="Logged data" title={title}>
+    <SectionCard eyebrow={t("insights.loggedData")} title={title}>
       <View style={{ gap: spacing.sm }}>
         {rows.map((row) => (
           <View
             key={row.label}
             style={{
-              flexDirection: "row",
+              flexDirection: getFlexDirection(direction),
               alignItems: "center",
               justifyContent: "space-between",
               gap: spacing.md,
@@ -32,6 +36,7 @@ export function InsightsListSection({
                 ...typography.bodyMedium,
                 flex: 1,
                 color: colors.textPrimary,
+                textAlign,
               }}
             >
               {row.label}
@@ -42,6 +47,7 @@ export function InsightsListSection({
                 ...typography.label,
                 color: colors.textSecondary,
                 fontVariant: ["tabular-nums"],
+                textAlign,
               }}
             >
               {row.value}

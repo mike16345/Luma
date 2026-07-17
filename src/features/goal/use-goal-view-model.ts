@@ -11,6 +11,7 @@ import {
   updateChapterGoal,
 } from "@/features/goal/goal-service";
 import type { GoalViewModel } from "@/features/goal/goal-selectors";
+import { useLanguage } from "@/i18n/language-context";
 
 export type GoalViewModelState =
   | {
@@ -55,6 +56,7 @@ const emptyForm: GoalFormState = {
 };
 
 export function useGoalViewModel(): GoalViewModelState {
+  const { t } = useLanguage();
   const [data, setData] = useState<GoalViewModel | null>(null);
   const [form, setForm] = useState<GoalFormState>(emptyForm);
   const [errors, setErrors] = useState<GoalFormErrors>({});
@@ -86,14 +88,14 @@ export function useGoalViewModel(): GoalViewModelState {
       setLoadError(
         caughtError instanceof Error
           ? caughtError
-          : new Error("Unable to load Goal")
+          : new Error(t("validation.unableToLoadGoal"))
       );
     } finally {
       if (showLoading) {
         setIsLoading(false);
       }
     }
-  }, []);
+  }, [t]);
 
   const refresh = useCallback(() => load(true), [load]);
 
@@ -105,7 +107,7 @@ export function useGoalViewModel(): GoalViewModelState {
   }, []);
 
   const save = useCallback(async () => {
-    const parsed = parseGoalForm(form);
+    const parsed = parseGoalForm(form, t);
     setErrors(parsed.errors);
     setSaveError(null);
     setSaveMessage(null);
@@ -126,18 +128,20 @@ export function useGoalViewModel(): GoalViewModelState {
         ),
       });
       setSaveMessage(
-        parsed.goalAmountMinor === null ? "Goal removed." : "Goal updated."
+        parsed.goalAmountMinor === null
+          ? t("validation.goalRemoved")
+          : t("validation.goalUpdated")
       );
     } catch (caughtError) {
       setSaveError(
         caughtError instanceof Error
           ? caughtError.message
-          : "Unable to update Goal"
+          : t("validation.unableToUpdateGoal")
       );
     } finally {
       setIsSaving(false);
     }
-  }, [form]);
+  }, [form, t]);
 
   useEffect(() => {
     void load(true);

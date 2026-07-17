@@ -2,19 +2,23 @@ import { Text, View } from "react-native";
 
 import { SectionCard } from "@/components/ui/section-card";
 import type { HomeViewModel } from "@/features/home/home-selectors";
+import { getFlexDirection } from "@/i18n/languages";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 
 export function HomePeriodRows({ data }: { data: HomeViewModel }) {
+  const { direction, t, textAlign } = useLanguage();
+
   return (
-    <SectionCard eyebrow="Progress" title="By period">
+    <SectionCard eyebrow={t("home.progressEyebrow")} title={t("home.byPeriod")}>
       <View style={{ gap: spacing.xs }}>
         {data.periods.map((period) => (
           <View
             key={period.key}
             style={{
-              flexDirection: "row",
+              flexDirection: getFlexDirection(direction),
               alignItems: "center",
               justifyContent: "space-between",
               gap: spacing.md,
@@ -29,17 +33,24 @@ export function HomePeriodRows({ data }: { data: HomeViewModel }) {
                 ...typography.bodyMedium,
                 flex: 1,
                 color: colors.textPrimary,
+                textAlign,
               }}
             >
               {period.label}
             </Text>
-            <View style={{ alignItems: "flex-end", gap: spacing.xxs }}>
+            <View
+              style={{
+                alignItems: direction === "rtl" ? "flex-start" : "flex-end",
+                gap: spacing.xxs,
+              }}
+            >
               <Text
                 selectable
                 style={{
                   ...typography.bodyMedium,
                   color: colors.textPrimary,
                   fontVariant: ["tabular-nums"],
+                  textAlign,
                 }}
               >
                 {period.moneySaved}
@@ -52,7 +63,7 @@ export function HomePeriodRows({ data }: { data: HomeViewModel }) {
                   fontVariant: ["tabular-nums"],
                 }}
               >
-                {period.cigarettesAvoided} avoided
+                {period.cigarettesAvoided} {t("common.avoidedSuffix")}
               </Text>
             </View>
           </View>

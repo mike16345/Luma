@@ -17,23 +17,27 @@ import {
   saveReminderPreferences,
   type ReminderPreferences,
 } from "@/lib/reminders/reminder-preferences";
+import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
-function statusText(preferences: ReminderPreferences) {
+function statusText(
+  preferences: ReminderPreferences,
+  t: ReturnType<typeof useLanguage>["t"]
+) {
   if (!preferences.enabled) {
-    return "Off. Luma will stay quiet unless you turn reminders on.";
+    return t("settings.reminderOffStatus");
   }
 
-  return `On. Daily check-in at ${formatReminderTime(
-    preferences.hour,
-    preferences.minute
-  )}.`;
+  return t("settings.reminderOnStatus", {
+    time: formatReminderTime(preferences.hour, preferences.minute),
+  });
 }
 
 export function RemindersSection() {
   const colors = useThemeColors();
+  const { t, textAlign } = useLanguage();
   const initialPreferences = loadReminderPreferences();
   const [preferences, setPreferences] =
     useState<ReminderPreferences>(initialPreferences);
@@ -45,7 +49,7 @@ export function RemindersSection() {
   const [isBusy, setIsBusy] = useState(false);
 
   async function enableReminder() {
-    const parsedTime = parseReminderTime(timeValue);
+    const parsedTime = parseReminderTime(timeValue, t);
 
     if (!parsedTime.ok) {
       setError(parsedTime.error);
@@ -62,6 +66,7 @@ export function RemindersSection() {
         hour: parsedTime.hour,
         minute: parsedTime.minute,
         previousNotificationId: preferences.notificationId,
+        t,
       });
 
       if (!result.ok) {
@@ -79,7 +84,7 @@ export function RemindersSection() {
       saveReminderPreferences(nextPreferences);
       setPreferences(nextPreferences);
       setTimeValue(parsedTime.normalized);
-      setMessage(`Daily check-in set for ${parsedTime.normalized}.`);
+      setMessage(t("settings.reminderSet", { time: parsedTime.normalized }));
       await Haptics.selectionAsync();
     } finally {
       setIsBusy(false);
@@ -102,7 +107,7 @@ export function RemindersSection() {
 
       saveReminderPreferences(nextPreferences);
       setPreferences(nextPreferences);
-      setMessage("Daily check-in turned off.");
+      setMessage(t("settings.reminderTurnedOff"));
       await Haptics.selectionAsync();
     } finally {
       setIsBusy(false);
@@ -115,10 +120,10 @@ export function RemindersSection() {
     setMessage(null);
 
     try {
-      const result = await sendTestReminder();
+      const result = await sendTestReminder(t);
       setMessage(
         result.ok
-          ? "Test reminder scheduled. It should appear in a few seconds."
+          ? t("settings.testReminderScheduled")
           : result.reason
       );
       await Haptics.selectionAsync();
@@ -128,19 +133,23 @@ export function RemindersSection() {
   }
 
   return (
-    <SectionCard eyebrow="Reminders" title="Daily check-in">
+    <SectionCard
+      eyebrow={t("settings.remindersEyebrow")}
+      title={t("settings.remindersTitle")}
+    >
       <View style={{ gap: spacing.md }}>
         <Text
           style={{
             ...typography.body,
             color: colors.textSecondary,
+            textAlign,
           }}
         >
-          Choose a quiet daily prompt to open Luma and review your chapter.
+          {t("settings.remindersDescription")}
         </Text>
 
         <NativeTextField
-          label="Reminder time"
+          label={t("settings.reminderTime")}
           value={timeValue}
           onChangeText={setTimeValue}
           placeholder="20:00"
@@ -152,7 +161,9 @@ export function RemindersSection() {
           <NativeActionButton
             disabled={isBusy}
             label={
-              preferences.enabled ? "Turn reminder off" : "Turn reminder on"
+              preferences.enabled
+                ? t("settings.turnReminderOff")
+                : t("settings.turnReminderOn")
             }
             onPress={() => {
               void (preferences.enabled ? disableReminder() : enableReminder());
@@ -161,7 +172,7 @@ export function RemindersSection() {
           />
           <NativeActionButton
             disabled={isBusy}
-            label="Send test reminder"
+            label={t("settings.sendTestReminder")}
             onPress={() => {
               void testReminder();
             }}
@@ -173,12 +184,12 @@ export function RemindersSection() {
           style={{
             ...typography.caption,
             color: colors.textMuted,
+            textAlign,
           }}
         >
-          {message ?? statusText(preferences)}
+          {message ?? statusText(preferences, t)}
         </Text>
       </View>
     </SectionCard>
   );
 }
-

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { loadInsightsViewModel } from "@/features/insights/insights-service";
 import type { InsightsViewModel } from "@/features/insights/insights-selectors";
+import { useLanguage } from "@/i18n/language-context";
 
 export type InsightsViewModelState =
   | {
@@ -24,6 +25,7 @@ export type InsightsViewModelState =
     };
 
 export function useInsightsViewModel(): InsightsViewModelState {
+  const { language, t } = useLanguage();
   const [data, setData] = useState<InsightsViewModel | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,20 +38,20 @@ export function useInsightsViewModel(): InsightsViewModelState {
     setError(null);
 
     try {
-      setData(await loadInsightsViewModel());
+      setData(await loadInsightsViewModel(t, language));
     } catch (caughtError) {
       setData(null);
       setError(
         caughtError instanceof Error
           ? caughtError
-          : new Error("Unable to load Insights")
+          : new Error(t("validation.unableToLoadInsights"))
       );
     } finally {
       if (showLoading) {
         setIsLoading(false);
       }
     }
-  }, []);
+  }, [language, t]);
 
   const refresh = useCallback(() => load(true), [load]);
 

@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 
 import { NativeActionButton } from "@/components/ui/native-action-button";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -12,6 +13,8 @@ export function AlcoholInvolvedSelector({
   value: boolean;
   onChange: (value: boolean) => void;
 }) {
+  const { t, textAlign } = useLanguage();
+
   return (
     <View style={{ gap: spacing.xs }}>
       <Text
@@ -19,18 +22,19 @@ export function AlcoholInvolvedSelector({
         style={{
           ...typography.label,
           color: colors.textPrimary,
+          textAlign,
         }}
       >
-        Was alcohol involved?
+        {t("slipUp.alcoholQuestion")}
       </Text>
       <View style={{ gap: spacing.sm }}>
         <NativeActionButton
-          label="No"
+          label={t("common.no")}
           variant={value ? "outlined" : "filled"}
           onPress={() => onChange(false)}
         />
         <NativeActionButton
-          label="Yes"
+          label={t("common.yes")}
           variant={value ? "filled" : "outlined"}
           onPress={() => onChange(true)}
         />

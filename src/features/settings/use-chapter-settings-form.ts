@@ -11,6 +11,7 @@ import {
   loadSettingsViewModel,
   updateActiveChapterSettings,
 } from "@/features/settings/settings-service";
+import { useLanguage } from "@/i18n/language-context";
 import type { ChapterRecord, SmokingType } from "@/types/domain";
 
 export type ChapterSettingsFormStateModel =
@@ -55,6 +56,7 @@ export type ChapterSettingsFormStateModel =
     };
 
 export function useChapterSettingsForm(): ChapterSettingsFormStateModel {
+  const { t } = useLanguage();
   const [activeChapter, setActiveChapter] = useState<ChapterRecord | null>(null);
   const [form, setForm] = useState<ChapterSettingsFormState | null>(null);
   const [errors, setErrors] = useState<ChapterSettingsFormErrors>({});
@@ -88,14 +90,14 @@ export function useChapterSettingsForm(): ChapterSettingsFormStateModel {
       setLoadError(
         caughtError instanceof Error
           ? caughtError
-          : new Error("Unable to load Settings")
+          : new Error(t("validation.unableToLoadSettings"))
       );
     } finally {
       if (showLoading) {
         setIsLoading(false);
       }
     }
-  }, []);
+  }, [t]);
 
   const refresh = useCallback(() => load(true), [load]);
 
@@ -124,7 +126,7 @@ export function useChapterSettingsForm(): ChapterSettingsFormStateModel {
       return null;
     }
 
-    const parsed = parseChapterSettingsForm(form);
+    const parsed = parseChapterSettingsForm(form, new Date(), t);
     setErrors(parsed.errors);
     setSaveError(null);
     setSaveMessage(null);
@@ -139,19 +141,19 @@ export function useChapterSettingsForm(): ChapterSettingsFormStateModel {
       const chapter = await updateActiveChapterSettings(parsed.input);
       setActiveChapter(chapter);
       setForm(createChapterSettingsFormState(chapter));
-      setSaveMessage("Current chapter updated.");
+      setSaveMessage(t("validation.currentChapterUpdated"));
       return chapter;
     } catch (caughtError) {
       setSaveError(
         caughtError instanceof Error
           ? caughtError.message
-          : "Unable to update Settings"
+          : t("validation.unableToUpdateSettings")
       );
       return null;
     } finally {
       setIsSaving(false);
     }
-  }, [form]);
+  }, [form, t]);
 
   useEffect(() => {
     void load(true);

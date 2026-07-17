@@ -6,24 +6,23 @@ import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
-const GUIDANCE_ITEMS = [
-  {
-    label: "Private by default",
-    text: "Your chapter data stays on this device.",
-  },
-  {
-    label: "Estimates are enough",
-    text: "Use practical numbers. You can correct the active chapter later.",
-  },
-  {
-    label: "Honest progress",
-    text: "One chapter runs at a time, and history stays intact.",
-  },
-];
-
 export function OnboardingGuidance() {
   const colors = useThemeColors();
-  const { direction, textAlign } = useLanguage();
+  const { direction, t, textAlign } = useLanguage();
+  const guidanceItems = [
+    {
+      label: t("onboarding.guidancePrivateTitle"),
+      text: t("onboarding.guidancePrivateText"),
+    },
+    {
+      label: t("onboarding.guidanceEstimatesTitle"),
+      text: t("onboarding.guidanceEstimatesText"),
+    },
+    {
+      label: t("onboarding.guidanceHonestTitle"),
+      text: t("onboarding.guidanceHonestText"),
+    },
+  ];
 
   return (
     <View
@@ -37,7 +36,7 @@ export function OnboardingGuidance() {
         backgroundColor: colors.surface,
       }}
     >
-      {GUIDANCE_ITEMS.map((item) => (
+      {guidanceItems.map((item) => (
         <View
           key={item.label}
           style={{

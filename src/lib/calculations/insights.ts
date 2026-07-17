@@ -21,14 +21,24 @@ export interface InsightsSummary {
   recentNotes: InsightNoteItem[];
 }
 
-const TIME_OF_DAY_LABELS = [
-  "Overnight",
-  "Morning",
-  "Afternoon",
-  "Evening",
-] as const;
+export type InsightsSummaryLabels = {
+  notSpecified: string;
+  overnight: string;
+  morning: string;
+  afternoon: string;
+  evening: string;
+  locale?: string;
+};
 
-function normalizeLabel(value: string | null, fallback = "Not specified") {
+const defaultLabels: InsightsSummaryLabels = {
+  notSpecified: "Not specified",
+  overnight: "Overnight",
+  morning: "Morning",
+  afternoon: "Afternoon",
+  evening: "Evening",
+};
+
+function normalizeLabel(value: string | null, fallback: string) {
   const trimmed = value?.trim();
   return trimmed ? trimmed : fallback;
 }
@@ -43,32 +53,33 @@ function toSortedItems(counts: Map<string, number>): InsightCountItem[] {
     .sort((left, right) => right.count - left.count || left.label.localeCompare(right.label));
 }
 
-function getTimeOfDayLabel(iso: string): (typeof TIME_OF_DAY_LABELS)[number] {
+function getTimeOfDayLabel(iso: string, labels: InsightsSummaryLabels) {
   const hour = new Date(iso).getHours();
 
   if (hour < 5) {
-    return "Overnight";
+    return labels.overnight;
   }
 
   if (hour < 12) {
-    return "Morning";
+    return labels.morning;
   }
 
   if (hour < 17) {
-    return "Afternoon";
+    return labels.afternoon;
   }
 
-  return "Evening";
+  return labels.evening;
 }
 
-function getDayOfWeekLabel(iso: string) {
-  return new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(
+function getDayOfWeekLabel(iso: string, locale?: string) {
+  return new Intl.DateTimeFormat(locale, { weekday: "long" }).format(
     new Date(iso)
   );
 }
 
 export function buildInsightsSummary(
-  slipUps: SlipUpRecord[]
+  slipUps: SlipUpRecord[],
+  labels: InsightsSummaryLabels = defaultLabels
 ): InsightsSummary {
   const triggers = new Map<string, number>();
   const moods = new Map<string, number>();
@@ -77,10 +88,10 @@ export function buildInsightsSummary(
   let alcoholInvolvedCount = 0;
 
   for (const slipUp of slipUps) {
-    incrementCount(triggers, normalizeLabel(slipUp.trigger));
-    incrementCount(moods, normalizeLabel(slipUp.mood));
-    incrementCount(timeOfDay, getTimeOfDayLabel(slipUp.occurredAt));
-    incrementCount(dayOfWeek, getDayOfWeekLabel(slipUp.occurredAt));
+    incrementCount(triggers, normalizeLabel(slipUp.trigger, labels.notSpecified));
+    incrementCount(moods, normalizeLabel(slipUp.mood, labels.notSpecified));
+    incrementCount(timeOfDay, getTimeOfDayLabel(slipUp.occurredAt, labels));
+    incrementCount(dayOfWeek, getDayOfWeekLabel(slipUp.occurredAt, labels.locale));
 
     if (slipUp.alcoholInvolved) {
       alcoholInvolvedCount += 1;

@@ -2,17 +2,21 @@ import { Text, View } from "react-native";
 
 import { SectionCard } from "@/components/ui/section-card";
 import type { HomeViewModel } from "@/features/home/home-selectors";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 
 export function HomeGoalCard({ data }: { data: HomeViewModel }) {
+  const { t, textAlign } = useLanguage();
   const progressPercent = Math.round((data.goal.progress ?? 0) * 100);
 
   return (
     <SectionCard
-      eyebrow="Goal"
-      title={data.goal.hasGoal ? "Current chapter goal" : "No goal set"}
+      eyebrow={t("home.goalEyebrow")}
+      title={
+        data.goal.hasGoal ? t("home.currentChapterGoal") : t("home.noGoalSet")
+      }
     >
       {data.goal.hasGoal ? (
         <View style={{ gap: spacing.sm }}>
@@ -38,9 +42,13 @@ export function HomeGoalCard({ data }: { data: HomeViewModel }) {
             style={{
               ...typography.body,
               color: colors.textSecondary,
+              textAlign,
             }}
           >
-            {data.goal.savedLabel} saved toward {data.goal.targetLabel}
+            {t("home.goalProgressText", {
+              saved: data.goal.savedLabel ?? "",
+              target: data.goal.targetLabel ?? "",
+            })}
           </Text>
         </View>
       ) : (
@@ -49,10 +57,10 @@ export function HomeGoalCard({ data }: { data: HomeViewModel }) {
           style={{
             ...typography.body,
             color: colors.textSecondary,
+            textAlign,
           }}
         >
-          Money saved still counts. Add one goal when you want a concrete target
-          for this chapter.
+          {t("home.noGoalMessage")}
         </Text>
       )}
     </SectionCard>

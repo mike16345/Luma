@@ -2,12 +2,14 @@ import { useEffect, useRef } from "react";
 import { Animated, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function BootstrapLoadingScreen() {
   const colors = useThemeColors();
+  const { t, textAlign } = useLanguage();
   const insets = useSafeAreaInsets();
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(10)).current;
@@ -70,17 +72,19 @@ export function BootstrapLoadingScreen() {
             style={{
               ...typography.title,
               color: colors.textPrimary,
+              textAlign,
             }}
           >
-            Opening Luma
+            {t("common.openingLuma")}
           </Text>
           <Text
             style={{
               ...typography.body,
               color: colors.textSecondary,
+              textAlign,
             }}
           >
-            Checking your private progress on this device.
+            {t("common.checkingPrivateProgress")}
           </Text>
         </View>
       </Animated.View>

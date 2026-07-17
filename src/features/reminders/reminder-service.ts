@@ -1,10 +1,9 @@
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
+import { translate, type Translator } from "@/i18n/translations";
+
 const REMINDER_CHANNEL_ID = "luma-reminders";
-const REMINDER_TITLE = "Luma check-in";
-const REMINDER_BODY =
-  "A quiet check-in: your chapter is still here when you want to review it.";
 
 let hasConfiguredHandler = false;
 
@@ -34,23 +33,23 @@ export function configureNotificationHandling() {
   hasConfiguredHandler = true;
 }
 
-async function ensureReminderChannel() {
+async function ensureReminderChannel(t: Translator) {
   if (Platform.OS !== "android") {
     return;
   }
 
   await Notifications.setNotificationChannelAsync(REMINDER_CHANNEL_ID, {
-    name: "Luma reminders",
+    name: t("reminders.channelName"),
     importance: Notifications.AndroidImportance.DEFAULT,
   });
 }
 
-async function ensureReminderPermissions() {
+async function ensureReminderPermissions(t: Translator) {
   if (Platform.OS === "web") {
     return false;
   }
 
-  await ensureReminderChannel();
+  await ensureReminderChannel(t);
 
   const existingPermissions = await Notifications.getPermissionsAsync();
 
@@ -74,13 +73,15 @@ export async function scheduleDailyReminder(input: {
   hour: number;
   minute: number;
   previousNotificationId: string | null;
+  t?: Translator;
 }): Promise<ReminderServiceResult> {
-  const hasPermission = await ensureReminderPermissions();
+  const t = input.t ?? ((key, options) => translate("en", key, options));
+  const hasPermission = await ensureReminderPermissions(t);
 
   if (!hasPermission) {
     return {
       ok: false,
-      reason: "Notifications are not allowed for Luma on this device.",
+      reason: t("reminders.notAllowed"),
     };
   }
 
@@ -88,8 +89,8 @@ export async function scheduleDailyReminder(input: {
 
   const notificationId = await Notifications.scheduleNotificationAsync({
     content: {
-      title: REMINDER_TITLE,
-      body: REMINDER_BODY,
+      title: t("reminders.notificationTitle"),
+      body: t("reminders.notificationBody"),
       data: {
         url: "/",
         source: "daily-reminder",
@@ -110,20 +111,22 @@ export async function scheduleDailyReminder(input: {
   };
 }
 
-export async function sendTestReminder(): Promise<ReminderServiceResult> {
-  const hasPermission = await ensureReminderPermissions();
+export async function sendTestReminder(
+  t: Translator = (key, options) => translate("en", key, options)
+): Promise<ReminderServiceResult> {
+  const hasPermission = await ensureReminderPermissions(t);
 
   if (!hasPermission) {
     return {
       ok: false,
-      reason: "Notifications are not allowed for Luma on this device.",
+      reason: t("reminders.notAllowed"),
     };
   }
 
   const notificationId = await Notifications.scheduleNotificationAsync({
     content: {
-      title: REMINDER_TITLE,
-      body: "This is what a Luma reminder will feel like.",
+      title: t("reminders.notificationTitle"),
+      body: t("reminders.testNotificationBody"),
       data: {
         url: "/",
         source: "test-reminder",
@@ -142,4 +145,3 @@ export async function sendTestReminder(): Promise<ReminderServiceResult> {
     notificationId,
   };
 }
-

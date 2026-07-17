@@ -7,6 +7,8 @@ import { Text, View } from "react-native";
 import { NativeActionButton } from "@/components/ui/native-action-button";
 import { NativeTextField } from "@/components/ui/native-text-field";
 import { SectionCard } from "@/components/ui/section-card";
+import { getFlexDirection } from "@/i18n/languages";
+import { useLanguage } from "@/i18n/language-context";
 import {
   getInitials,
   loadUserProfile,
@@ -19,6 +21,7 @@ import { typography } from "@/theme/typography";
 
 export function ProfilePreferencesSection() {
   const colors = useThemeColors();
+  const { direction, t, textAlign } = useLanguage();
   const initialProfile = loadUserProfile();
   const [displayName, setDisplayName] = useState(initialProfile.displayName);
   const [avatarUri, setAvatarUri] = useState(initialProfile.avatarUri);
@@ -38,36 +41,39 @@ export function ProfilePreferencesSection() {
     const uri = result.assets[0]?.uri;
 
     if (!uri) {
-      setMessage("Unable to use that image.");
+      setMessage(t("settings.unableToUseImage"));
       return;
     }
 
     setAvatarUri(uri);
     saveAvatarUri(uri);
-    setMessage("Profile image saved.");
+    setMessage(t("settings.profileImageSaved"));
     await Haptics.selectionAsync();
   }
 
   async function removeAvatar() {
     setAvatarUri(null);
     saveAvatarUri(null);
-    setMessage("Profile image removed.");
+    setMessage(t("settings.profileImageRemoved"));
     await Haptics.selectionAsync();
   }
 
   async function saveName() {
     saveDisplayName(displayName);
     setDisplayName(displayName.trim());
-    setMessage("Profile saved.");
+    setMessage(t("settings.profileSaved"));
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   }
 
   return (
-    <SectionCard eyebrow="Personal" title="Profile">
+    <SectionCard
+      eyebrow={t("settings.personalEyebrow")}
+      title={t("settings.profileTitle")}
+    >
       <View style={{ gap: spacing.md }}>
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: getFlexDirection(direction),
             alignItems: "center",
             gap: spacing.md,
           }}
@@ -107,39 +113,47 @@ export function ProfilePreferencesSection() {
               style={{
                 ...typography.bodyMedium,
                 color: colors.textPrimary,
+                textAlign,
               }}
             >
-              {displayName.trim() || "Local profile"}
+              {displayName.trim() || t("settings.localProfile")}
             </Text>
             <Text
               style={{
                 ...typography.caption,
                 color: colors.textSecondary,
+                textAlign,
               }}
             >
-              Stored privately on this device.
+              {t("settings.profileStored")}
             </Text>
           </View>
         </View>
 
         <NativeTextField
-          label="Display name"
+          label={t("settings.displayName")}
           value={displayName}
           onChangeText={setDisplayName}
-          placeholder="Your name"
+          placeholder={t("settings.displayNamePlaceholder")}
           autoCapitalize="words"
         />
 
         <View style={{ gap: spacing.sm }}>
-          <NativeActionButton label="Choose profile image" onPress={chooseAvatar} />
+          <NativeActionButton
+            label={t("settings.chooseProfileImage")}
+            onPress={chooseAvatar}
+          />
           {avatarUri ? (
             <NativeActionButton
-              label="Remove profile image"
+              label={t("settings.removeProfileImage")}
               onPress={removeAvatar}
               variant="outlined"
             />
           ) : null}
-          <NativeActionButton label="Save profile" onPress={saveName} />
+          <NativeActionButton
+            label={t("settings.saveProfile")}
+            onPress={saveName}
+          />
         </View>
 
         {message ? (
@@ -147,6 +161,7 @@ export function ProfilePreferencesSection() {
             style={{
               ...typography.caption,
               color: colors.textMuted,
+              textAlign,
             }}
           >
             {message}

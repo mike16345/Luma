@@ -6,6 +6,6 @@ export function formatEstimatedCount(value: number) {
   return Math.round(value).toLocaleString();
 }
 
-export function buildEstimateLabel(label: string) {
-  return `${label} (estimate)`;
+export function buildEstimateLabel(label: string, estimateLabel = "estimate") {
+  return `${label} (${estimateLabel})`;
 }

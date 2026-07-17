@@ -11,6 +11,7 @@ import {
   loadSlipUpViewModel,
   logSlipUpAndEndChapter,
 } from "@/features/slip-up/slip-up-service";
+import { useLanguage } from "@/i18n/language-context";
 import type { ChapterRecord, SlipUpRecord } from "@/types/domain";
 
 export type SlipUpFormStateModel =
@@ -49,6 +50,7 @@ export type SlipUpFormStateModel =
     };
 
 export function useSlipUpForm(): SlipUpFormStateModel {
+  const { t } = useLanguage();
   const [activeChapter, setActiveChapter] = useState<ChapterRecord | null>(null);
   const [form, setForm] = useState<SlipUpFormState>(
     createInitialSlipUpFormState
@@ -75,14 +77,14 @@ export function useSlipUpForm(): SlipUpFormStateModel {
       setLoadError(
         caughtError instanceof Error
           ? caughtError
-          : new Error("Unable to load slip-up flow")
+          : new Error(t("validation.unableToLoadSlipUp"))
       );
     } finally {
       if (showLoading) {
         setIsLoading(false);
       }
     }
-  }, []);
+  }, [t]);
 
   const refresh = useCallback(() => load(true), [load]);
 
@@ -97,11 +99,11 @@ export function useSlipUpForm(): SlipUpFormStateModel {
 
   const submit = useCallback(async () => {
     if (!activeChapter) {
-      setSubmitError("There is no active chapter to close.");
+      setSubmitError(t("validation.noActiveChapterToClose"));
       return null;
     }
 
-    const parsed = parseSlipUpForm(form, activeChapter.startedAt);
+    const parsed = parseSlipUpForm(form, activeChapter.startedAt, new Date(), t);
     setErrors(parsed.errors);
     setSubmitError(null);
 
@@ -117,13 +119,13 @@ export function useSlipUpForm(): SlipUpFormStateModel {
       setSubmitError(
         caughtError instanceof Error
           ? caughtError.message
-          : "Unable to log this slip-up right now."
+          : t("validation.unableToLogSlipUp")
       );
       return null;
     } finally {
       setIsSubmitting(false);
     }
-  }, [activeChapter, form]);
+  }, [activeChapter, form, t]);
 
   useEffect(() => {
     void load(true);

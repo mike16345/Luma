@@ -1,14 +1,21 @@
 import { Text, View } from "react-native";
 
 import { SectionCard } from "@/components/ui/section-card";
-import { goalSavedLabel, type GoalViewModel } from "@/features/goal/goal-selectors";
+import type { GoalViewModel } from "@/features/goal/goal-selectors";
+import { getFlexDirection } from "@/i18n/languages";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 
 export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
+  const { direction, t, textAlign } = useLanguage();
+
   return (
-    <SectionCard eyebrow="Current chapter" title="Goal progress">
+    <SectionCard
+      eyebrow={t("goal.currentChapterEyebrow")}
+      title={t("goal.progressTitle")}
+    >
       <View style={{ gap: spacing.md }}>
         <View style={{ gap: spacing.xs }}>
           <Text
@@ -17,9 +24,10 @@ export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
               ...typography.caption,
               color: colors.textMuted,
               textTransform: "uppercase",
+              textAlign,
             }}
           >
-            {goalSavedLabel}
+            {t("goal.savedTowardGoal")}
           </Text>
           <Text
             selectable
@@ -28,6 +36,7 @@ export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
               lineHeight: 40,
               fontWeight: "700",
               color: colors.textPrimary,
+              textAlign,
             }}
           >
             {goal.savedLabel}
@@ -55,7 +64,7 @@ export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
             </View>
             <View
               style={{
-                flexDirection: "row",
+                flexDirection: getFlexDirection(direction),
                 justifyContent: "space-between",
                 gap: spacing.md,
               }}
@@ -66,19 +75,20 @@ export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
                   ...typography.bodyMedium,
                   flex: 1,
                   color: colors.textPrimary,
+                  textAlign,
                 }}
               >
-                {goal.progressPercentLabel} complete
+                {goal.progressPercentLabel} {t("common.completeSuffix")}
               </Text>
               <Text
                 selectable
                 style={{
                   ...typography.body,
                   color: colors.textSecondary,
-                  textAlign: "right",
+                  textAlign,
                 }}
               >
-                {goal.remainingLabel} remaining
+                {goal.remainingLabel} {t("common.remainingSuffix")}
               </Text>
             </View>
           </>
@@ -88,9 +98,10 @@ export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
             style={{
               ...typography.body,
               color: colors.textSecondary,
+              textAlign,
             }}
           >
-            Add a goal amount to track estimated savings against this chapter.
+            {t("goal.addGoalHelp")}
           </Text>
         )}
       </View>

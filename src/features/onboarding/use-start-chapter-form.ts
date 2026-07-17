@@ -8,8 +8,10 @@ import {
   type StartChapterFormState,
 } from "@/features/onboarding/start-chapter-form-model";
 import { createStartChapter } from "@/features/onboarding/start-chapter-service";
+import { useLanguage } from "@/i18n/language-context";
 
 export function useStartChapterForm() {
+  const { t } = useLanguage();
   const [form, setForm] = useState<StartChapterFormState>(() =>
     createInitialStartChapterFormState()
   );
@@ -35,7 +37,7 @@ export function useStartChapterForm() {
   );
 
   const submit = useCallback(async () => {
-    const parsed = parseStartChapterForm(form);
+    const parsed = parseStartChapterForm(form, new Date(), t);
 
     setErrors(parsed.errors);
     setSubmitError(null);
@@ -52,15 +54,15 @@ export function useStartChapterForm() {
       const message =
         caughtError instanceof Error &&
         caughtError.message === "active chapter already exists"
-          ? "An active chapter already exists."
-          : "Unable to start this chapter right now.";
+          ? t("validation.activeChapterExists")
+          : t("validation.unableToStartChapter");
 
       setSubmitError(message);
       return null;
     } finally {
       setIsSubmitting(false);
     }
-  }, [form]);
+  }, [form, t]);
 
   return {
     errors,

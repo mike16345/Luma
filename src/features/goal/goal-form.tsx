@@ -5,6 +5,7 @@ import { NativeTextField } from "@/components/ui/native-text-field";
 import { SectionCard } from "@/components/ui/section-card";
 import type { GoalFormErrors, GoalFormState } from "@/features/goal/goal-form-model";
 import type { GoalViewModel } from "@/features/goal/goal-selectors";
+import { useLanguage } from "@/i18n/language-context";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
@@ -28,14 +29,18 @@ export function GoalForm({
   saveMessage: string | null;
   updateGoalAmount: (value: string) => void;
 }) {
+  const { t, textAlign } = useLanguage();
+
   return (
     <SectionCard
-      eyebrow="Goal amount"
-      title={goal.hasGoal ? "Update goal" : "Create goal"}
+      eyebrow={t("goal.goalAmountEyebrow")}
+      title={goal.hasGoal ? t("goal.updateGoal") : t("goal.createGoal")}
     >
       <View style={{ gap: spacing.md }}>
         <NativeTextField
-          label={`Amount in ${goal.currencyCode}`}
+          label={t("goal.amountInCurrency", {
+            currencyCode: goal.currencyCode,
+          })}
           value={form.goalAmountMajor}
           onChangeText={updateGoalAmount}
           placeholder="250"
@@ -50,8 +55,8 @@ export function GoalForm({
           }}
         >
           {goal.hasGoal
-            ? "Leave this blank and save to remove the current chapter goal."
-            : "Goal progress resets when a new chapter starts."}
+            ? t("goal.removeHelp")
+            : t("goal.resetHelp")}
         </Text>
 
         {saveError ? (
@@ -60,6 +65,7 @@ export function GoalForm({
             style={{
               ...typography.body,
               color: colors.slip,
+              textAlign,
             }}
           >
             {saveError}
@@ -72,6 +78,7 @@ export function GoalForm({
             style={{
               ...typography.bodyMedium,
               color: colors.action,
+              textAlign,
             }}
           >
             {saveMessage}
@@ -79,7 +86,7 @@ export function GoalForm({
         ) : null}
 
         <NativeActionButton
-          label={isSaving ? "Saving..." : "Save goal"}
+          label={isSaving ? t("common.saving") : t("goal.saveGoal")}
           disabled={isSaving}
           onPress={() => {
             void onSave();

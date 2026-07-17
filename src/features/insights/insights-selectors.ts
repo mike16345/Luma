@@ -3,6 +3,8 @@ import {
   type InsightCountItem,
 } from "@/lib/calculations/insights";
 import { formatDateTimeShort } from "@/lib/formatting/date-time";
+import type { SupportedLanguage } from "@/i18n/languages";
+import type { Translator } from "@/i18n/translations";
 import type { SlipUpRecord } from "@/types/domain";
 
 export interface InsightsMetric {
@@ -36,7 +38,7 @@ function formatTopItem(items: InsightCountItem[]) {
   const topItem = items[0];
 
   if (!topItem) {
-    return "No data";
+    return null;
   }
 
   return topItem.label;
@@ -50,29 +52,38 @@ function toRows(items: InsightCountItem[]): InsightsRow[] {
 }
 
 export function buildInsightsViewModel(
-  slipUps: SlipUpRecord[]
+  slipUps: SlipUpRecord[],
+  t: Translator,
+  language: SupportedLanguage
 ): InsightsViewModel {
-  const summary = buildInsightsSummary(slipUps);
+  const summary = buildInsightsSummary(slipUps, {
+    notSpecified: t("insights.notSpecified"),
+    overnight: t("insights.overnight"),
+    morning: t("insights.morning"),
+    afternoon: t("insights.afternoon"),
+    evening: t("insights.evening"),
+    locale: language === "he" ? "he-IL" : "en-US",
+  });
 
   return {
     hasSlipUps: summary.totalSlipUps > 0,
     summary: [
       {
-        label: "Logged slip-ups",
+        label: t("insights.loggedSlipUps"),
         value: `${summary.totalSlipUps}`,
       },
       {
-        label: "Alcohol involved",
+        label: t("insights.alcoholInvolved"),
         value: `${summary.alcoholInvolvedCount}`,
-        supportingText: `of ${summary.totalSlipUps} logged`,
+        supportingText: t("insights.ofLogged", { count: summary.totalSlipUps }),
       },
       {
-        label: "Top trigger",
-        value: formatTopItem(summary.triggers),
+        label: t("insights.topTrigger"),
+        value: formatTopItem(summary.triggers) ?? t("common.noData"),
       },
       {
-        label: "Top mood",
-        value: formatTopItem(summary.moods),
+        label: t("insights.topMood"),
+        value: formatTopItem(summary.moods) ?? t("common.noData"),
       },
     ],
     triggerRows: toRows(summary.triggers),

@@ -12,9 +12,11 @@ import {
   authenticateForPrivacyLock,
   getPrivacyLockAvailability,
 } from "@/features/privacy/privacy-lock-service";
+import { useLanguage } from "@/i18n/language-context";
 import { loadUserProfile } from "@/lib/profile/profile-preferences";
 
 export function PrivacyLockProvider({ children }: PropsWithChildren) {
+  const { t } = useLanguage();
   const [isLocked, setIsLocked] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const lastAppStateRef = useRef<AppStateStatus>(AppState.currentState);
@@ -28,7 +30,7 @@ export function PrivacyLockProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    const availability = await getPrivacyLockAvailability();
+    const availability = await getPrivacyLockAvailability(t);
 
     if (!availability.canAuthenticate) {
       setIsLocked(false);
@@ -36,16 +38,16 @@ export function PrivacyLockProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    const didAuthenticate = await authenticateForPrivacyLock();
+    const didAuthenticate = await authenticateForPrivacyLock(t);
 
     if (didAuthenticate) {
       setIsLocked(false);
       setMessage(null);
     } else {
       setIsLocked(true);
-      setMessage("Authentication was cancelled.");
+      setMessage(t("settings.privacyCancelled"));
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     const profile = loadUserProfile();

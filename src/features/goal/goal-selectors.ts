@@ -3,7 +3,6 @@ import {
   calculateGoalProgress,
 } from "@/lib/calculations/chapter-metrics";
 import { formatCurrencyFromMinorUnits } from "@/lib/formatting/currency";
-import { buildEstimateLabel } from "@/lib/formatting/estimates";
 import type { ChapterRecord } from "@/types/domain";
 
 export interface GoalViewModel {
@@ -66,5 +65,3 @@ export function buildGoalViewModel(
     currentGoalAmountMinor: activeChapter.goalAmountMinor,
   };
 }
-
-export const goalSavedLabel = buildEstimateLabel("Saved toward goal");

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { loadHistoryViewModel } from "@/features/history/history-service";
 import type { HistoryViewModel } from "@/features/history/history-selectors";
+import { useLanguage } from "@/i18n/language-context";
 
 export type HistoryViewModelState =
   | {
@@ -24,6 +25,7 @@ export type HistoryViewModelState =
     };
 
 export function useHistoryViewModel(): HistoryViewModelState {
+  const { t } = useLanguage();
   const [data, setData] = useState<HistoryViewModel | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,20 +38,20 @@ export function useHistoryViewModel(): HistoryViewModelState {
     setError(null);
 
     try {
-      setData(await loadHistoryViewModel());
+      setData(await loadHistoryViewModel(t));
     } catch (caughtError) {
       setData(null);
       setError(
         caughtError instanceof Error
           ? caughtError
-          : new Error("Unable to load History")
+          : new Error(t("validation.unableToLoadHistory"))
       );
     } finally {
       if (showLoading) {
         setIsLoading(false);
       }
     }
-  }, []);
+  }, [t]);
 
   const refresh = useCallback(() => load(true), [load]);
 

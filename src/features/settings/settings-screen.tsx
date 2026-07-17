@@ -19,27 +19,29 @@ import {
 } from "@/features/settings/settings-states";
 import { ThemePreferenceSection } from "@/features/settings/theme-preference-section";
 import { useChapterSettingsForm } from "@/features/settings/use-chapter-settings-form";
+import { useLanguage } from "@/i18n/language-context";
 import { isDevBuild } from "@/lib/dev/dev-data-profile";
 import { colors } from "@/theme/colors";
 import { typography } from "@/theme/typography";
 
 function NoActiveChapterState() {
   const router = useRouter();
+  const { t, textAlign } = useLanguage();
 
   return (
-    <SectionCard title="No active chapter">
+    <SectionCard title={t("common.noActiveChapter")}>
       <Text
         selectable
         style={{
           ...typography.body,
           color: colors.textSecondary,
+          textAlign,
         }}
       >
-        Start a chapter before editing quit details, estimates, or a savings
-        goal.
+        {t("settings.noActiveHelp")}
       </Text>
       <NativeActionButton
-        label="Start chapter"
+        label={t("common.startChapter")}
         onPress={() => router.push("/onboarding")}
       />
     </SectionCard>
@@ -47,6 +49,7 @@ function NoActiveChapterState() {
 }
 
 export function SettingsScreen() {
+  const { t } = useLanguage();
   const state = useChapterSettingsForm();
   const devOptionsUnlock = useDevOptionsUnlock();
 
@@ -68,16 +71,16 @@ export function SettingsScreen() {
       {isDevBuild() ? (
         <Pressable onPress={devOptionsUnlock.recordTap}>
           <PageHeader
-            eyebrow="Settings"
-            title="Keep the current chapter accurate."
-            subtitle="These edits only affect the active chapter. Past chapters stay intact."
+            eyebrow={t("settings.eyebrow")}
+            title={t("settings.title")}
+            subtitle={t("settings.subtitle")}
           />
         </Pressable>
       ) : (
         <PageHeader
-          eyebrow="Settings"
-          title="Keep the current chapter accurate."
-          subtitle="These edits only affect the active chapter. Past chapters stay intact."
+          eyebrow={t("settings.eyebrow")}
+          title={t("settings.title")}
+          subtitle={t("settings.subtitle")}
         />
       )}
       <DevOptionsPrompt
