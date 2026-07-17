@@ -1,11 +1,5 @@
-import { Text } from "react-native";
-
-import { Screen } from "@/components/ui/screen";
+import { HistoryScreen } from "@/features/history/history-screen";
 
 export default function HistoryRoute() {
-  return (
-    <Screen>
-      <Text>History</Text>
-    </Screen>
-  );
+  return <HistoryScreen />;
 }
