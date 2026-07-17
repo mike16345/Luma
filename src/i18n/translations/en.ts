@@ -71,6 +71,44 @@ export const en = {
     thisYear: "This year",
     allTime: "All time",
   },
+  badges: {
+    sectionEyebrow: "Badges",
+    title: "Milestones in reach.",
+    subtitle:
+      "Unlocked badges mark concrete progress. Locked badges show what is getting closer.",
+    viewAll: "View all",
+    allTitle: "All badges",
+    allSubtitle:
+      "Every badge is based on local progress: smoke-free time, estimates saved, cigarettes avoided, chapter starts, and goal progress.",
+    unlocked: "Unlocked",
+    locked: "Locked",
+    remaining: "{amount} to go",
+    firstChapter: "First chapter started",
+    firstChapterDescription:
+      "Earned when your first smoke-free chapter is created.",
+    freshStart: "Fresh start logged",
+    freshStartDescription:
+      "Earned after history includes more than one chapter.",
+    timeDescription:
+      "Based on smoke-free time in your current chapter, or your longest chapter when none is active.",
+    cigarettesDescription:
+      "Based on estimated cigarettes avoided across your recorded chapters.",
+    moneyDescription:
+      "Based on estimated money saved in your selected display currency.",
+    goalDescription:
+      "Based on progress toward the active chapter savings goal.",
+    oneDay: "1 smoke-free day",
+    threeDays: "3 smoke-free days",
+    sevenDays: "7 smoke-free days",
+    fourteenDays: "14 smoke-free days",
+    thirtyDays: "30 smoke-free days",
+    ninetyDays: "90 smoke-free days",
+    oneEightyDays: "180 smoke-free days",
+    oneYear: "1 smoke-free year",
+    cigarettesAvoided: "{target} cigarettes avoided",
+    moneySaved: "{target} saved",
+    goalProgress: "{target} of goal",
+  },
   onboarding: {
     brandSubtitle: "Calm, private progress.",
     title: "Start the chapter you want to protect.",

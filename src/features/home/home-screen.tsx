@@ -2,6 +2,7 @@ import { useWindowDimensions } from "react-native";
 
 import { PageHeader } from "@/components/ui/page-header";
 import { Screen } from "@/components/ui/screen";
+import { HomeBadgesSection } from "@/features/home/home-badges-section";
 import { HomeContextMetrics } from "@/features/home/home-context-metrics";
 import { HomeGoalCard } from "@/features/home/home-goal-card";
 import { HomeHero } from "@/features/home/home-hero";
@@ -26,6 +27,7 @@ function HomeContent({ data }: { data: HomeViewModel }) {
       <HomeWeeklySummary data={data} />
       <HomePeriodRows data={data} />
       <HomeGoalCard data={data} />
+      <HomeBadgesSection data={data} />
       <HomeContextMetrics data={data} />
     </Screen>
   );

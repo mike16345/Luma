@@ -197,13 +197,24 @@ logging, restarts, and longest streak changes. Avoid medical recovery milestones
 
 ### Progress Badges
 
-Status: idea
+Status: in progress
 
 Add restrained milestone badges for concrete progress such as money saved,
 cigarettes avoided, and chapter duration. Examples: saved a meaningful amount of
 money, avoided 100 cigarettes, reached 7 smoke-free days, reached 30 smoke-free
 days. Badges should feel calm and credible rather than arcade-like, and should
 avoid medical or body-recovery claims.
+
+Recommendation: build this as the next feature slice. It reuses existing chapter
+metrics, adds a visible sense of progress, and does not require new native
+packages or another development build.
+
+First slice: derive locked and unlocked badges from existing local metrics, show
+code-rendered medallion icons, display progress bars under locked badges, and
+format money thresholds in the user's current display currency.
+
+Follow-up slice: add a full all-badges view from Home, keep the Home section as a
+compact rail, and show a real check marker on unlocked badge icons.
 
 ### Goal Gallery
 

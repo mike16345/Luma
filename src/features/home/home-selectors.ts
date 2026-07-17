@@ -1,3 +1,7 @@
+import {
+  buildBadgeViewModel,
+  type BadgeSummaryViewModel,
+} from "@/features/badges/badge-selectors";
 import { calculateGoalProgress } from "@/lib/calculations/chapter-metrics";
 import { buildPeriodMetrics } from "@/lib/calculations/period-metrics";
 import {
@@ -47,6 +51,7 @@ export interface HomeViewModel {
   longestStreak: HomeMetricViewModel;
   cumulativeSavings: HomeMetricViewModel;
   goal: HomeGoalViewModel;
+  badges: BadgeSummaryViewModel;
 }
 
 function resolveDisplayCurrency(
@@ -70,6 +75,7 @@ export function buildHomeViewModel(
     : null;
   const periodMetrics = buildPeriodMetrics(chapters, nowIso);
   const weeklyMetrics = periodMetrics.find((period) => period.key === "thisWeek");
+  const allTimeMetrics = periodMetrics.find((period) => period.key === "allTime");
   const longestStreakMs = calculateLongestStreakMs(chapters, nowIso);
   const cumulativeSavingsMinor = calculateCumulativeSavingsMinor(chapters, nowIso);
   const activeMoneySavedMinor = activeMetrics?.moneySavedMinor ?? 0;
@@ -153,5 +159,14 @@ export function buildHomeViewModel(
         ? formatCurrencyFromMinorUnits(activeChapter.goalAmountMinor, currencyCode)
         : null,
     },
+    badges: buildBadgeViewModel({
+      chapterCount: chapters.length,
+      cigarettesAvoided: allTimeMetrics?.cigarettesAvoided ?? 0,
+      currencyCode,
+      goalProgress,
+      moneySavedMinor: cumulativeSavingsMinor,
+      smokeFreeMs: activeMetrics?.elapsedMs ?? longestStreakMs,
+      t,
+    }),
   };
 }

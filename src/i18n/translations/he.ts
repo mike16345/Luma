@@ -73,6 +73,44 @@ export const he: TranslationTree = {
     thisYear: "השנה",
     allTime: "כל הזמן",
   },
+  badges: {
+    sectionEyebrow: "תגים",
+    title: "אבני דרך שמתקרבות.",
+    subtitle:
+      "תגים שנפתחו מסמנים התקדמות מוחשית. תגים נעולים מראים למה אתה מתקרב.",
+    viewAll: "הצג הכל",
+    allTitle: "כל התגים",
+    allSubtitle:
+      "כל תג מבוסס על התקדמות מקומית: זמן ללא עישון, חיסכון משוער, סיגריות שנמנעו, פרקים שהתחילו והתקדמות יעד.",
+    unlocked: "נפתח",
+    locked: "נעול",
+    remaining: "עוד {amount}",
+    firstChapter: "הפרק הראשון התחיל",
+    firstChapterDescription:
+      "נפתח כשנוצר הפרק הראשון שלך ללא עישון.",
+    freshStart: "התחלה חדשה תועדה",
+    freshStartDescription:
+      "נפתח כשההיסטוריה כוללת יותר מפרק אחד.",
+    timeDescription:
+      "מבוסס על זמן ללא עישון בפרק הנוכחי, או על הפרק הארוך ביותר כשאין פרק פעיל.",
+    cigarettesDescription:
+      "מבוסס על הערכת הסיגריות שנמנעו בכל הפרקים שתועדו.",
+    moneyDescription:
+      "מבוסס על הערכת הכסף שנחסך במטבע התצוגה שנבחר.",
+    goalDescription:
+      "מבוסס על ההתקדמות לעבר יעד החיסכון של הפרק הפעיל.",
+    oneDay: "יום אחד ללא עישון",
+    threeDays: "3 ימים ללא עישון",
+    sevenDays: "7 ימים ללא עישון",
+    fourteenDays: "14 ימים ללא עישון",
+    thirtyDays: "30 ימים ללא עישון",
+    ninetyDays: "90 ימים ללא עישון",
+    oneEightyDays: "180 ימים ללא עישון",
+    oneYear: "שנה אחת ללא עישון",
+    cigarettesAvoided: "{target} סיגריות שנמנעו",
+    moneySaved: "{target} שנחסכו",
+    goalProgress: "{target} מהיעד",
+  },
   onboarding: {
     brandSubtitle: "התקדמות רגועה ופרטית.",
     title: "התחל את הפרק שחשוב לך לשמור.",

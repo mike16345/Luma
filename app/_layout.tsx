@@ -42,6 +42,7 @@ function RootStack() {
       >
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="goal" />
+        <Stack.Screen name="badges" />
         <Stack.Screen name="onboarding/index" />
         <Stack.Screen name="onboarding/success" />
         <Stack.Screen
