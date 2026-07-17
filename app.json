@@ -36,6 +36,12 @@
       ],
       "expo-sqlite",
       "expo-secure-store",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Luma to use Face ID to keep your private progress protected."
+        }
+      ],
       "expo-localization",
       "expo-sharing",
       "expo-mail-composer"

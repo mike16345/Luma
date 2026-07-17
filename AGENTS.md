@@ -78,6 +78,7 @@ Package rules:
 
 - Use `npx create-expo-app@latest ... --template default@sdk-57` when scaffolding or recreating the app baseline.
 - Use `npx expo install` for Expo-managed or native dependencies.
+- Do not implement features that require packages absent from `package.json` unless the user explicitly approves installing the package. Prefer building with the native packages already present in the current development build to avoid forcing new dev builds for every experiment.
 - Do not use plain `npm install` for Expo SDK packages unless there is a specific reason and it is documented in the plan.
 - Do not introduce AsyncStorage.
 
@@ -200,6 +201,7 @@ Unless the plan is intentionally revised, organize source like this:
 ## 13. Agent operating rules
 
 - Treat this file as a living repository contract.
+- When discussing project ideas, future features, package experiments, or roadmap options, update [docs/project-ideas.md](C:/Users/micha/Desktop/Luma/docs/project-ideas.md) in the same change. Add a short description at minimum, and expand it when product behavior, UX, data shape, or implementation constraints become clearer.
 - When a rule becomes real through repeated implementation, add it here.
 - When a reusable implementation pattern emerges during development, update this file in the same change so future agents and developers inherit the decision.
 - When a rule stops being true because of an intentional architecture change, update this file in the same change.

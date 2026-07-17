@@ -1,5 +1,6 @@
 import { Redirect, Stack, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import {
@@ -7,6 +8,8 @@ import {
   useBootstrap,
 } from "@/features/app-shell/bootstrap-context";
 import { BootstrapLoadingScreen } from "@/features/app-shell/bootstrap-loading-screen";
+import { PrivacyLockProvider } from "@/features/privacy/privacy-lock-context";
+import { configureNotificationHandling } from "@/features/reminders/reminder-service";
 import { LanguageProvider, useLanguage } from "@/i18n/language-context";
 import { ThemeProvider, useTheme } from "@/theme/theme-context";
 
@@ -55,12 +58,18 @@ function RootStack() {
 }
 
 export default function RootLayout() {
+  useEffect(() => {
+    configureNotificationHandling();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <LanguageProvider>
         <ThemeProvider>
           <BootstrapProvider>
-            <RootStack />
+            <PrivacyLockProvider>
+              <RootStack />
+            </PrivacyLockProvider>
           </BootstrapProvider>
         </ThemeProvider>
       </LanguageProvider>

@@ -10,6 +10,9 @@ import { DevOptionsPrompt } from "@/features/settings/dev-options/dev-options-pr
 import { DevOptionsSection } from "@/features/settings/dev-options/dev-options-section";
 import { useDevOptionsUnlock } from "@/features/settings/dev-options/use-dev-options-unlock";
 import { LanguagePreferenceSection } from "@/features/settings/language-preference-section";
+import { PrivacyLockSection } from "@/features/settings/privacy-lock-section";
+import { ProfilePreferencesSection } from "@/features/settings/profile-preferences-section";
+import { RemindersSection } from "@/features/settings/reminders-section";
 import {
   SettingsErrorState,
   SettingsLoadingState,
@@ -86,6 +89,9 @@ export function SettingsScreen() {
       {devOptionsUnlock.isUnlocked ? (
         <DevOptionsSection onHide={devOptionsUnlock.hideOptions} />
       ) : null}
+      <ProfilePreferencesSection />
+      <PrivacyLockSection />
+      <RemindersSection />
       <ThemePreferenceSection />
       <LanguagePreferenceSection />
 
