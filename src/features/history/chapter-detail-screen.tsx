@@ -5,6 +5,7 @@ import { NativeActionButton } from "@/components/ui/native-action-button";
 import { Screen } from "@/components/ui/screen";
 import { SectionCard } from "@/components/ui/section-card";
 import { ChapterDetailMetrics } from "@/features/history/chapter-detail-metrics";
+import { ChapterReportActions } from "@/features/history/chapter-report-actions";
 import { ChapterUnlockedBadgesSection } from "@/features/history/chapter-unlocked-badges-section";
 import {
   HistoryErrorState,
@@ -66,6 +67,7 @@ export function ChapterDetailScreen({ chapterId }: { chapterId: string }) {
         subtitle={data.subtitle}
         title={data.title}
       />
+      <ChapterReportActions data={data} />
       <ChapterDetailMetrics metrics={data.metrics} title={t("history.detail")} />
       <ChapterUnlockedBadgesSection
         badges={data.badgesUnlockedDuringChapter}

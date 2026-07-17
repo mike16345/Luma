@@ -193,6 +193,15 @@ export const he: TranslationTree = {
     chapterNotFound: "הפרק לא נמצא",
     chapterNotFoundMessage:
       "הפרק הזה לא זמין בהיסטוריה המקומית כרגע.",
+    exportPdf: "ייצא PDF",
+    preparingPdf: "מכין PDF...",
+    pdfTitle: "דוח פרק",
+    sharePdfTitle: "שתף דוח פרק",
+    pdfUnavailable:
+      "שיתוף PDF אינו זמין במכשיר הזה כרגע.",
+    pdfError: "אי אפשר להכין את דוח ה-PDF כרגע.",
+    generatedLocally: "נוצר מקומית במכשיר הזה.",
+    generatedAt: "נוצר {date}",
     noChaptersYet: "אין פרקים עדיין",
     emptyMessage:
       "ברגע שיהיה פרק, העמוד הזה ישמור תיעוד לקריאה בלבד של הזמן ללא עישון, הסיגריות שנמנעו בהערכה, והחיסכון המשוער.",

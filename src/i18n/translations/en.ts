@@ -191,6 +191,15 @@ export const en = {
     chapterNotFound: "Chapter not found",
     chapterNotFoundMessage:
       "This chapter is not available in the local history right now.",
+    exportPdf: "Export PDF",
+    preparingPdf: "Preparing PDF...",
+    pdfTitle: "Chapter report",
+    sharePdfTitle: "Share chapter report",
+    pdfUnavailable:
+      "PDF sharing is not available on this device right now.",
+    pdfError: "Unable to prepare the PDF report right now.",
+    generatedLocally: "Generated locally on this device.",
+    generatedAt: "Generated {date}",
     noChaptersYet: "No chapters yet",
     emptyMessage:
       "Once a chapter exists, this page will keep a read-only record of its smoke-free time, estimated cigarettes avoided, and estimated savings.",

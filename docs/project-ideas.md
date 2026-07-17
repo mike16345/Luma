@@ -19,11 +19,14 @@ app's grounded quit-tracking purpose.
 
 ### History Chapter Details
 
-Status: planned
+Status: in progress
 
 Add a detail view for each chapter in History. It should show start/end time,
 duration, estimate metrics, goal context, and slip-up context if the chapter
 ended with a logged slip-up. Past chapters remain read-only.
+
+Current slice: chapter detail rows open from History and can show badges unlocked
+during that chapter.
 
 ### Full Hebrew Translation Pass
 
@@ -73,11 +76,16 @@ approved.
 
 ### Local Export And Share
 
-Status: idea
+Status: in progress
 
 Export chapter history and slip-up summaries as a local file or share sheet item.
 Good formats to consider: JSON for backup/import, PDF for readable reports, and
 plain text for quick personal sharing.
+
+Current slice: generate a single-chapter PDF report from Chapter Detail with
+metrics, badges unlocked during that chapter, optional slip-up context, and a
+local-only footer. Use installed Expo packages only: `expo-print` and
+`expo-sharing`.
 
 ### Notifications And Reminders
 
@@ -123,7 +131,7 @@ sheet.
 
 ### `expo-print`
 
-Status: idea
+Status: in progress
 
 Use for generating printable PDF progress reports.
 
