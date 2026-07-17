@@ -8,16 +8,23 @@ export type NativeActionButtonProps = {
   label: string;
   onPress: () => void;
   variant?: NativeActionButtonVariant;
+  disabled?: boolean;
 };
 
 export function NativeActionButton({
+  disabled = false,
   label,
   onPress,
   variant = "filled",
 }: NativeActionButtonProps) {
   return (
     <Host matchContents={{ vertical: true }} seedColor={colors.action}>
-      <Button label={label} onPress={onPress} variant={variant} />
+      <Button
+        disabled={disabled}
+        label={label}
+        onPress={disabled ? undefined : onPress}
+        variant={variant}
+      />
     </Host>
   );
 }

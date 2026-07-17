@@ -1,11 +1,5 @@
-import { Text } from "react-native";
-
-import { Screen } from "@/components/ui/screen";
+import { StartChapterScreen } from "@/features/onboarding/start-chapter-screen";
 
 export default function OnboardingRoute() {
-  return (
-    <Screen>
-      <Text>Start your first chapter</Text>
-    </Screen>
-  );
+  return <StartChapterScreen />;
 }

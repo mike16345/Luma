@@ -1,5 +1,11 @@
 import { Button, Host } from "@expo/ui/swift-ui";
-import { buttonStyle, controlSize, frame, tint } from "@expo/ui/swift-ui/modifiers";
+import {
+  buttonStyle,
+  controlSize,
+  disabled as disabledModifier,
+  frame,
+  tint,
+} from "@expo/ui/swift-ui/modifiers";
 
 import { colors } from "@/theme/colors";
 
@@ -9,9 +15,11 @@ export type NativeActionButtonProps = {
   label: string;
   onPress: () => void;
   variant?: NativeActionButtonVariant;
+  disabled?: boolean;
 };
 
 export function NativeActionButton({
+  disabled = false,
   label,
   onPress,
   variant = "filled",
@@ -23,12 +31,13 @@ export function NativeActionButton({
     <Host matchContents={{ vertical: true }} seedColor={colors.action}>
       <Button
         label={label}
-        onPress={onPress}
+        onPress={disabled ? undefined : onPress}
         modifiers={[
           frame({ maxWidth: 520 }),
           buttonStyle(style),
           controlSize("large"),
           tint(colors.action),
+          disabledModifier(disabled),
         ]}
       />
     </Host>

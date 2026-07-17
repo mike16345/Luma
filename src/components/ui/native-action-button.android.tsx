@@ -9,9 +9,11 @@ export type NativeActionButtonProps = {
   label: string;
   onPress: () => void;
   variant?: NativeActionButtonVariant;
+  disabled?: boolean;
 };
 
 export function NativeActionButton({
+  disabled = false,
   label,
   onPress,
   variant = "filled",
@@ -21,7 +23,11 @@ export function NativeActionButton({
 
   return (
     <Host matchContents={{ vertical: true }} seedColor={colors.action}>
-      <ButtonComponent onClick={onPress} modifiers={[fillMaxWidth()]}>
+      <ButtonComponent
+        enabled={!disabled}
+        onClick={disabled ? undefined : onPress}
+        modifiers={[fillMaxWidth()]}
+      >
         <Text>{label}</Text>
       </ButtonComponent>
     </Host>
