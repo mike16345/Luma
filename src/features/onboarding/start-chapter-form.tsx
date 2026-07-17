@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 
 import { CurrencySelector } from "@/components/ui/currency-selector";
 import { NativeActionButton } from "@/components/ui/native-action-button";
+import { NativeDateTimeField } from "@/components/ui/native-date-time-field";
 import { NativeTextField } from "@/components/ui/native-text-field";
 import { SectionCard } from "@/components/ui/section-card";
 import { useBootstrap } from "@/features/app-shell/bootstrap-context";
@@ -43,11 +44,11 @@ export function StartChapterForm() {
         title={t("onboarding.startDetailsTitle")}
       >
         <View style={{ gap: spacing.md }}>
-          <NativeTextField
+          <NativeDateTimeField
             label={t("onboarding.quitDateTime")}
             value={form.startedAt}
-            onChangeText={(value) => updateField("startedAt", value)}
-            placeholder="YYYY-MM-DDTHH:mm"
+            onChangeValue={(value) => updateField("startedAt", value)}
+            maximumDate={new Date()}
             error={errors.startedAt}
           />
           <SmokingTypeSelector

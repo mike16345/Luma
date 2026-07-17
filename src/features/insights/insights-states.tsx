@@ -17,7 +17,7 @@ export function InsightsLoadingState() {
             key={item}
             style={{
               height: item === 0 ? 116 : 96,
-              borderRadius: 8,
+              borderRadius: 24,
               backgroundColor: colors.surfaceMuted,
             }}
           />

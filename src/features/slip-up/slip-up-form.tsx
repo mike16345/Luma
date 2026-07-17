@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 
 import { NativeActionButton } from "@/components/ui/native-action-button";
+import { NativeDateTimeField } from "@/components/ui/native-date-time-field";
 import { NativeTextField } from "@/components/ui/native-text-field";
 import { SectionCard } from "@/components/ui/section-card";
 import { AlcoholInvolvedSelector } from "@/features/slip-up/alcohol-involved-selector";
@@ -30,11 +31,14 @@ export function SlipUpForm({
   return (
     <View style={{ gap: spacing.lg }}>
       <SectionCard eyebrow={t("common.required")} title={t("slipUp.timeTitle")}>
-        <NativeTextField
+        <NativeDateTimeField
           label={t("slipUp.dateAndTime")}
           value={state.form.occurredAt}
-          onChangeText={(value) => state.updateField("occurredAt", value)}
-          placeholder="YYYY-MM-DDTHH:mm"
+          onChangeValue={(value) => state.updateField("occurredAt", value)}
+          minimumDate={
+            state.activeChapter ? new Date(state.activeChapter.startedAt) : undefined
+          }
+          maximumDate={new Date()}
           error={state.errors.occurredAt}
         />
       </SectionCard>

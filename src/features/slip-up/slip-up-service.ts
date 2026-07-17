@@ -3,8 +3,14 @@ import { slipUpRepository } from "@/db/repositories/slip-up-repository";
 import type { CreateChapterInput, CreateSlipUpInput } from "@/types/domain";
 
 export async function loadSlipUpViewModel() {
+  const [activeChapter, latestSlipUp] = await Promise.all([
+    chapterRepository.getActiveChapter(),
+    slipUpRepository.getLatestSlipUp(),
+  ]);
+
   return {
-    activeChapter: await chapterRepository.getActiveChapter(),
+    activeChapter,
+    latestSlipUp,
   };
 }
 

@@ -1,5 +1,9 @@
 import type { CreateChapterInput, SmokingType } from "@/types/domain";
 import { isSupportedCurrencyCode } from "@/lib/currency/currencies";
+import {
+  formatLocalDateTimeInput,
+  parseLocalDateTimeInput,
+} from "@/lib/formatting/local-date-time-input";
 import { translate, type Translator } from "@/i18n/translations";
 
 export type StartChapterFormState = {
@@ -30,18 +34,6 @@ export type ParsedStartChapterForm =
       errors: StartChapterFormErrors;
     };
 
-function pad(value: number) {
-  return String(value).padStart(2, "0");
-}
-
-export function formatLocalDateTimeInput(date = new Date()) {
-  return [
-    date.getFullYear(),
-    pad(date.getMonth() + 1),
-    pad(date.getDate()),
-  ].join("-") + `T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
 export function createInitialStartChapterFormState(): StartChapterFormState {
   return {
     startedAt: formatLocalDateTimeInput(),
@@ -61,9 +53,9 @@ function parseDateTime(
   t: Translator
 ) {
   const trimmed = value.trim();
-  const parsed = new Date(trimmed);
+  const parsed = parseLocalDateTimeInput(trimmed);
 
-  if (!trimmed || Number.isNaN(parsed.getTime())) {
+  if (!trimmed || !parsed) {
     errors.startedAt = t("validation.invalidQuitDateTime");
     return null;
   }

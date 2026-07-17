@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { SymbolView } from "expo-symbols";
+import { type ReactNode, useMemo, useState } from "react";
 import {
   FlatList,
   Modal,
@@ -11,50 +12,69 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { getFlexDirection } from "@/i18n/languages";
 import { useLanguage } from "@/i18n/language-context";
-import {
-  currencies,
-  findCurrencyOption,
-  type CurrencyOption,
-} from "@/lib/currency/currencies";
 import { spacing } from "@/theme/spacing";
 import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
-export function CurrencySelector({
+export type NativePickerOption<T extends string> = {
+  label: string;
+  value: T;
+};
+
+export function NativePickerField<T extends string>({
+  disabled = false,
   error,
   label,
   onChange,
+  options,
+  selectedAccessory,
   value,
 }: {
+  disabled?: boolean;
   error?: string;
   label: string;
-  onChange: (value: string) => void;
-  value: string;
+  onChange: (value: T) => void;
+  options: Array<NativePickerOption<T>>;
+  selectedAccessory?: ReactNode;
+  value: T;
 }) {
   const colors = useThemeColors();
   const { direction, t, textAlign } = useLanguage();
   const insets = useSafeAreaInsets();
   const [isOpen, setIsOpen] = useState(false);
-  const selectedCurrency = useMemo(() => findCurrencyOption(value), [value]);
+  const selectedOption = useMemo(
+    () => options.find((option) => option.value === value),
+    [options, value]
+  );
 
-  function renderCurrency({ item }: ListRenderItemInfo<CurrencyOption>) {
-    const isSelected = item.code === value;
+  function selectOption(nextValue: T) {
+    onChange(nextValue);
+    setIsOpen(false);
+  }
+
+  function renderOption({ item }: ListRenderItemInfo<NativePickerOption<T>>) {
+    const isSelected = item.value === value;
 
     return (
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ selected: isSelected }}
-        onPress={() => {
-          onChange(item.code);
-          setIsOpen(false);
-        }}
-        style={{
+        onPress={() => selectOption(item.value)}
+        style={({ pressed }) => ({
+          minHeight: 54,
+          justifyContent: "center",
           paddingHorizontal: spacing.md,
           paddingVertical: spacing.sm,
-          borderRadius: 16,
+          borderRadius: 18,
           borderCurve: "continuous",
-          backgroundColor: isSelected ? colors.actionSoft : colors.surfaceElevated,
-        }}
+          borderWidth: 1,
+          borderColor: isSelected ? colors.action : colors.border,
+          backgroundColor: isSelected
+            ? colors.actionSoft
+            : pressed
+              ? colors.surface
+              : colors.surfaceElevated,
+        })}
       >
         <View
           style={{
@@ -63,27 +83,39 @@ export function CurrencySelector({
             gap: spacing.sm,
           }}
         >
-          <Text style={{ fontSize: 22, lineHeight: 28 }}>{item.flag}</Text>
-          <View style={{ flex: 1 }}>
-            <Text
-              style={{
-                ...typography.bodyMedium,
-                color: colors.textPrimary,
-                textAlign,
+          <Text
+            style={{
+              ...typography.bodyMedium,
+              color: colors.textPrimary,
+              flex: 1,
+              textAlign,
+            }}
+          >
+            {item.label}
+          </Text>
+          {isSelected ? (
+            <SymbolView
+              accessibilityElementsHidden
+              fallback={
+                <Text
+                  style={{
+                    ...typography.caption,
+                    color: colors.action,
+                  }}
+                >
+                  OK
+                </Text>
+              }
+              importantForAccessibility="no"
+              name={{
+                ios: "checkmark.circle.fill",
+                android: "check_circle",
+                web: "check_circle",
               }}
-            >
-              {item.code} - {item.name}
-            </Text>
-            <Text
-              style={{
-                ...typography.caption,
-                color: colors.textSecondary,
-                textAlign,
-              }}
-            >
-              {item.country}
-            </Text>
-          </View>
+              size={22}
+              tintColor={colors.action}
+            />
+          ) : null}
         </View>
       </Pressable>
     );
@@ -96,14 +128,17 @@ export function CurrencySelector({
         style={{
           ...typography.label,
           color: colors.textPrimary,
+          textAlign,
         }}
       >
         {label}
       </Text>
       <Pressable
         accessibilityRole="button"
+        accessibilityState={{ disabled }}
+        disabled={disabled}
         onPress={() => setIsOpen(true)}
-        style={{
+        style={({ pressed }) => ({
           minHeight: 56,
           justifyContent: "center",
           paddingHorizontal: spacing.md,
@@ -114,7 +149,8 @@ export function CurrencySelector({
           borderColor: error ? colors.slip : colors.border,
           backgroundColor: colors.surfaceElevated,
           boxShadow: `0 10px 26px ${colors.shadow}`,
-        }}
+          opacity: disabled ? 0.6 : pressed ? 0.86 : 1,
+        })}
       >
         <View
           style={{
@@ -123,31 +159,36 @@ export function CurrencySelector({
             gap: spacing.sm,
           }}
         >
-          <Text style={{ fontSize: 22, lineHeight: 28 }}>
-            {selectedCurrency?.flag ?? "$"}
-          </Text>
+          {selectedAccessory ? selectedAccessory : null}
           <Text
             style={{
-              ...typography.body,
-              color: selectedCurrency ? colors.textPrimary : colors.textMuted,
+              ...typography.bodyMedium,
+              color: colors.textPrimary,
               flex: 1,
               textAlign,
             }}
           >
-            {selectedCurrency
-              ? `${selectedCurrency.code} - ${selectedCurrency.name}`
-              : t("common.selectCurrency")}
+            {selectedOption?.label ?? label}
           </Text>
-          <Text
-            accessibilityElementsHidden
-            importantForAccessibility="no"
-            style={{
-              ...typography.bodyMedium,
-              color: colors.textMuted,
+          <SymbolView
+            name={{
+              ios: "chevron.up.chevron.down",
+              android: "unfold_more",
+              web: "unfold_more",
             }}
-          >
-            v
-          </Text>
+            size={18}
+            tintColor={colors.textMuted}
+            fallback={
+              <Text
+                style={{
+                  ...typography.caption,
+                  color: colors.textMuted,
+                }}
+              >
+                v
+              </Text>
+            }
+          />
         </View>
       </Pressable>
       {error ? (
@@ -156,6 +197,7 @@ export function CurrencySelector({
           style={{
             ...typography.caption,
             color: colors.slip,
+            textAlign,
           }}
         >
           {error}
@@ -194,7 +236,7 @@ export function CurrencySelector({
                 textAlign,
               }}
             >
-              {t("common.currency")}
+              {label}
             </Text>
             <Pressable
               accessibilityRole="button"
@@ -215,9 +257,9 @@ export function CurrencySelector({
             </Pressable>
           </View>
           <FlatList
-            data={currencies}
-            keyExtractor={(item) => item.code}
-            renderItem={renderCurrency}
+            data={options}
+            keyExtractor={(item) => item.value}
+            renderItem={renderOption}
             ItemSeparatorComponent={() => <View style={{ height: spacing.xs }} />}
             contentContainerStyle={{ paddingBottom: spacing.xxl }}
           />

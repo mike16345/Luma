@@ -27,13 +27,14 @@ export function OnboardingGuidance() {
   return (
     <View
       style={{
-        gap: spacing.sm,
-        padding: spacing.md,
-        borderRadius: 8,
+        gap: spacing.md,
+        padding: spacing.lg,
+        borderRadius: 22,
         borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.border,
-        backgroundColor: colors.surface,
+        backgroundColor: colors.surfaceElevated,
+        boxShadow: `0 14px 32px ${colors.shadow}`,
       }}
     >
       {guidanceItems.map((item) => (
@@ -46,11 +47,11 @@ export function OnboardingGuidance() {
         >
           <View
             style={{
-              width: 8,
-              height: 8,
-              marginTop: 7,
+              width: 10,
+              height: 10,
+              marginTop: 8,
               borderRadius: 999,
-              backgroundColor: colors.action,
+              backgroundColor: colors.accentSavings,
             }}
           />
           <View style={{ flex: 1, gap: 2 }}>

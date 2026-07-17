@@ -1,5 +1,9 @@
-import { formatLocalDateTimeInput } from "@/features/onboarding/start-chapter-form-model";
+import {
+  formatLocalDateTimeInput,
+  parseLocalDateTimeInput,
+} from "@/lib/formatting/local-date-time-input";
 import { translate, type Translator } from "@/i18n/translations";
+import type { SlipUpRecord } from "@/types/domain";
 
 export type SlipUpFormState = {
   occurredAt: string;
@@ -12,6 +16,11 @@ export type SlipUpFormState = {
 export type SlipUpField = keyof SlipUpFormState;
 
 export type SlipUpFormErrors = Partial<Record<SlipUpField, string>>;
+
+type SlipUpFormDefaults = Pick<
+  SlipUpRecord,
+  "alcoholInvolved" | "mood" | "note" | "trigger"
+>;
 
 export type ParsedSlipUpForm =
   | {
@@ -31,13 +40,15 @@ export type ParsedSlipUpForm =
       errors: SlipUpFormErrors;
     };
 
-export function createInitialSlipUpFormState(): SlipUpFormState {
+export function createInitialSlipUpFormState(
+  defaults?: SlipUpFormDefaults | null
+): SlipUpFormState {
   return {
     occurredAt: formatLocalDateTimeInput(),
-    mood: "",
-    trigger: "",
-    alcoholInvolved: false,
-    note: "",
+    mood: defaults?.mood ?? "",
+    trigger: defaults?.trigger ?? "",
+    alcoholInvolved: defaults?.alcoholInvolved ?? false,
+    note: defaults?.note ?? "",
   };
 }
 
@@ -53,12 +64,19 @@ export function parseSlipUpForm(
   t: Translator = (key, options) => translate("en", key, options)
 ): ParsedSlipUpForm {
   const errors: SlipUpFormErrors = {};
-  const occurredAt = new Date(form.occurredAt.trim());
+  const occurredAt = parseLocalDateTimeInput(form.occurredAt.trim());
   const chapterStartedAt = new Date(activeChapterStartedAt);
 
-  if (!form.occurredAt.trim() || Number.isNaN(occurredAt.getTime())) {
+  if (!form.occurredAt.trim() || !occurredAt) {
     errors.occurredAt = t("validation.invalidDateTime");
-  } else if (occurredAt.getTime() > now.getTime() + 60 * 1000) {
+    return {
+      ok: false,
+      input: null,
+      errors,
+    };
+  }
+
+  if (occurredAt.getTime() > now.getTime() + 60 * 1000) {
     errors.occurredAt = t("validation.futureSlipUpTime");
   } else if (occurredAt.getTime() < chapterStartedAt.getTime()) {
     errors.occurredAt = t("validation.slipUpBeforeChapter");

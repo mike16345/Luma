@@ -43,11 +43,11 @@ export function OnboardingProgressButton({
         minHeight: 52,
         overflow: "hidden",
         justifyContent: "center",
-        borderRadius: 8,
+        borderRadius: 18,
         borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.action,
-        backgroundColor: colors.surface,
+        backgroundColor: colors.surfaceElevated,
       }}
     >
       <View
@@ -74,7 +74,7 @@ export function OnboardingProgressButton({
           ...typography.bodyMedium,
           paddingHorizontal: spacing.md,
           paddingVertical: spacing.sm,
-          color: colors.textPrimary,
+          color: colors.actionPressed,
           textAlign: "center",
         }}
       >

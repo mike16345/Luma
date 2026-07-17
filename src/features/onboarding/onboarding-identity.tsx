@@ -2,12 +2,13 @@ import { Text, View } from "react-native";
 
 import { getFlexDirection } from "@/i18n/languages";
 import { useLanguage } from "@/i18n/language-context";
+import { gradientStyle, gradients } from "@/theme/gradients";
 import { spacing } from "@/theme/spacing";
-import { useThemeColors } from "@/theme/theme-context";
+import { useTheme } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function OnboardingIdentity() {
-  const colors = useThemeColors();
+  const { colors, resolvedTheme } = useTheme();
   const { direction, t, textAlign } = useLanguage();
   const previewItems = [
     t("onboarding.previewSmokeFreeTime"),
@@ -19,11 +20,15 @@ export function OnboardingIdentity() {
     <View
       style={{
         overflow: "hidden",
-        gap: spacing.lg,
-        padding: spacing.lg,
-        borderRadius: 8,
+        gap: spacing.xl,
+        padding: spacing.xl,
+        borderRadius: 28,
         borderCurve: "continuous",
         backgroundColor: colors.heroSurface,
+        boxShadow: `0 22px 54px ${colors.shadow}`,
+        ...gradientStyle(
+          resolvedTheme === "dark" ? gradients.heroDark : gradients.hero
+        ),
       }}
     >
       <View
@@ -37,11 +42,11 @@ export function OnboardingIdentity() {
           style={{
             width: 48,
             height: 48,
-            borderRadius: 16,
+            borderRadius: 18,
             borderCurve: "continuous",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: colors.surface,
+            backgroundColor: colors.surfaceElevated,
           }}
         >
           <Text
@@ -59,7 +64,7 @@ export function OnboardingIdentity() {
               ...typography.label,
               color: colors.heroTextMuted,
               textAlign,
-              textTransform: "uppercase",
+              letterSpacing: 0,
             }}
           >
             {t("common.appName")}
@@ -111,7 +116,9 @@ export function OnboardingIdentity() {
               paddingHorizontal: spacing.sm,
               paddingVertical: spacing.xs,
               borderRadius: 999,
-              backgroundColor: colors.actionSoft,
+              borderWidth: 1,
+              borderColor: colors.border,
+              backgroundColor: colors.surfaceElevated,
             }}
           >
             <Text

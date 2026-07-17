@@ -1,25 +1,54 @@
+import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import { Text, View } from "react-native";
 
-import { NativeActionButton } from "@/components/ui/native-action-button";
+import { NativePickerField } from "@/components/ui/native-picker-field";
 import { SectionCard } from "@/components/ui/section-card";
 import { useLanguage } from "@/i18n/language-context";
-import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
-import { useTheme, type ThemePreference } from "@/theme/theme-context";
+import {
+  useTheme,
+  useThemeColors,
+  type ThemePreference,
+} from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 const THEME_OPTIONS: Array<{
+  fallback: string;
+  icon: SymbolViewProps["name"];
   label: "settings.themeSystem" | "settings.themeLight" | "settings.themeDark";
   value: ThemePreference;
 }> = [
-  { label: "settings.themeSystem", value: "system" },
-  { label: "settings.themeLight", value: "light" },
-  { label: "settings.themeDark", value: "dark" },
+  {
+    fallback: "A",
+    icon: { ios: "circle.lefthalf.filled", android: "contrast", web: "contrast" },
+    label: "settings.themeSystem",
+    value: "system",
+  },
+  {
+    fallback: "L",
+    icon: { ios: "sun.max.fill", android: "wb_sunny", web: "wb_sunny" },
+    label: "settings.themeLight",
+    value: "light",
+  },
+  {
+    fallback: "D",
+    icon: { ios: "moon.fill", android: "dark_mode", web: "dark_mode" },
+    label: "settings.themeDark",
+    value: "dark",
+  },
 ];
 
 export function ThemePreferenceSection() {
   const { preference, setPreference } = useTheme();
   const { t, textAlign } = useLanguage();
+  const colors = useThemeColors();
+  const selectedTheme =
+    THEME_OPTIONS.find((option) => option.value === preference) ??
+    THEME_OPTIONS[0];
+  const options = THEME_OPTIONS.map((option) => ({
+    label: t(option.label),
+    value: option.value,
+  }));
 
   return (
     <SectionCard
@@ -37,16 +66,42 @@ export function ThemePreferenceSection() {
         >
           {t("settings.themeDescription")}
         </Text>
-        <View style={{ gap: spacing.sm }}>
-          {THEME_OPTIONS.map((option) => (
-            <NativeActionButton
-              key={option.value}
-              label={t(option.label)}
-              variant={preference === option.value ? "filled" : "outlined"}
-              onPress={() => setPreference(option.value)}
-            />
-          ))}
-        </View>
+        <NativePickerField<ThemePreference>
+          label={t("settings.themeTitle")}
+          value={preference}
+          onChange={setPreference}
+          options={options}
+          selectedAccessory={
+            <View
+              style={{
+                minWidth: 48,
+                alignItems: "center",
+                justifyContent: "center",
+                paddingHorizontal: spacing.xs,
+                paddingVertical: spacing.xxs,
+                borderRadius: 999,
+                backgroundColor: colors.actionSoft,
+              }}
+            >
+              <SymbolView
+                name={selectedTheme.icon}
+                size={20}
+                tintColor={colors.action}
+                fallback={
+                  <Text
+                    style={{
+                      ...typography.caption,
+                      color: colors.action,
+                      textAlign: "center",
+                    }}
+                  >
+                    {selectedTheme.fallback}
+                  </Text>
+                }
+              />
+            </View>
+          }
+        />
       </View>
     </SectionCard>
   );

@@ -3,32 +3,39 @@ import { Text, View } from "react-native";
 import type { HomeViewModel } from "@/features/home/home-selectors";
 import { HomeActionButtons } from "@/features/home/home-action-buttons";
 import { useLanguage } from "@/i18n/language-context";
-import { colors } from "@/theme/colors";
+import { gradientStyle, gradients } from "@/theme/gradients";
 import { spacing } from "@/theme/spacing";
+import { useTheme } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function HomeHero({ data }: { data: HomeViewModel }) {
   const { t, textAlign } = useLanguage();
+  const { colors, resolvedTheme } = useTheme();
 
   return (
     <View
       style={{
-        gap: spacing.lg,
-        padding: spacing.lg,
-        borderRadius: 8,
+        overflow: "hidden",
+        gap: spacing.xl,
+        padding: spacing.xl,
+        borderRadius: 28,
         borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.border,
         backgroundColor: colors.heroSurface,
+        boxShadow: `0 22px 54px ${colors.shadow}`,
+        ...gradientStyle(
+          resolvedTheme === "dark" ? gradients.heroDark : gradients.hero
+        ),
       }}
     >
       <View style={{ gap: spacing.xs }}>
         <View
           style={{
-            width: 42,
+            width: 52,
             height: 4,
             borderRadius: 999,
-            backgroundColor: colors.action,
+            backgroundColor: colors.accentWarm,
           }}
         />
         <Text
@@ -36,8 +43,8 @@ export function HomeHero({ data }: { data: HomeViewModel }) {
           style={{
             ...typography.label,
             color: colors.heroTextMuted,
-            textTransform: "uppercase",
             textAlign,
+            letterSpacing: 0,
           }}
         >
           {data.headline.supportingText}

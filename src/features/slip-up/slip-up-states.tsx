@@ -18,7 +18,7 @@ export function SlipUpLoadingState() {
             key={item}
             style={{
               height: item === 0 ? 96 : 132,
-              borderRadius: 8,
+              borderRadius: 24,
               backgroundColor: colors.surfaceMuted,
             }}
           />

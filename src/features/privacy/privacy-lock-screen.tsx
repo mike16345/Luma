@@ -1,9 +1,10 @@
 import { Text, View } from "react-native";
 
 import { NativeActionButton } from "@/components/ui/native-action-button";
+import { gradientStyle, gradients } from "@/theme/gradients";
 import { useLanguage } from "@/i18n/language-context";
 import { spacing } from "@/theme/spacing";
-import { useThemeColors } from "@/theme/theme-context";
+import { useTheme } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function PrivacyLockScreen({
@@ -13,7 +14,7 @@ export function PrivacyLockScreen({
   message: string | null;
   onUnlock: () => void;
 }) {
-  const colors = useThemeColors();
+  const { colors, resolvedTheme } = useTheme();
   const { t, textAlign } = useLanguage();
 
   return (
@@ -24,17 +25,23 @@ export function PrivacyLockScreen({
         gap: spacing.lg,
         padding: spacing.screen,
         backgroundColor: colors.background,
+        ...gradientStyle(
+          resolvedTheme === "dark"
+            ? gradients.appBackgroundDark
+            : gradients.appBackground
+        ),
       }}
     >
       <View
         style={{
           gap: spacing.md,
           padding: spacing.lg,
-          borderRadius: 8,
+          borderRadius: 28,
           borderCurve: "continuous",
           borderWidth: 1,
           borderColor: colors.border,
-          backgroundColor: colors.surface,
+          backgroundColor: colors.surfaceElevated,
+          boxShadow: `0 22px 54px ${colors.shadow}`,
         }}
       >
         <View style={{ gap: spacing.xs }}>

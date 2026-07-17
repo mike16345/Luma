@@ -21,12 +21,14 @@ export function HomeWeeklySummary({ data }: { data: HomeViewModel }) {
             key={metric.label}
             style={{
               flex: 1,
-              minHeight: 86,
+              minHeight: 96,
               justifyContent: "space-between",
               gap: spacing.xs,
-              padding: spacing.sm,
-              borderRadius: 8,
+              padding: spacing.md,
+              borderRadius: 18,
               borderCurve: "continuous",
+              borderWidth: 1,
+              borderColor: colors.border,
               backgroundColor: colors.surfaceMuted,
             }}
           >
@@ -46,7 +48,7 @@ export function HomeWeeklySummary({ data }: { data: HomeViewModel }) {
               numberOfLines={1}
               style={{
                 ...typography.section,
-                color: colors.textPrimary,
+                color: colors.action,
                 fontVariant: ["tabular-nums"],
                 textAlign,
               }}

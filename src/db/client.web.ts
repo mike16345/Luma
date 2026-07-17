@@ -113,6 +113,10 @@ const webDatabase = {
       ) as T | null;
     }
 
+    if (statement.includes("FROM slip_ups")) {
+      return (sortByOccurredAtDesc(state.slipUps)[0] ?? null) as T | null;
+    }
+
     return null;
   },
 

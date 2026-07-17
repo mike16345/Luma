@@ -5,16 +5,17 @@ import { Animated, Text, View } from "react-native";
 import { Screen } from "@/components/ui/screen";
 import { getFlexDirection } from "@/i18n/languages";
 import { useLanguage } from "@/i18n/language-context";
+import { gradientStyle, gradients } from "@/theme/gradients";
 import {
   ONBOARDING_SUCCESS_DELAY_MS,
   OnboardingProgressButton,
 } from "@/features/onboarding/onboarding-progress-button";
 import { spacing } from "@/theme/spacing";
-import { useThemeColors } from "@/theme/theme-context";
+import { useTheme } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function OnboardingSuccessScreen() {
-  const colors = useThemeColors();
+  const { colors, resolvedTheme } = useTheme();
   const router = useRouter();
   const { direction, t, textAlign } = useLanguage();
   const opacity = useRef(new Animated.Value(0)).current;
@@ -81,10 +82,14 @@ export function OnboardingSuccessScreen() {
         <View
           style={{
             gap: spacing.xl,
-            padding: spacing.lg,
-            borderRadius: 8,
+            padding: spacing.xl,
+            borderRadius: 28,
             borderCurve: "continuous",
             backgroundColor: colors.heroSurface,
+            boxShadow: `0 22px 54px ${colors.shadow}`,
+            ...gradientStyle(
+              resolvedTheme === "dark" ? gradients.heroDark : gradients.hero
+            ),
           }}
         >
           <View
@@ -100,9 +105,9 @@ export function OnboardingSuccessScreen() {
                 height: 58,
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: 18,
+                borderRadius: 20,
                 borderCurve: "continuous",
-                backgroundColor: colors.surface,
+                backgroundColor: colors.surfaceElevated,
               }}
             >
               <Text
@@ -120,7 +125,7 @@ export function OnboardingSuccessScreen() {
                   ...typography.label,
                   color: colors.heroTextMuted,
                   textAlign,
-                  textTransform: "uppercase",
+                  letterSpacing: 0,
                 }}
               >
                 {t("onboarding.successEyebrow")}

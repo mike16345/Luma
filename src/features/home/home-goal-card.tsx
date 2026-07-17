@@ -22,7 +22,7 @@ export function HomeGoalCard({ data }: { data: HomeViewModel }) {
         <View style={{ gap: spacing.sm }}>
           <View
             style={{
-              height: 8,
+              height: 12,
               overflow: "hidden",
               borderRadius: 999,
               backgroundColor: colors.surfaceMuted,

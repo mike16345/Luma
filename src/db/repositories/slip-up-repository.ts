@@ -71,4 +71,13 @@ export const slipUpRepository = {
 
     return rows.map(mapSlipUpRow);
   },
+
+  async getLatestSlipUp(): Promise<SlipUpRecord | null> {
+    const db = await getAppDatabase();
+    const row = await db.getFirstAsync<SlipUpRow>(
+      "SELECT * FROM slip_ups ORDER BY occurred_at DESC LIMIT 1"
+    );
+
+    return row ? mapSlipUpRow(row) : null;
+  },
 };

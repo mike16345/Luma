@@ -47,7 +47,7 @@ export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
           <>
             <View
               style={{
-                height: 10,
+                height: 12,
                 overflow: "hidden",
                 borderRadius: 999,
                 backgroundColor: colors.surfaceMuted,
@@ -58,7 +58,7 @@ export function GoalProgressCard({ goal }: { goal: GoalViewModel }) {
                   width: `${Math.round(goal.progress * 100)}%`,
                   height: "100%",
                   borderRadius: 999,
-                  backgroundColor: colors.action,
+                  backgroundColor: colors.accentSavings,
                 }}
               />
             </View>

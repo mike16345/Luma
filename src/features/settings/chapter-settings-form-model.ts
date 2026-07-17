@@ -1,6 +1,9 @@
-import { formatLocalDateTimeInput } from "@/features/onboarding/start-chapter-form-model";
 import { translate, type Translator } from "@/i18n/translations";
 import { isSupportedCurrencyCode } from "@/lib/currency/currencies";
+import {
+  formatLocalDateTimeInput,
+  parseLocalDateTimeInput,
+} from "@/lib/formatting/local-date-time-input";
 import type {
   ChapterRecord,
   SmokingType,
@@ -67,9 +70,9 @@ function parseDateTime(
   t: Translator
 ) {
   const trimmed = value.trim();
-  const parsed = new Date(trimmed);
+  const parsed = parseLocalDateTimeInput(trimmed);
 
-  if (!trimmed || Number.isNaN(parsed.getTime())) {
+  if (!trimmed || !parsed) {
     errors.startedAt = t("validation.invalidQuitDateTime");
     return null;
   }

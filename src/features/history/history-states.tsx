@@ -17,7 +17,7 @@ export function HistoryLoadingState() {
             key={item}
             style={{
               height: 110,
-              borderRadius: 8,
+              borderRadius: 24,
               backgroundColor: colors.surfaceMuted,
             }}
           />

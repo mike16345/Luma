@@ -1,15 +1,15 @@
 import { Text, View, type ViewStyle } from "react-native";
 
 import { useLanguage } from "@/i18n/language-context";
-import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
+import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function MetricCard({
   label,
   value,
   supportingText,
-  accentColor = colors.action,
+  accentColor,
   style,
 }: {
   label: string;
@@ -19,22 +19,25 @@ export function MetricCard({
   style?: ViewStyle;
 }) {
   const { textAlign } = useLanguage();
+  const colors = useThemeColors();
+  const resolvedAccent = accentColor ?? colors.action;
 
   return (
     <View
       style={[
         {
-          minHeight: 116,
+          minHeight: 128,
           flex: 1,
           minWidth: 150,
           justifyContent: "space-between",
           gap: spacing.md,
           padding: spacing.lg,
-          borderRadius: 8,
+          borderRadius: 24,
           borderCurve: "continuous",
           borderWidth: 1,
           borderColor: colors.border,
-          backgroundColor: colors.surface,
+          backgroundColor: colors.surfaceElevated,
+          boxShadow: `0 16px 36px ${colors.shadow}`,
         },
         style,
       ]}
@@ -44,7 +47,7 @@ export function MetricCard({
           width: 34,
           height: 4,
           borderRadius: 999,
-          backgroundColor: accentColor,
+          backgroundColor: resolvedAccent,
         }}
       />
       <View style={{ gap: spacing.xs }}>
@@ -53,8 +56,8 @@ export function MetricCard({
           style={{
             ...typography.label,
             color: colors.textSecondary,
-            textTransform: "uppercase",
             textAlign,
+            letterSpacing: 0,
           }}
         >
           {label}
@@ -64,8 +67,8 @@ export function MetricCard({
           adjustsFontSizeToFit
           numberOfLines={1}
           style={{
-            fontSize: 28,
-            lineHeight: 34,
+            fontSize: 31,
+            lineHeight: 37,
             fontWeight: "700",
             color: colors.textPrimary,
             fontVariant: ["tabular-nums"],

@@ -195,6 +195,16 @@ Status: idea
 Show a timeline of meaningful chapter moments: start, goal progress, slip-up
 logging, restarts, and longest streak changes. Avoid medical recovery milestones.
 
+### Progress Badges
+
+Status: idea
+
+Add restrained milestone badges for concrete progress such as money saved,
+cigarettes avoided, and chapter duration. Examples: saved a meaningful amount of
+money, avoided 100 cigarettes, reached 7 smoke-free days, reached 30 smoke-free
+days. Badges should feel calm and credible rather than arcade-like, and should
+avoid medical or body-recovery claims.
+
 ### Goal Gallery
 
 Status: idea

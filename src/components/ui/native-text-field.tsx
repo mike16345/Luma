@@ -42,15 +42,16 @@ export function NativeTextField({
       </Text>
       <View
         style={{
-          minHeight: 48,
+          minHeight: 52,
           justifyContent: "center",
-          paddingHorizontal: spacing.sm,
-          paddingVertical: spacing.xs,
-          borderRadius: 8,
+          paddingHorizontal: spacing.md,
+          paddingVertical: spacing.sm,
+          borderRadius: 18,
           borderCurve: "continuous",
           borderWidth: 1,
           borderColor: error ? colors.slip : colors.border,
-          backgroundColor: colors.surface,
+          backgroundColor: colors.surfaceElevated,
+          boxShadow: `0 10px 24px ${colors.shadow}`,
         }}
       >
         <Host matchContents={{ vertical: true }} seedColor={colors.action}>

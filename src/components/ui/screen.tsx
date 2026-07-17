@@ -7,8 +7,9 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { gradientStyle, gradients } from "@/theme/gradients";
 import { spacing } from "@/theme/spacing";
-import { useThemeColors } from "@/theme/theme-context";
+import { useTheme } from "@/theme/theme-context";
 
 type ScreenProps = PropsWithChildren<
   Pick<ScrollViewProps, "refreshControl"> & {
@@ -25,21 +26,31 @@ export function Screen({
   refreshControl,
   style,
 }: ScreenProps) {
-  const colors = useThemeColors();
+  const { colors, resolvedTheme } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
       refreshControl={allowRefresh ? refreshControl : undefined}
-      style={[{ backgroundColor: colors.background }, style]}
+      style={[
+        {
+          backgroundColor: colors.background,
+          ...gradientStyle(
+            resolvedTheme === "dark"
+              ? gradients.appBackgroundDark
+              : gradients.appBackground
+          ),
+        },
+        style,
+      ]}
       contentContainerStyle={[
         {
           flexGrow: 1,
           padding: spacing.screen,
-          paddingTop: spacing.screen + insets.top,
+          paddingTop: spacing.xl + insets.top,
           paddingBottom: spacing.xxl + insets.bottom + spacing.md,
-          gap: spacing.lg,
+          gap: spacing.xl,
         },
         contentContainerStyle,
       ]}

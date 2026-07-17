@@ -70,9 +70,14 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
-          height: 60 + insets.bottom,
-          paddingBottom: Math.max(insets.bottom, 8),
-          paddingTop: 8,
+          height: 66 + insets.bottom,
+          paddingBottom: Math.max(insets.bottom, 10),
+          paddingTop: 10,
+          boxShadow: `0 -12px 30px ${colors.shadow}`,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600",
         },
       }}
     >

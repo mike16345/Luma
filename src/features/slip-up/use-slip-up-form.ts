@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   createInitialSlipUpFormState,
@@ -51,6 +51,7 @@ export type SlipUpFormStateModel =
 
 export function useSlipUpForm(): SlipUpFormStateModel {
   const { t } = useLanguage();
+  const hasLoadedDefaultsRef = useRef(false);
   const [activeChapter, setActiveChapter] = useState<ChapterRecord | null>(null);
   const [form, setForm] = useState<SlipUpFormState>(
     createInitialSlipUpFormState
@@ -72,6 +73,11 @@ export function useSlipUpForm(): SlipUpFormStateModel {
     try {
       const data = await loadSlipUpViewModel();
       setActiveChapter(data.activeChapter);
+
+      if (!hasLoadedDefaultsRef.current) {
+        setForm(createInitialSlipUpFormState(data.latestSlipUp));
+        hasLoadedDefaultsRef.current = true;
+      }
     } catch (caughtError) {
       setActiveChapter(null);
       setLoadError(

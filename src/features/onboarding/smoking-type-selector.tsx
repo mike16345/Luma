@@ -1,11 +1,34 @@
+import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import { Text, View } from "react-native";
 
-import { NativeActionButton } from "@/components/ui/native-action-button";
+import { NativePickerField } from "@/components/ui/native-picker-field";
 import { useLanguage } from "@/i18n/language-context";
-import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
+import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 import type { SmokingType } from "@/types/domain";
+
+const smokingTypeIcons = {
+  pack: {
+    fallback: "P",
+    name: {
+      ios: "shippingbox.fill",
+      android: "inventory_2",
+      web: "inventory_2",
+    },
+  },
+  "roll-your-own": {
+    fallback: "R",
+    name: {
+      ios: "pencil",
+      android: "edit",
+      web: "edit",
+    },
+  },
+} satisfies Record<
+  SmokingType,
+  { fallback: string; name: SymbolViewProps["name"] }
+>;
 
 export function SmokingTypeSelector({
   value,
@@ -15,31 +38,50 @@ export function SmokingTypeSelector({
   onChange: (value: SmokingType) => void;
 }) {
   const { t, textAlign } = useLanguage();
+  const colors = useThemeColors();
+  const options = [
+    { label: t("common.packs"), value: "pack" as const },
+    { label: t("common.rollYourOwn"), value: "roll-your-own" as const },
+  ];
+  const selectedIcon = smokingTypeIcons[value];
 
   return (
     <View style={{ gap: spacing.xs }}>
+      <NativePickerField
+        label={t("onboarding.smokingType")}
+        value={value}
+        onChange={onChange}
+        options={options}
+        selectedAccessory={
+          <SymbolView
+            name={selectedIcon.name}
+            size={22}
+            tintColor={colors.action}
+            fallback={
+              <Text
+                style={{
+                  ...typography.caption,
+                  width: 24,
+                  color: colors.action,
+                  textAlign: "center",
+                }}
+              >
+                {selectedIcon.fallback}
+              </Text>
+            }
+          />
+        }
+      />
       <Text
         selectable
         style={{
-          ...typography.label,
-          color: colors.textPrimary,
+          ...typography.caption,
+          color: colors.textMuted,
           textAlign,
         }}
       >
-        {t("onboarding.smokingType")}
+        {value === "pack" ? t("common.packs") : t("common.rollYourOwn")}
       </Text>
-      <View style={{ gap: spacing.sm }}>
-        <NativeActionButton
-          label={t("common.packs")}
-          variant={value === "pack" ? "filled" : "outlined"}
-          onPress={() => onChange("pack")}
-        />
-        <NativeActionButton
-          label={t("common.rollYourOwn")}
-          variant={value === "roll-your-own" ? "filled" : "outlined"}
-          onPress={() => onChange("roll-your-own")}
-        />
-      </View>
     </View>
   );
 }

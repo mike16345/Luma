@@ -3,8 +3,8 @@ import { Text, View } from "react-native";
 
 import { getFlexDirection } from "@/i18n/languages";
 import { useLanguage } from "@/i18n/language-context";
-import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
+import { useThemeColors } from "@/theme/theme-context";
 import { typography } from "@/theme/typography";
 
 export function SectionCard({
@@ -16,17 +16,19 @@ export function SectionCard({
   title?: string;
 }>) {
   const { direction, textAlign } = useLanguage();
+  const colors = useThemeColors();
 
   return (
     <View
       style={{
-        gap: spacing.md,
+        gap: spacing.lg,
         padding: spacing.lg,
-        borderRadius: 8,
+        borderRadius: 22,
         borderCurve: "continuous",
         borderWidth: 1,
         borderColor: colors.border,
-        backgroundColor: colors.surface,
+        backgroundColor: colors.surfaceElevated,
+        boxShadow: `0 18px 42px ${colors.shadow}`,
       }}
     >
       {eyebrow || title ? (
@@ -52,8 +54,8 @@ export function SectionCard({
                 style={{
                   ...typography.label,
                   color: colors.action,
-                  textTransform: "uppercase",
                   textAlign,
+                  letterSpacing: 0,
                 }}
               >
                 {eyebrow}

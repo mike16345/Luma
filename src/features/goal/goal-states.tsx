@@ -18,7 +18,7 @@ export function GoalLoadingState() {
             key={item}
             style={{
               height: item === 0 ? 144 : 104,
-              borderRadius: 8,
+              borderRadius: 24,
               backgroundColor: colors.surfaceMuted,
             }}
           />

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Text, View } from "react-native";
 
 import { NativeActionButton } from "@/components/ui/native-action-button";
-import { NativeTextField } from "@/components/ui/native-text-field";
+import { NativeTimeField } from "@/components/ui/native-time-field";
 import { SectionCard } from "@/components/ui/section-card";
 import {
   cancelReminder,
@@ -148,12 +148,10 @@ export function RemindersSection() {
           {t("settings.remindersDescription")}
         </Text>
 
-        <NativeTextField
+        <NativeTimeField
           label={t("settings.reminderTime")}
           value={timeValue}
-          onChangeText={setTimeValue}
-          placeholder="20:00"
-          keyboardType="numbers-and-punctuation"
+          onChangeValue={setTimeValue}
           error={error ?? undefined}
         />
 

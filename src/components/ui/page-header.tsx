@@ -20,8 +20,8 @@ export function PageHeader({
   return (
     <View
       style={{
-        gap: spacing.sm,
-        paddingBottom: spacing.xs,
+        gap: spacing.md,
+        paddingBottom: spacing.xxs,
       }}
     >
       {eyebrow ? (
@@ -31,7 +31,9 @@ export function PageHeader({
             paddingHorizontal: spacing.sm,
             paddingVertical: spacing.xxs,
             borderRadius: 999,
-            backgroundColor: colors.actionSoft,
+            borderWidth: 1,
+            borderColor: colors.border,
+            backgroundColor: colors.surfaceElevated,
           }}
         >
           <Text
@@ -40,6 +42,7 @@ export function PageHeader({
               ...typography.label,
               color: colors.action,
               textAlign,
+              letterSpacing: 0,
             }}
           >
             {eyebrow}
@@ -50,6 +53,7 @@ export function PageHeader({
         selectable
         style={{
           ...typography.title,
+          maxWidth: 640,
           color: colors.textPrimary,
           textAlign,
         }}
@@ -61,6 +65,7 @@ export function PageHeader({
           selectable
           style={{
             ...typography.body,
+            maxWidth: 620,
             color: colors.textSecondary,
             textAlign,
           }}

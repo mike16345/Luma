@@ -7,7 +7,7 @@ import {
   tint,
 } from "@expo/ui/swift-ui/modifiers";
 
-import { colors } from "@/theme/colors";
+import { useThemeColors } from "@/theme/theme-context";
 
 export type NativeActionButtonVariant = "filled" | "outlined" | "text";
 
@@ -24,6 +24,7 @@ export function NativeActionButton({
   onPress,
   variant = "filled",
 }: NativeActionButtonProps) {
+  const colors = useThemeColors();
   const style =
     variant === "outlined" ? "bordered" : variant === "text" ? "plain" : "borderedProminent";
 
@@ -33,7 +34,7 @@ export function NativeActionButton({
         label={label}
         onPress={disabled ? undefined : onPress}
         modifiers={[
-          frame({ maxWidth: 520 }),
+          frame({ maxWidth: 560, minHeight: 54 }),
           buttonStyle(style),
           controlSize("large"),
           tint(colors.action),

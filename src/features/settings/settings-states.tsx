@@ -17,7 +17,7 @@ export function SettingsLoadingState() {
             key={item}
             style={{
               height: item === 0 ? 96 : 148,
-              borderRadius: 8,
+              borderRadius: 24,
               backgroundColor: colors.surfaceMuted,
             }}
           />

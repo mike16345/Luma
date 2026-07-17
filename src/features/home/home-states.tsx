@@ -24,7 +24,7 @@ export function HomeLoadingState() {
           style={{
             width: "74%",
             height: 42,
-            borderRadius: 8,
+            borderRadius: 22,
             backgroundColor: colors.surfaceMuted,
           }}
         />
@@ -34,7 +34,7 @@ export function HomeLoadingState() {
           style={{
             flex: 1,
             height: 116,
-            borderRadius: 8,
+            borderRadius: 24,
             backgroundColor: colors.surfaceMuted,
           }}
         />
@@ -42,7 +42,7 @@ export function HomeLoadingState() {
           style={{
             flex: 1,
             height: 116,
-            borderRadius: 8,
+            borderRadius: 24,
             backgroundColor: colors.surfaceMuted,
           }}
         />

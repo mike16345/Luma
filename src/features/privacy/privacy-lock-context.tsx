@@ -15,10 +15,13 @@ import {
 import { useLanguage } from "@/i18n/language-context";
 import { loadUserProfile } from "@/lib/profile/profile-preferences";
 
+const PRIVACY_LOCK_COOLDOWN_MS = 5 * 60 * 1000;
+
 export function PrivacyLockProvider({ children }: PropsWithChildren) {
   const { t } = useLanguage();
   const [isLocked, setIsLocked] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const backgroundedAtRef = useRef<number | null>(null);
   const lastAppStateRef = useRef<AppStateStatus>(AppState.currentState);
 
   const unlock = useCallback(async () => {
@@ -43,6 +46,7 @@ export function PrivacyLockProvider({ children }: PropsWithChildren) {
     if (didAuthenticate) {
       setIsLocked(false);
       setMessage(null);
+      backgroundedAtRef.current = null;
     } else {
       setIsLocked(true);
       setMessage(t("settings.privacyCancelled"));
@@ -63,11 +67,26 @@ export function PrivacyLockProvider({ children }: PropsWithChildren) {
       const previousState = lastAppStateRef.current;
       lastAppStateRef.current = nextState;
 
+      if (previousState === "active" && nextState.match(/inactive|background/)) {
+        backgroundedAtRef.current = Date.now();
+        return;
+      }
+
       if (
         previousState.match(/inactive|background/) &&
         nextState === "active" &&
         loadUserProfile().privacyLockEnabled
       ) {
+        const backgroundedAt = backgroundedAtRef.current;
+        const wasAwayLongEnough =
+          backgroundedAt === null ||
+          Date.now() - backgroundedAt >= PRIVACY_LOCK_COOLDOWN_MS;
+
+        if (!wasAwayLongEnough) {
+          backgroundedAtRef.current = null;
+          return;
+        }
+
         setIsLocked(true);
         void unlock();
       }
