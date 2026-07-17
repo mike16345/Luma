@@ -1,4 +1,4 @@
-export const colors = {
+export const lightColors = {
   background: "#F7F5F0",
   surface: "#FFFFFF",
   surfaceMuted: "#EFECE4",
@@ -14,4 +14,23 @@ export const colors = {
   border: "#DDD8CC",
 } as const;
 
-export type ColorToken = keyof typeof colors;
+export const darkColors = {
+  background: "#111715",
+  surface: "#1A211F",
+  surfaceMuted: "#24302C",
+  textPrimary: "#F2F0EA",
+  textSecondary: "#CDD6D1",
+  textMuted: "#9BA9A3",
+  action: "#8DB9A9",
+  actionSoft: "#263D35",
+  accentTime: "#90AFCF",
+  accentSavings: "#8DB9A9",
+  accentWarm: "#D1A06A",
+  slip: "#D1848D",
+  border: "#34423D",
+} as const;
+
+export type ColorToken = keyof typeof lightColors;
+export type ThemeColors = Record<ColorToken, string>;
+
+export const colors: ThemeColors = { ...lightColors };

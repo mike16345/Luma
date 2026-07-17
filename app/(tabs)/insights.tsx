@@ -1,11 +1,5 @@
-import { Text } from "react-native";
-
-import { Screen } from "@/components/ui/screen";
+import { InsightsScreen } from "@/features/insights/insights-screen";
 
 export default function InsightsRoute() {
-  return (
-    <Screen>
-      <Text>Insights</Text>
-    </Screen>
-  );
+  return <InsightsScreen />;
 }

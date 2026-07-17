@@ -113,6 +113,7 @@ Unless the plan is intentionally revised, organize source like this:
 - Start with React state, hooks, and repository-backed selectors.
 - Do not add Zustand, Redux, TanStack Query, or another global abstraction unless the app has a demonstrated need for it and the plan is updated first.
 - This app has no server-state requirement in the MVP. Do not add a server-state stack preemptively.
+- Repository-backed feature screens should follow the established page pattern: a feature service loads repository data, a selector builds a UI-safe view model, a `use-<feature>-view-model` hook owns loading/error/refresh state, and the route file only renders the feature screen.
 
 ## 7. UI and UX rules
 
@@ -146,6 +147,7 @@ Unless the plan is intentionally revised, organize source like this:
 - Keep React route files thin and move logic into feature modules.
 - Prefer Expo and React Native primitives over web assumptions.
 - Do not use DOM APIs, CSS files, `className`, or browser-only layout assumptions in native code.
+- Use the theme provider for app colors. New UI should read colors through `useThemeColors`/`useTheme` when it needs reactive theme values, and shared theme tokens should support both light and dark palettes.
 
 ## 9. Navigation rules
 
