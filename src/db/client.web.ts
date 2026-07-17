@@ -1,4 +1,9 @@
 import type { SmokingType } from "@/types/domain";
+import {
+  getActiveDatabaseName,
+  getStoredDevDataProfile,
+} from "@/lib/dev/dev-data-profile";
+import { seedDevDatabaseIfNeeded } from "@/lib/dev/dev-database-seed";
 
 type ChapterRow = {
   id: string;
@@ -30,10 +35,14 @@ type WebDatabaseState = {
   slipUps: SlipUpRow[];
 };
 
-const STORAGE_KEY = "luma.web.database";
+const STORAGE_KEY_PREFIX = "luma.web.database";
+
+function getStorageKey() {
+  return `${STORAGE_KEY_PREFIX}.${getActiveDatabaseName()}`;
+}
 
 function readState(): WebDatabaseState {
-  const rawValue = globalThis.localStorage.getItem(STORAGE_KEY);
+  const rawValue = globalThis.localStorage.getItem(getStorageKey());
 
   if (!rawValue) {
     return {
@@ -58,7 +67,7 @@ function readState(): WebDatabaseState {
 }
 
 function writeState(state: WebDatabaseState) {
-  globalThis.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  globalThis.localStorage.setItem(getStorageKey(), JSON.stringify(state));
 }
 
 function sortByStartedAtDesc(chapters: ChapterRow[]) {
@@ -80,8 +89,18 @@ const webDatabase = {
     return;
   },
 
-  async getFirstAsync<T>(statement: string): Promise<T | null> {
+  async getFirstAsync<T>(
+    statement: string,
+    params: unknown[] = []
+  ): Promise<T | null> {
     const state = readState();
+
+    if (statement.includes("FROM chapters") && statement.includes("id = ?")) {
+      const [chapterId] = params;
+      return (
+        state.chapters.find((chapter) => chapter.id === chapterId) ?? null
+      ) as T | null;
+    }
 
     if (
       statement.includes("FROM chapters") &&
@@ -115,23 +134,24 @@ const webDatabase = {
     const state = readState();
 
     if (statement.includes("INSERT INTO chapters")) {
-      const [
-        id,
-        startedAt,
-        currencyCode,
-        smokingType,
-        purchasePriceMinor,
-        estimatedCigarettesPerPurchase,
-        averageCigarettesPerDay,
-        goalAmountMinor,
-        createdAt,
-        updatedAt,
-      ] = params;
+      const hasEndedAtParam = params.length === 11;
+      const id = params[0];
+      const startedAt = params[1];
+      const endedAt = hasEndedAtParam ? params[2] : null;
+      const currencyCode = params[hasEndedAtParam ? 3 : 2];
+      const smokingType = params[hasEndedAtParam ? 4 : 3];
+      const purchasePriceMinor = params[hasEndedAtParam ? 5 : 4];
+      const estimatedCigarettesPerPurchase = params[hasEndedAtParam ? 6 : 5];
+      const averageCigarettesPerDay = params[hasEndedAtParam ? 7 : 6];
+      const goalAmountMinor = params[hasEndedAtParam ? 8 : 7];
+      const createdAt = params[hasEndedAtParam ? 9 : 8];
+      const updatedAt = params[hasEndedAtParam ? 10 : 9];
 
       state.chapters.push({
         id: String(id),
         started_at: String(startedAt),
-        ended_at: null,
+        ended_at:
+          endedAt === null || endedAt === undefined ? null : String(endedAt),
         currency_code: String(currencyCode),
         smoking_type: smokingType as SmokingType,
         purchase_price_minor: Number(purchasePriceMinor),
@@ -233,5 +253,6 @@ export function openAppDatabase() {
 }
 
 export async function getAppDatabase() {
+  await seedDevDatabaseIfNeeded(webDatabase, getStoredDevDataProfile());
   return webDatabase;
 }

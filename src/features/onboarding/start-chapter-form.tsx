@@ -5,6 +5,7 @@ import { CurrencySelector } from "@/components/ui/currency-selector";
 import { NativeActionButton } from "@/components/ui/native-action-button";
 import { NativeTextField } from "@/components/ui/native-text-field";
 import { SectionCard } from "@/components/ui/section-card";
+import { useBootstrap } from "@/features/app-shell/bootstrap-context";
 import { SmokingTypeSelector } from "@/features/onboarding/smoking-type-selector";
 import { useStartChapterForm } from "@/features/onboarding/use-start-chapter-form";
 import { colors } from "@/theme/colors";
@@ -13,6 +14,7 @@ import { typography } from "@/theme/typography";
 
 export function StartChapterForm() {
   const router = useRouter();
+  const { markReady } = useBootstrap();
   const {
     errors,
     form,
@@ -27,7 +29,8 @@ export function StartChapterForm() {
     const chapter = await submit();
 
     if (chapter) {
-      router.replace("/");
+      markReady();
+      router.replace("/onboarding/success");
     }
   }
 

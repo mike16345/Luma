@@ -1,13 +1,29 @@
-import { Stack } from "expo-router";
+import { Redirect, Stack, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import {
+  BootstrapProvider,
+  useBootstrap,
+} from "@/features/app-shell/bootstrap-context";
+import { BootstrapLoadingScreen } from "@/features/app-shell/bootstrap-loading-screen";
 import { LanguageProvider, useLanguage } from "@/i18n/language-context";
 import { ThemeProvider, useTheme } from "@/theme/theme-context";
 
 function RootStack() {
   const { colors, resolvedTheme } = useTheme();
   const { direction } = useLanguage();
+  const pathname = usePathname();
+  const { status } = useBootstrap();
+  const isOnboardingRoute = pathname.startsWith("/onboarding");
+
+  if (status === "loading") {
+    return <BootstrapLoadingScreen />;
+  }
+
+  if (status === "onboarding" && !isOnboardingRoute) {
+    return <Redirect href="/onboarding" />;
+  }
 
   return (
     <>
@@ -24,6 +40,7 @@ function RootStack() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="goal" />
         <Stack.Screen name="onboarding/index" />
+        <Stack.Screen name="onboarding/success" />
         <Stack.Screen
           name="slip-up/index"
           options={{ presentation: "modal" }}
@@ -42,7 +59,9 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <LanguageProvider>
         <ThemeProvider>
-          <RootStack />
+          <BootstrapProvider>
+            <RootStack />
+          </BootstrapProvider>
         </ThemeProvider>
       </LanguageProvider>
     </SafeAreaProvider>

@@ -1682,6 +1682,34 @@ git commit -m "feat: add insights and finalize mvp shell"
 
 ## Self-review
 
+## Post-plan phase: Onboarding gate and development data profiles
+
+This phase was added after the initial MVP shell existed.
+
+**Files:**
+- Create: `src/features/app-shell/bootstrap-context.tsx`
+- Create: `src/features/app-shell/bootstrap-loading-screen.tsx`
+- Create: `src/features/onboarding/onboarding-animated-section.tsx`
+- Create: `src/features/onboarding/onboarding-guidance.tsx`
+- Create: `src/features/onboarding/onboarding-identity.tsx`
+- Create: `src/features/settings/dev-options/*`
+- Create: `src/lib/dev/*`
+- Modify: `app/_layout.tsx`
+- Modify: `src/features/onboarding/start-chapter-screen.tsx`
+- Modify: `src/features/onboarding/start-chapter-form.tsx`
+- Modify: `src/features/settings/settings-screen.tsx`
+- Modify: `src/db/client.ts`
+- Modify: `src/db/client.web.ts`
+
+**Requirements:**
+- First launch with no chapters routes to onboarding through a root bootstrap gate.
+- Launches with any chapter history route to the main tabs, even if no chapter is active.
+- Bootstrap loading uses a lightweight branded transition rather than a blank screen.
+- Onboarding keeps the existing single-form data contract but adds stronger first-run identity, guidance, and reveal motion.
+- Starting or restarting a chapter marks bootstrap ready before returning Home.
+- Development data profiles are `__DEV__`-only, hidden behind repeated Settings header taps, and passphrase protected with `luma`.
+- Development profiles may switch between normal, clean, and seeded-history local databases without adding account, sync, or production-facing concepts.
+
 ### Spec coverage
 
 - onboarding, home, goal, history, insights, settings, slip-up, and restart all have dedicated tasks
