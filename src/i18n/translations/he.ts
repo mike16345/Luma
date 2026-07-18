@@ -325,6 +325,35 @@ export const he: TranslationTree = {
     reminderTurnedOff: "הבדיקה היומית כובתה.",
     testReminderScheduled:
       "תזכורת בדיקה נקבעה. היא אמורה להופיע בעוד כמה שניות.",
+    dataBackupEyebrow: "נתונים",
+    dataBackupTitle: "גיבוי נתונים",
+    dataBackupDescription:
+      "ייצא או שחזר את היסטוריית הפרקים המקומית שלך כקובץ JSON. זה לא משתמש בחשבון או בסנכרון ענן.",
+    importBackupWarning:
+      "ייבוא מחליף את היסטוריית הפרקים במכשיר הזה.",
+    exportBackup: "ייצא גיבוי",
+    importBackup: "ייבא גיבוי",
+    exportingBackup: "מייצא גיבוי...",
+    importingBackup: "מייבא גיבוי...",
+    backupExportReady: "הגיבוי מוכן לשיתוף.",
+    backupImportComplete: "הגיבוי יובא.",
+    backupSharingUnavailable:
+      "שיתוף קבצים אינו זמין במכשיר הזה כרגע.",
+    backupExportError: "אי אפשר לייצא גיבוי כרגע.",
+    backupImportError: "אי אפשר לייבא גיבוי כרגע.",
+    backupInvalidJson: "בחר קובץ גיבוי JSON קריא של Luma.",
+    backupInvalidShape:
+      "הקובץ הזה לא תואם למבנה הגיבוי של Luma.",
+    backupUnsupportedVersion:
+      "הגיבוי הזה נוצר בגרסת מבנה שאינה נתמכת.",
+    backupMultipleActiveChapters:
+      "הגיבוי הזה מכיל יותר מפרק פעיל אחד.",
+    backupOrphanSlipUp:
+      "הגיבוי הזה מכיל מעידה שמקושרת לפרק חסר.",
+    importBackupConfirmTitle: "להחליף היסטוריה מקומית?",
+    importBackupConfirmMessage:
+      "ייבוא הגיבוי הזה יחליף את היסטוריית הפרקים במכשיר הזה. ההיסטוריה המקומית הנוכחית תוסר.",
+    importBackupConfirmAction: "החלף היסטוריה",
   },
   privacy: {
     lockedTitle: "לומה נעולה.",

@@ -323,6 +323,35 @@ export const en = {
     reminderTurnedOff: "Daily check-in turned off.",
     testReminderScheduled:
       "Test reminder scheduled. It should appear in a few seconds.",
+    dataBackupEyebrow: "Data",
+    dataBackupTitle: "Data backup",
+    dataBackupDescription:
+      "Export or restore your local chapter history as a JSON file. This does not use an account or cloud sync.",
+    importBackupWarning:
+      "Importing replaces the chapter history on this device.",
+    exportBackup: "Export backup",
+    importBackup: "Import backup",
+    exportingBackup: "Exporting backup...",
+    importingBackup: "Importing backup...",
+    backupExportReady: "Backup ready to share.",
+    backupImportComplete: "Backup imported.",
+    backupSharingUnavailable:
+      "File sharing is not available on this device right now.",
+    backupExportError: "Unable to export backup right now.",
+    backupImportError: "Unable to import backup right now.",
+    backupInvalidJson: "Choose a readable Luma JSON backup file.",
+    backupInvalidShape:
+      "That file does not match the Luma backup format.",
+    backupUnsupportedVersion:
+      "That backup was created with an unsupported format version.",
+    backupMultipleActiveChapters:
+      "That backup contains more than one active chapter.",
+    backupOrphanSlipUp:
+      "That backup contains a slip-up linked to a missing chapter.",
+    importBackupConfirmTitle: "Replace local history?",
+    importBackupConfirmMessage:
+      "Importing this backup will replace the chapter history on this device. Current local history will be removed.",
+    importBackupConfirmAction: "Replace history",
   },
   privacy: {
     lockedTitle: "Luma is locked.",

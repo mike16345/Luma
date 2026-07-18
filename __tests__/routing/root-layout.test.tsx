@@ -34,6 +34,14 @@ jest.mock("@/features/reminders/reminder-service", () => ({
   configureNotificationHandling: jest.fn(),
 }));
 
+jest.mock("@/features/settings/data-backup/data-backup-section", () => {
+  const { Text } = require("react-native");
+
+  return {
+    DataBackupSection: () => <Text>Data backup</Text>,
+  };
+});
+
 describe("root route shell", () => {
   it("routes a clean install to onboarding", async () => {
     renderRouter("./app", { initialUrl: "/" });

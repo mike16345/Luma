@@ -87,6 +87,11 @@ metrics, badges unlocked during that chapter, optional slip-up context, and a
 local-only footer. Use installed Expo packages only: `expo-print` and
 `expo-sharing`.
 
+Next/current data slice: add Settings data backup actions. Export creates a
+plain JSON backup containing canonical `chapters` and `slipUps`; import validates
+the file and replaces the local chapter history rather than merging, to avoid
+duplicate IDs and conflicting active chapters.
+
 ### Notifications And Reminders
 
 Status: in progress
@@ -191,10 +196,11 @@ tech demo.
 
 ### Private Backup And Import
 
-Status: idea
+Status: in progress
 
-Allow users to export and later restore their local data. This can remain fully
-local without accounts.
+Allow users to export and later restore their local data. This remains fully
+local without accounts. First implementation uses a plain JSON backup from
+Settings; encrypted or password-protected backups are deferred.
 
 ### Milestone Timeline
 

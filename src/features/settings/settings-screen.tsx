@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Screen } from "@/components/ui/screen";
 import { SectionCard } from "@/components/ui/section-card";
 import { ChapterSettingsForm } from "@/features/settings/chapter-settings-form";
+import { DataBackupSection } from "@/features/settings/data-backup/data-backup-section";
 import { DevOptionsPrompt } from "@/features/settings/dev-options/dev-options-prompt";
 import { DevOptionsSection } from "@/features/settings/dev-options/dev-options-section";
 import { useDevOptionsUnlock } from "@/features/settings/dev-options/use-dev-options-unlock";
@@ -94,6 +95,7 @@ export function SettingsScreen() {
       ) : null}
       <ProfilePreferencesSection />
       <PrivacyLockSection />
+      <DataBackupSection onImportComplete={state.refresh} />
       <RemindersSection />
       <ThemePreferenceSection />
       <LanguagePreferenceSection />
