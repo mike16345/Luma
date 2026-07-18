@@ -219,10 +219,6 @@ money, avoided 100 cigarettes, reached 7 smoke-free days, reached 30 smoke-free
 days. Badges should feel calm and credible rather than arcade-like, and should
 avoid medical or body-recovery claims.
 
-Recommendation: build this as the next feature slice. It reuses existing chapter
-metrics, adds a visible sense of progress, and does not require new native
-packages or another development build.
-
 First slice: derive locked and unlocked badges from existing local metrics, show
 code-rendered medallion icons, display progress bars under locked badges, and
 format money thresholds in the user's current display currency.
@@ -259,10 +255,15 @@ Keep summaries descriptive rather than interpretive.
 
 ### App Lock Timeout Settings
 
-Status: idea
+Status: in progress
 
 Let users decide when privacy lock should re-engage, for example immediately,
 after one minute, or after five minutes.
+
+Current slice: add a Settings picker for immediately, after one minute, and
+after five minutes. Persist the choice locally with the profile preferences and
+use it when deciding whether returning from the background should show the lock
+screen.
 
 ### Home Widgets
 

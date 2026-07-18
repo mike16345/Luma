@@ -12,10 +12,9 @@ import {
   authenticateForPrivacyLock,
   getPrivacyLockAvailability,
 } from "@/features/privacy/privacy-lock-service";
+import { shouldRequirePrivacyUnlock } from "@/features/privacy/privacy-lock-timeout";
 import { useLanguage } from "@/i18n/language-context";
 import { loadUserProfile } from "@/lib/profile/profile-preferences";
-
-const PRIVACY_LOCK_COOLDOWN_MS = 5 * 60 * 1000;
 
 export function PrivacyLockProvider({ children }: PropsWithChildren) {
   const { t } = useLanguage();
@@ -72,17 +71,22 @@ export function PrivacyLockProvider({ children }: PropsWithChildren) {
         return;
       }
 
-      if (
-        previousState.match(/inactive|background/) &&
-        nextState === "active" &&
-        loadUserProfile().privacyLockEnabled
-      ) {
-        const backgroundedAt = backgroundedAtRef.current;
-        const wasAwayLongEnough =
-          backgroundedAt === null ||
-          Date.now() - backgroundedAt >= PRIVACY_LOCK_COOLDOWN_MS;
+      if (previousState.match(/inactive|background/) && nextState === "active") {
+        const profile = loadUserProfile();
 
-        if (!wasAwayLongEnough) {
+        if (!profile.privacyLockEnabled) {
+          backgroundedAtRef.current = null;
+          return;
+        }
+
+        const backgroundedAt = backgroundedAtRef.current;
+        const shouldLock = shouldRequirePrivacyUnlock({
+          backgroundedAt,
+          now: Date.now(),
+          timeout: profile.privacyLockTimeout,
+        });
+
+        if (!shouldLock) {
           backgroundedAtRef.current = null;
           return;
         }

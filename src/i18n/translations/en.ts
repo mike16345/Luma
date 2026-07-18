@@ -303,6 +303,10 @@ export const en = {
     appLockTitle: "App lock",
     privacyDescription:
       "Require {method} before Luma shows private progress on this device.",
+    privacyLockTimeout: "Require again",
+    privacyLockImmediately: "Immediately",
+    privacyLockAfterOneMinute: "After 1 minute",
+    privacyLockAfterFiveMinutes: "After 5 minutes",
     turnPrivacyLockOn: "Turn privacy lock on",
     turnPrivacyLockOff: "Turn privacy lock off",
     privacyLockOn: "Privacy lock is on.",

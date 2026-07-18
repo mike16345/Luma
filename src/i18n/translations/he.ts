@@ -305,6 +305,10 @@ export const he: TranslationTree = {
     appLockTitle: "נעילת אפליקציה",
     privacyDescription:
       "דרוש {method} לפני שלומה מציגה התקדמות פרטית במכשיר הזה.",
+    privacyLockTimeout: "דרוש שוב",
+    privacyLockImmediately: "מיד",
+    privacyLockAfterOneMinute: "אחרי דקה",
+    privacyLockAfterFiveMinutes: "אחרי 5 דקות",
     turnPrivacyLockOn: "הפעל נעילת פרטיות",
     turnPrivacyLockOff: "כבה נעילת פרטיות",
     privacyLockOn: "נעילת הפרטיות פעילה.",

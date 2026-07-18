@@ -1,14 +1,21 @@
 import { preferencesStorage } from "@/lib/storage/local-preferences";
+import {
+  defaultPrivacyLockTimeout,
+  isPrivacyLockTimeout,
+  type PrivacyLockTimeout,
+} from "@/features/privacy/privacy-lock-timeout";
 
 export type UserProfile = {
   avatarUri: string | null;
   displayName: string;
   privacyLockEnabled: boolean;
+  privacyLockTimeout: PrivacyLockTimeout;
 };
 
 const DISPLAY_NAME_KEY = "profile.displayName";
 const AVATAR_URI_KEY = "profile.avatarUri";
 const PRIVACY_LOCK_ENABLED_KEY = "privacy.lockEnabled";
+const PRIVACY_LOCK_TIMEOUT_KEY = "privacy.lockTimeout";
 
 export function getInitials(displayName: string) {
   const words = displayName
@@ -27,6 +34,11 @@ export function getInitials(displayName: string) {
 }
 
 export function loadUserProfile(): UserProfile {
+  const storedPrivacyLockTimeout = preferencesStorage.getString(
+    PRIVACY_LOCK_TIMEOUT_KEY,
+    defaultPrivacyLockTimeout
+  );
+
   return {
     avatarUri: preferencesStorage.getString(AVATAR_URI_KEY, "") || null,
     displayName: preferencesStorage.getString(DISPLAY_NAME_KEY, ""),
@@ -34,6 +46,9 @@ export function loadUserProfile(): UserProfile {
       PRIVACY_LOCK_ENABLED_KEY,
       false
     ),
+    privacyLockTimeout: isPrivacyLockTimeout(storedPrivacyLockTimeout)
+      ? storedPrivacyLockTimeout
+      : defaultPrivacyLockTimeout,
   };
 }
 
@@ -47,4 +62,8 @@ export function saveAvatarUri(avatarUri: string | null) {
 
 export function savePrivacyLockEnabled(enabled: boolean) {
   preferencesStorage.setBoolean(PRIVACY_LOCK_ENABLED_KEY, enabled);
+}
+
+export function savePrivacyLockTimeout(timeout: PrivacyLockTimeout) {
+  preferencesStorage.setString(PRIVACY_LOCK_TIMEOUT_KEY, timeout);
 }
