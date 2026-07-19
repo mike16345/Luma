@@ -1,5 +1,9 @@
 import { buildChapterBadgeUnlocks } from "@/features/badges/chapter-badge-unlocks";
 import type { BadgeViewModel } from "@/features/badges/badge-selectors";
+import {
+  buildChapterTimeline,
+  type ChapterTimelineViewModel,
+} from "@/features/history/chapter-timeline-selectors";
 import type { Translator } from "@/i18n/translations";
 import { calculateChapterMetrics } from "@/lib/calculations/chapter-metrics";
 import { formatCurrencyFromMinorUnits } from "@/lib/formatting/currency";
@@ -28,6 +32,7 @@ export type ChapterDetailViewModel = {
   slipUp: ChapterSlipUpDetail | null;
   statusLabel: string;
   subtitle: string;
+  timeline: ChapterTimelineViewModel;
   title: string;
 };
 
@@ -163,6 +168,13 @@ export function buildChapterDetailViewModel(
     slipUp: buildSlipUpDetail(slipUp, t),
     statusLabel,
     subtitle: t("history.detailSubtitle"),
+    timeline: buildChapterTimeline({
+      chapter,
+      chapterNumber,
+      nowIso,
+      slipUp,
+      t,
+    }),
     title: isActive
       ? t("common.currentChapter")
       : t("history.chapterNumber", { number: chapterNumber }),

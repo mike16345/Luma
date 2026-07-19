@@ -189,6 +189,22 @@ export const he: TranslationTree = {
     slipUpContext: "הקשר המעידה",
     slipUpLoggedAt: "תועד ב-",
     unlockedDuringChapter: "נפתחו במהלך הפרק הזה",
+    timelineEyebrow: "ציר זמן",
+    timelineTitle: "ציר אבני דרך",
+    timelineNote:
+      "זמני אבני דרך שמבוססים על כסף או סיגריות הם הערכות לפי נתוני הפרק.",
+    timelineStartedTitle: "הפרק התחיל",
+    timelineStartedDescription: "נקודת ההתחלה של הפרק הזה.",
+    timelineBadgeDescription: "אבן דרך שנפתחה בפרק הזה.",
+    timelineEstimatedDescription:
+      "זמן משוער לפי קצב ההתקדמות בפרק הזה.",
+    timelineGoalDescription:
+      "זמן משוער לפי החיסכון בפרק הזה.",
+    timelineSlipUpTitle: "מעידה תועדה",
+    timelineSlipUpDescription: "הפרק הזה הסתיים כאן.",
+    timelineEndedTitle: "הפרק הסתיים",
+    timelineEndedDescription: "נקודת הסיום של הפרק הזה.",
+    timelineEstimatedLabel: "משוער",
     viewChapter: "צפה ב-{chapter}",
     chapterNotFound: "הפרק לא נמצא",
     chapterNotFoundMessage:
@@ -383,6 +399,21 @@ export const he: TranslationTree = {
     invalidTimeFormat: "השתמש בשעה בת 24 שעות, למשל 20:00.",
     invalidTimeRange: "בחר שעה בין 00:00 ל-23:59.",
     channelName: "תזכורות לומה",
+  },
+  reasons: {
+    homeEyebrow: "סיבה",
+    homeTitle: "סיבה לשמור קרוב",
+    editReason: "ערוך סיבה",
+    settingsEyebrow: "סיבה",
+    settingsTitle: "הסיבות שבגללן הפסקתי",
+    settingsDescription:
+      "שמור סיבה פרטית אחת שתרצה שלומה תשמור קרוב. היא נשארת במכשיר הזה.",
+    reasonLabel: "הסיבה שלך",
+    reasonPlaceholder: "בוקר רגוע יותר, יותר כסף שנחסך, להיות נוכח",
+    saveReason: "שמור סיבה",
+    removeReason: "הסר סיבה",
+    reasonSaved: "הסיבה נשמרה.",
+    reasonRemoved: "הסיבה הוסרה.",
   },
   validation: {
     invalidQuitDateTime: "הזן תאריך ושעת הפסקה תקינים.",

@@ -13,6 +13,7 @@ import { useDevOptionsUnlock } from "@/features/settings/dev-options/use-dev-opt
 import { LanguagePreferenceSection } from "@/features/settings/language-preference-section";
 import { PrivacyLockSection } from "@/features/settings/privacy-lock-section";
 import { ProfilePreferencesSection } from "@/features/settings/profile-preferences-section";
+import { QuitReasonSettingsSection } from "@/features/reasons/quit-reason-settings-section";
 import { RemindersSection } from "@/features/settings/reminders-section";
 import {
   SettingsErrorState,
@@ -94,6 +95,7 @@ export function SettingsScreen() {
         <DevOptionsSection onHide={devOptionsUnlock.hideOptions} />
       ) : null}
       <ProfilePreferencesSection />
+      <QuitReasonSettingsSection />
       <PrivacyLockSection />
       <DataBackupSection onImportComplete={state.refresh} />
       <RemindersSection />

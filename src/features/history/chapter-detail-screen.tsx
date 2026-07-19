@@ -6,6 +6,7 @@ import { Screen } from "@/components/ui/screen";
 import { SectionCard } from "@/components/ui/section-card";
 import { ChapterDetailMetrics } from "@/features/history/chapter-detail-metrics";
 import { ChapterReportActions } from "@/features/history/chapter-report-actions";
+import { ChapterTimelineSection } from "@/features/history/chapter-timeline-section";
 import { ChapterUnlockedBadgesSection } from "@/features/history/chapter-unlocked-badges-section";
 import {
   HistoryErrorState,
@@ -69,6 +70,7 @@ export function ChapterDetailScreen({ chapterId }: { chapterId: string }) {
       />
       <ChapterReportActions data={data} />
       <ChapterDetailMetrics metrics={data.metrics} title={t("history.detail")} />
+      <ChapterTimelineSection timeline={data.timeline} />
       <ChapterUnlockedBadgesSection
         badges={data.badgesUnlockedDuringChapter}
       />

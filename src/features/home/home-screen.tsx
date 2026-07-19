@@ -12,6 +12,7 @@ import { HomeErrorState, HomeLoadingState } from "@/features/home/home-states";
 import { HomeWeeklySummary } from "@/features/home/home-weekly-summary";
 import type { HomeViewModel } from "@/features/home/home-selectors";
 import { useHomeViewModel } from "@/features/home/use-home-view-model";
+import { HomeQuitReasonCard } from "@/features/reasons/home-quit-reason-card";
 import { useLanguage } from "@/i18n/language-context";
 
 function HomeContent({ data }: { data: HomeViewModel }) {
@@ -27,6 +28,7 @@ function HomeContent({ data }: { data: HomeViewModel }) {
       <HomeWeeklySummary data={data} />
       <HomePeriodRows data={data} />
       <HomeGoalCard data={data} />
+      <HomeQuitReasonCard />
       <HomeBadgesSection data={data} />
       <HomeContextMetrics data={data} />
     </Screen>

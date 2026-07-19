@@ -187,6 +187,22 @@ export const en = {
     slipUpContext: "Slip-up context",
     slipUpLoggedAt: "Logged at",
     unlockedDuringChapter: "Unlocked during this chapter",
+    timelineEyebrow: "Timeline",
+    timelineTitle: "Milestone timeline",
+    timelineNote:
+      "Milestones based on money or cigarettes use estimated timing from this chapter's inputs.",
+    timelineStartedTitle: "Chapter started",
+    timelineStartedDescription: "This chapter began here.",
+    timelineBadgeDescription: "Unlocked during this chapter.",
+    timelineEstimatedDescription:
+      "Estimated from this chapter's progress rate.",
+    timelineGoalDescription:
+      "Estimated from this chapter's saved progress.",
+    timelineSlipUpTitle: "Slip-up logged",
+    timelineSlipUpDescription: "This chapter ended here.",
+    timelineEndedTitle: "Chapter ended",
+    timelineEndedDescription: "This chapter ended here.",
+    timelineEstimatedLabel: "Estimated",
     viewChapter: "View {chapter}",
     chapterNotFound: "Chapter not found",
     chapterNotFoundMessage:
@@ -381,6 +397,21 @@ export const en = {
     invalidTimeFormat: "Use a 24-hour time, for example 20:00.",
     invalidTimeRange: "Choose a time between 00:00 and 23:59.",
     channelName: "Luma reminders",
+  },
+  reasons: {
+    homeEyebrow: "Reason",
+    homeTitle: "A reason to keep close",
+    editReason: "Edit reason",
+    settingsEyebrow: "Reason",
+    settingsTitle: "Reasons I quit",
+    settingsDescription:
+      "Save one private reason you want Luma to keep nearby. It stays on this device.",
+    reasonLabel: "Your reason",
+    reasonPlaceholder: "A calmer morning, more money saved, feeling present",
+    saveReason: "Save reason",
+    removeReason: "Remove reason",
+    reasonSaved: "Reason saved.",
+    reasonRemoved: "Reason removed.",
   },
   validation: {
     invalidQuitDateTime: "Enter a valid quit date and time.",

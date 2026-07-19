@@ -46,6 +46,11 @@ function createChapterDetail(
     },
     statusLabel: "Ended with slip-up",
     subtitle: "Read-only chapter detail.",
+    timeline: {
+      events: [],
+      note: "Milestones based on estimates.",
+      title: "Milestone timeline",
+    },
     title: "Chapter 1",
     ...overrides,
   };

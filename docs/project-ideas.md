@@ -204,10 +204,16 @@ Settings; encrypted or password-protected backups are deferred.
 
 ### Milestone Timeline
 
-Status: idea
+Status: in progress
 
 Show a timeline of meaningful chapter moments: start, goal progress, slip-up
 logging, restarts, and longest streak changes. Avoid medical recovery milestones.
+
+Current slice: add a derived timeline to Chapter Detail. It shows the chapter
+start, badges unlocked during that chapter, goal progress milestones, and the
+chapter end or logged slip-up when present. Milestones based on cigarettes,
+money, or goal progress are labeled as estimated and are not persisted as
+separate records.
 
 ### Progress Badges
 
@@ -241,10 +247,15 @@ Let users choose reminder frequency, quiet hours, and notification types.
 
 ### Reasons I Quit
 
-Status: idea
+Status: in progress
 
 Add a small private note card for user-authored reasons. This should be
 lightweight, not a heavy journaling feature.
+
+Current slice: support one private locally stored reason. Show it as a quiet card
+on Home when present, and let the user create, edit, or remove it from Settings.
+This stays outside chapter history and does not add accounts, sync, reminders,
+or AI-generated prompts.
 
 ### Insight Filters
 
